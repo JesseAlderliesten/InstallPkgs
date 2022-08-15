@@ -1,0 +1,151 @@
+#### Introduction ####
+This file provides information on installing R, RStudio, and RTools.
+
+#### Installing R, RStudio, and RTools on Windows ####
+Download R from a nearby CRAN-mirror (https://cran.r-project.org/mirrors.html)
+or from the main page (https://cran.r-project.org/) via 'Download R for
+Windows' > base > 'Download R-X.X.X for Windows' and install it.
+
+Download RStudio (https://rstudio.com/products/rstudio/download) and install
+it. Change some options in the 'Tools' menu to make work portable and
+reproducible: at Tools > Global Options > General, deselect the option
+'Restore .RData into workspace at startup' (because using it hides user-made
+changes). Optionally, modify keyboard shortcuts at Tools > Modify Keyboard
+Shortcuts, e.g., change shortcut 'Run current line or selection' from
+'Ctrl+Enter' to 'Ctrl+R'.
+
+Before installing and updating R packages, download Rtools from a CRAN website
+(see above) via 'Download R for Windows > Rtools'. Rtools is needed to compile
+source packages (e.g., when installing a package from GitHub that is
+distributed as a source file), and to execute scripts that contain calls to
+scripts written in compiled code such as C or Fortran to speed up code
+execution. Although CRAN packages are pre-compiled binary packages, such that
+Rtools is not needed to install them, Rtools might be needed to install old
+versions of packages from CRAN.
+
+To use Git and GitHub with R and RStudio (see the links in the section
+'Documentation and help' below for extensive guidelines) create an account at
+https://github.com/, download a GitHub client (e.g., https://gitforwindows.org/)
+and install it. In RStudio, at 'Tools > Global Options > Git/SVN', tick
+'Enable version control interface for RStudio projects'. The Git executable is
+at C:/Program Files/Git/bin/git.exe.
+
+
+#### Documentation and help ####
+After a package has been loaded (i.e., library(packagename) has been run),
+help(packagename) and help(functionname) provides help pages on the package
+and its functions. args(functionname) gives an overview of the function
+arguments. To get the help page of operators (e.g., ||), the operator has to
+be quoted: help('||'). The installed version of a package is given by
+packageVersion("packagename")
+
+R and installing R packages:
+- The R homepage: https://www.r-project.org/
+- FAQs about R: https://cran.r-project.org/faqs.html
+- Manuals about R: https://cran.r-project.org/manuals.html
+- Bioconductor help page: https://bioconductor.org/help/
+- biocManager package vignette:
+  https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html
+- List of Bioconductor versions with the corresponding R version:
+  https://bioconductor.org/about/release-announcements/
+
+RStudio and GitHub
+- The help page of RStudio: https://www.rstudio.com/support/
+- The help page of RStudio about version control:
+  https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
+- The help page of GitHub: https://docs.github.com/en
+- A tutorial about using GitHub with R: https://happygitwithr.com/index.html
+
+Information about the status of CRAN mirrors (i.e., websites hosted in various
+parts of the world with the same content as the main CRAN website) is
+available at https://cran.r-project.org/mirmon_report.html and in the function
+getCRANmirrors() from the R-package 'utils'. A list of CRAN mirrors is 
+available at https://cran.r-project.org/mirrors.html.
+
+If errors occur when loading packages that require Java, make sure the 64-bit
+version of Java is installed on 64-bit PCs. The different versions are
+available at https://www.java.com/download/manual.jsp.
+
+
+#### Installing alternative versions of a package ####
+Installing an old version of a package usually requires installation of RTools
+to build the packages from source, see the notes in the section 'Installing R,
+RStudio, and RTools on Windows' above.
+
+The function 'install_version' from the 'remotes' package can be used to
+install an old version of a package: install_version("ggplot2",
+version = "3.3.4", upgrade = "ask").
+
+An alternative way to obtain an older version of a CRAN package is to obtain
+the URL pointing to the desired version at its CRAN page at 'Downloads > Old
+sources > pkgs archive' and use this URL, e.g. install.packages(
+"https://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.3.4.tar.gz",
+lib = lib, repos = NULL, type = "source").
+
+Older versions of Bioconductor packages can be found by visiting the
+appropriate version of bioconductor, e.g.,
+https://bioconductor.org/packages/3.13/BiocViews.html
+
+
+#### Installing task views ####
+To install or update all core packages from a CRAN taskview
+(https://cran.r-project.org/web/views/) install the package 'ctv' and run
+install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
+
+
+#### Package repositories ####
+
+# Various repositories for R packages exist:
+# - https://bioconductor.org/packages/release/BiocViews.html#___Software
+#   (thematic overviews: https://www.bioconductor.org/packages/release/BiocViews.html)
+# - https://www.freestatistics.org/cran/web/packages/index.html
+#   (thematic overviews: https://www.freestatistics.org/web/views/, which also
+#   contain overviews of related links and resources)
+# - https://neuroconductor.org/list-packages/all
+# - https://r-forge.r-project.org/
+#   (thematic overviews: https://r-forge.r-project.org/softwaremap/trove_list.php)
+# - https://ropensci.org/packages/all/
+#   (thematic overviews: https://ropensci.org/packages/)
+
+# Graphics (tutorials and example plots for base graphics and ggplot):
+# - http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+# - https://cedricscherer.netlify.app/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/
+# - https://exts.ggplot2.tidyverse.org/gallery/ (ggplot2 extensions and examples)
+# - https://rpubs.com/SusanEJohnston/7953
+
+
+#### Overviews and discussion of R packages ####
+
+# Microbiology and ecology:
+# - Bolker BM. 2008. Ecological models and data. Princeton: Princeton University
+#   Press. R-package 'emdbook'.
+# - Borcard D, Gillet F, Legendre P. 2018. Numerical ecology with R. Springer.
+#   R-scripts available at: http://adn.biol.umontreal.ca/~numericalecology/numecolR/
+# - Swenson NG. 2014. Functional and Phylogenetic Ecology in R. Springer. (with
+#   a list of discussed packages at p. 7)
+# - Van den Boogaart KG, Tolosana-Delgado R. 2013. Analyzing compositional data
+#   with R. Heidelberg: Springer.
+# - https://microsud.github.io/Tools-Microbiome-Analysis/ (List of R-based tools)
+
+# Numerical optimization:
+# - Cortez P. 2021. Modern optimization with R (2nd ed). Springer.
+
+# ODEs and Epidemiology:
+# - https://cran.r-project.org/web/views/DifferentialEquations.html
+# - https://cran.r-project.org/web/views/Epidemiology.html
+# - https://cran.r-project.org/web/views/Pharmacokinetics.html
+# - Batra N, et al. The Epidemiologist R Handbook. 2021.
+#   https://epirhandbook.com/en/index.html
+# - Bjornstad ON. 2018. Epidemics: models and data using R. Springer.
+# - Ellner and Guckenheimer. 2006. Dynamic models in biology. Princeton
+#   University Press. Supplementary files and computer lab manual available at
+#   https://github.com/ellner/DMB-supplements
+# - Reconverse: A coherent ecosystem of R packages for outbreak analytics:
+#   https://www.reconverse.org/
+# - R Epidemics consortium: https://www.repidemicsconsortium.org/projects/
+
+# Statistics:
+# - Various CRAN task views (https://cran.r-project.org/web/views/)
+# - Holmes S, Huber W. ?. Modern statistics for modern biology.
+#   http://web.stanford.edu/class/bios221/book/ and
+#   https://www.huber.embl.de/msmb/install_packages.R
