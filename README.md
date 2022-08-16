@@ -8,5 +8,6 @@ Also includes a section about installing alternative package versions and a sect
 - InstallPkgsMain.R: Main R script to be run to install R packages and obtain information about packages, such as the status of packages and package dependencies.
 - InstallPkgsFuncs.R: R script containing the functions used by the main script, with their documentation. 
 - InstallPkgsLists.R: R script containing thematic collections of packages I use, find useful, or want to store for potential later use.
+- InstructionsGitGithub.text: text file that provides some information on using Git and GitHub.
 
 The code was run with R version 4.1.3 on Windows 10.
