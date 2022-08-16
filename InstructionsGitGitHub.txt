@@ -1,0 +1,96 @@
+#### Documentation ####
+RStudio and GitHub
+- The help page of RStudio: https://www.rstudio.com/support/
+- The help page of RStudio about version control:
+  https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
+- The help page of GitHub: https://docs.github.com/en
+- The help page of GitHub on setting up GitHub:
+  https://docs.github.com/en/get-started/quickstart/set-up-git
+- Happy Git and GitHub for the useR (Jennifer Bryan): https://happygitwithr.com/index.html
+- Pro Git Book: https://git-scm.com/book/en/v2
+
+
+#### Setting up Git and GitHub ####
+Create an account at https://github.com/, download a GitHub client
+(e.g., Git for Windows from https://gitforwindows.org/) and install it.
+To update the Git for Windows GitHub client if you already have it,
+type ‘git update-git-for-windows’ in the shell.
+
+To use Git and GitHub from RStudio: in RStudio at 'Tools > Global Options >
+Git/SVN', tick 'Enable version control interface for RStudio projects'.
+The Git executable is at C:/Program Files/Git/bin/git.exe.
+
+Open the Git Bash shell (which was installed when installing Git for Windows)
+by typing ‘Git Bash’ + Enter in the Windows start menu.
+To associate Git with your GitHub account, you need to provide your name
+(this name is listed in GitHub with the changes you make and does NOT have to
+be your GitHub username), and the email associated with your GitHub account.
+See https://happygitwithr.com/hello-git.html for more details.
+git config --global user.name 'Jane Doe'
+git config --global user.email 'jane@example.com'
+git config --global --list
+The last line should return the username and email address you just entered.
+
+
+#### Note on paths ####
+When entering paths in the shell, use forwardslash (/) instead of the Windows-
+default backslash (\). If the path you want to specify contains spaces (e.g.,
+D:/Userdata/My Account/), use quotes around the path (“…”)
+
+
+#### Add a new file ####
+To add a file to GitHub which was not yet there, first 'add' it to the local
+(i.e., on PC) folder, then let git know it is there by typing (tip: use
+tab-completion to select files):
+git add filename.extension
+If the working directory is NOT the folder where the to-be-added file is in,
+the working directory has to be set to that folder first, or a more extensive
+path has to be used)
+
+
+#### Clone a GitHub repository ####
+To clone a GitHub repository on other machine, push the green button 'code' in
+the repository and copy the URL to the clipboard (i.e., do NOT use 'download ZIP'.
+Next, create a new R project in RStudio (File > New Project > Version control > Git),
+paste the repository URL in the designated field, and create the project.
+
+
+#### Common shell commands ####
+For an overview of some commands in the BASH shell, type ‘git config’ (without
+the quotes) or git help commit (replace 'commit' by the command you want help
+about) in the shell, and see https://happygitwithr.com/shell.html
+
+Show user details: git config --global --list
+Print working directory: pwd
+Change working directory: cd 'D:/Userdata/PCName/Documents/GIT/SomeFolder'
+(note: put path in quotes if it contains a space)
+List files: ls
+
+
+#### Workflow ####
+To work with GitHub, you should NOT open the plain R script directly,
+but instead open the R Project file (i.e., with extension .Rproj).
+Then the Git menu will be visible.
+
+Pull to get the local directory (i.e., the files on your PC) up-to-date with
+the remote directory (i.e., the files on GitHub)
+In RStudio this can be done through the pull button in the git menu.
+In the shell it is done by:
+git pull https://github.com/UserName/RepositoryName
+where UserName/RepositoryName has to be replaced with the relevant names.
+
+Then after you have made some changes, you first have to save those changes,
+then the modified file appears in the Git menu of RStudio to commit changes.
+When you commit your changes, briefly describe the changes.
+To commit and push only a single file, point to that specific file when committing
+(in the shell: git commit 'type your message here' path/to/your/file.txt)
+
+Pull, and handle possible conflicts.
+(in the shell: git pull https://github.com/UserName/RepositoryName
+
+Push, to get the local changes incorporated into the remote version on GitHub
+(in the shell: git push https://github.com/UserName/RepositoryName)
+
+If push does not work because of invalid username/password, push again,
+then you will be asked for the token. After you have entered it once,
+RStudio will remember this token for next times.
