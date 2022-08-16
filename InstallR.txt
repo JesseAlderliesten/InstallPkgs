@@ -23,12 +23,8 @@ execution. Although CRAN packages are pre-compiled binary packages, such that
 Rtools is not needed to install them, Rtools might be needed to install old
 versions of packages from CRAN.
 
-To use Git and GitHub with R and RStudio (see the links in the section
-'Documentation and help' below for extensive guidelines) create an account at
-https://github.com/, download a GitHub client (e.g., https://gitforwindows.org/)
-and install it. In RStudio, at 'Tools > Global Options > Git/SVN', tick
-'Enable version control interface for RStudio projects'. The Git executable is
-at C:/Program Files/Git/bin/git.exe.
+To use Git and GitHub with R and RStudio, see the text file 'InstructionsGitHub'
+for instructions and links to documentation with extensive guidelines.
 
 
 #### Documentation and help ####
@@ -39,7 +35,7 @@ arguments. To get the help page of operators (e.g., ||), the operator has to
 be quoted: help('||'). The installed version of a package is given by
 packageVersion("packagename")
 
-R and installing R packages:
+R, installing R packages, RStudio:
 - The R homepage: https://www.r-project.org/
 - FAQs about R: https://cran.r-project.org/faqs.html
 - Manuals about R: https://cran.r-project.org/manuals.html
@@ -48,13 +44,10 @@ R and installing R packages:
   https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html
 - List of Bioconductor versions with the corresponding R version:
   https://bioconductor.org/about/release-announcements/
-
-RStudio and GitHub
 - The help page of RStudio: https://www.rstudio.com/support/
-- The help page of RStudio about version control:
-  https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
-- The help page of GitHub: https://docs.github.com/en
-- A tutorial about using GitHub with R: https://happygitwithr.com/index.html
+
+Git and GitHub:
+- See the section 'Documentation' in the text file 'InstructionsGitGitHub'.
 
 Information about the status of CRAN mirrors (i.e., websites hosted in various
 parts of the world with the same content as the main CRAN website) is
