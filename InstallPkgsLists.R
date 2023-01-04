@@ -193,6 +193,7 @@ graphics_pkgs <- c(
   "GGally",      # Extension to 'ggplot2'
   "ggalt",       # Extra Coordinate Systems, 'Geoms', Statistical Transformations,
                  #   Scales and Fonts for 'ggplot2'
+  "ggforce",     # Accelerating 'ggplot2'
   "gghighlight", # Highlight Lines and Points in 'ggplot2'
   "ggmuller",    # Creates Muller plots for visualizing evolutionary dynamics
   "ggplot2",     # Create Elegant Data Visualisations Using the Grammar of Graphics
