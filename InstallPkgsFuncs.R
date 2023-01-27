@@ -105,12 +105,12 @@ choose_mirrors <- function(countries = c("Belgium", "Germany"),
   for(database in databases) {
     if(database == "BioConductor") {
       BioC <- read.csv(paste0(R.home(), "/doc/BioC_mirrors.csv"))[, "Country"]
-      indices_matched <- which(countries == BioC)
+      indices_matched <- which(BioC %in% countries)
     }
     
     if(database == "CRAN") {
       CRAN <- getCRANmirrors()[, "Country"]
-      indices_matched <- which(countries == CRAN)
+      indices_matched <- which(CRAN %in% countries)
     }
     
     if(length(indices_matched) > 0) {
