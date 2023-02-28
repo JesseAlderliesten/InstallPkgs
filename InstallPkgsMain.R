@@ -6,7 +6,7 @@
 
 #### Required user input ####
 # Library path to directory where R-packages are stored or should be installed
-lib <- "C:/Program Files/R/R-4.1.3/library"
+lib <- file.path("C:", "Program Files", "R", "R-4.1.3", "library")
 
 # Countries to select mirrors from, in order of decreasing priority
 mirror_countries <- c("Belgium", "Germany")
@@ -14,8 +14,8 @@ mirror_countries <- c("Belgium", "Germany")
 #### Preparations to use this script ####
 
 # Load required functions and package lists
-source("./InstallPkgsFuncs.R")
-source("./InstallPkgsLists.R")
+source(file.path(".", "InstallPkgsFuncs.R"))
+source(file.path(".", "InstallPkgsLists.R"))
 
 # Perform various checks to ensure the rest of the script can run. It is
 # sufficient to run this only once after (re)installing R
