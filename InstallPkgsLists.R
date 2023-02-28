@@ -417,13 +417,13 @@ ODE_epi_growth <- c(
                  #   Keeling and Rohani 'Modeling Infectious Diseases in Humans
                  #   and Animals')
   "EpiEstim",    # Estimate Time Varying Reproduction Numbers from Epidemic Curves
-  "epimdr",      # Functions and Data for "Epidemics: Models and Data in R"
+  "epimdr2",     # Functions and Data for "Epidemics: Models and Data in R (2nd Edition)"
   "EpiModel",    # Mathematical Modeling of Infectious Disease Dynamics
   "gauseR",      # Lotka-Volterra Models for Gause's 'Struggle for Existence'
   "genSEIR",     # Predict Epidemic Curves with Generalized SEIR Modeling (not
                  #   based on deSolve, but on own implementation of RK4)
   "growthrates", # Estimate Growth Rates from Experimental Data
-  "idmodelr",    # Infectious Disease Model Library and Utilities
+  "idmodelr",    # Infectious Disease Model Library and Utilities (for education)
   "microPop",    # Process-Based Modelling of Microbial Populations
   "outbreaker2", # Bayesian Reconstruction of Disease Outbreaks by Combining
                  #   Epidemiologic and Genomic Data
