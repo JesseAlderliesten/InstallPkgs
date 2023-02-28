@@ -73,9 +73,9 @@ check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
 # issues between already installed packages and newly installed packages. If
 # packages are not functional after updating, re-install them using the argument
 # force = TRUE.
-# Note:
-#   Run R as administrator to install or update packages!
-#   'pkgs' should be a charactor vector, not a list of character vectors.
+# Notes:
+# - Run R as administrator to install or update packages!
+# - 'pkgs' should be a character vector, not a list of character vectors.
 BiocManager::install(pkgs = new_pkgs, lib = lib, verbose = FALSE, type = "binary",
                      update = FALSE, ask = FALSE, checkBuilt = TRUE, force = FALSE)
 
