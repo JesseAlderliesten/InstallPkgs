@@ -272,8 +272,9 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
     dput(nonfunctional_pkgs)
     
     if(save_file == TRUE) {
-      date_time_stamp <- format(Sys.time(), format = "%Y_%m_%d_%H_%M")
-      file_name <- paste0("nonfunc_pkgs_", date_time_stamp, ".txt")
+      file_name <- paste0("nonfunc_pkgs_",
+                          format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
+                          "_", paste0("R", as.character(getRversion())), ".txt")
       dput(nonfunctional_pkgs, file = file_name)
       message("Textfile with names of non-functional packages saved as ",
               file_name, "\nat ", getwd(), "\nUse nonfunctional_pkgs <- dget(\"",
@@ -357,14 +358,14 @@ check_status <- function(checkBuilt = TRUE,
     
     if(save_file == TRUE) {
       rownames(invalid_details) <- NULL
-      date_time_stamp <- format(Sys.time(), format = "%Y_%m_%d_%H_%M")
-      file_name <- paste0("invalid_pkgs_", date_time_stamp, ".csv")
-      folder_path <- paste0(getwd(), "/")
-      write.csv(invalid_details, file = paste0(folder_path, file_name),
+      file_name <- paste0("invalid_pkgs_",
+                          format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
+                          "_", paste0("R", as.character(getRversion())), ".csv")
+      write.csv(invalid_details, file = file.path(getwd(), file_name),
                 row.names = FALSE)
       message("A .csv file with details of invalid packages saved as ",
-              file_name, "\nat ", folder_path, "\nUse invalid_pkgs <- ",
-              "read.csv(\"", paste0(folder_path, file_name), "\")\nto read the",
+              file_name, "\nat ", getwd(), "\nUse invalid_pkgs <- ",
+              "read.csv(\"", file.path(getwd(), file_name), "\")\nto read the",
               " information back into R.")
     }
     
@@ -527,14 +528,13 @@ save_details <- function(PC_name = "desktop") {
   installed_pkgs <- installed.packages()[, c("Package", "Version", "Built",
                                              "NeedsCompilation", "Priority")]
   rownames(installed_pkgs) <- NULL
-  date_stamp <- format(Sys.Date(), format = "%Y_%m_%d")
-  file_name <- paste0("installed_pkgs", PC_name, "_", date_stamp, ".csv")
-  folder_path <- paste0(getwd(), "/")
-  write.csv(installed_pkgs, file = paste0(folder_path, file_name),
+  file_name <- paste0("installed_pkgs", PC_name, "_", format(Sys.Date(), format = "%Y_%m_%d"),
+                      "_", paste0("R", as.character(getRversion())), ".csv")
+  write.csv(installed_pkgs, file = file.path(getwd(), file_name),
             row.names = FALSE)
   message("A .csv-file with details of installed packages saved as ",
-          file_name, "\nat ", folder_path, "\nUse installed_pkgs <- ",
-          "read.csv(\"", paste0(folder_path, file_name), "\")\nto read the",
+          file_name, "\nat ", getwd(), "\nUse installed_pkgs <- ",
+          "read.csv(\"", file.path(getwd(), file_name), "\")\nto read the",
           " information back into R.")
   invisible(installed_pkgs)
 }
