@@ -6,10 +6,13 @@
 
 #### Required user input ####
 # Library path to directory where R-packages are stored or should be installed
-lib <- file.path("C:", "Program Files", "R", "R-4.1.3", "library")
+lib <- file.path("C:", "Program Files", "R",
+                 paste0("R-", paste(R.Version()[c("major", "minor")], collapse = ".")),
+                 "library")
 
 # Countries to select mirrors from, in order of decreasing priority
 mirror_countries <- c("Belgium", "Germany")
+
 
 #### Preparations to use this script ####
 
