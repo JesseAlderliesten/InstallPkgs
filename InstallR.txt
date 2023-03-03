@@ -35,13 +35,20 @@ arguments. To get the help page of operators (e.g., ||), the operator has to
 be quoted: help('||'). The installed version of a package is given by
 packageVersion("packagename")
 
+To see defaults of a geom X in ggplot, use GeomX$default_aes,
+e.g., GeomLine$default_aes, GeomPoint$default_aes.
+Or see code at https://rud.is/quarto/geoms.html to get overview of many
+geoms.
+
 R, installing R packages, RStudio:
+- CRAN main website: https://cran.r-project.org/
+- CRAN task views: https://cran.r-project.org/web/views/
+- CRAN R FAQs: https://cran.r-project.org/faqs.html
+- CRAN R manuals: https://cran.r-project.org/manuals.html
 - The R homepage: https://www.r-project.org/
-- FAQs about R: https://cran.r-project.org/faqs.html
-- Manuals about R: https://cran.r-project.org/manuals.html
-- Bioconductor help page: https://bioconductor.org/help/
 - biocManager package vignette:
   https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html
+- Bioconductor: https://bioconductor.org/
 - List of Bioconductor versions with the corresponding R version:
   https://bioconductor.org/about/release-announcements/
 - The help page of RStudio: https://www.rstudio.com/support/
@@ -108,6 +115,19 @@ install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
 
 
 #### Overviews and discussion of R packages ####
+
+# The package 'NCmisc' contains several useful functions:
+# - list.functions.in.file() to show all functions used in an R script file, by package
+# - must.use.package() to do everything possible to load an R package
+# - packages.loaded to quietly test whether packages are loaded without using require
+# - search.cran to search all CRAN packages for those containing keyword(s)
+
+# The webpage 'https://statisticsglobe.com/r-functions-list/' gives an overview
+# of base-R functions.
+
+# The 'Data Wrangling Functions' repository of CghLewis compares various
+# functions as implemented in various packages:
+# https://github.com/Cghlewis/data-wrangling-functions
 
 # Microbiology and ecology:
 # - Bolker BM. 2008. Ecological models and data. Princeton: Princeton University
