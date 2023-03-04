@@ -4,6 +4,11 @@
 # https://github.com/JesseAlderliesten
 
 
+#### To do ####
+# - When testing if package is functioning correctly, differentiate between
+#   missing and non-functioning packages.
+
+
 #### Required user input ####
 # Library path to directory where R-packages are stored or should be installed
 lib <- file.path("C:", "Program Files", "R",
