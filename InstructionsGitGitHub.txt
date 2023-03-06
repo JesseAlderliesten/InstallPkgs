@@ -1,13 +1,5 @@
-#### Documentation ####
-RStudio and GitHub
-- The help page of RStudio: https://www.rstudio.com/support/
-- The help page of RStudio about version control:
-  https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
-- The help page of GitHub: https://docs.github.com/en
-- The help page of GitHub on setting up GitHub:
-  https://docs.github.com/en/get-started/quickstart/set-up-git
-- Happy Git and GitHub for the useR (Jennifer Bryan): https://happygitwithr.com/index.html
-- Pro Git Book: https://git-scm.com/book/en/v2
+#### Introduction ####
+This file provides information on setting up Git and GitHub on Windows.
 
 
 #### Setting up Git and GitHub ####
@@ -32,27 +24,63 @@ git config --global --list
 The last line should return the username and email address you just entered.
 
 
-#### Note on paths ####
-When entering paths in the shell, use forwardslash (/) instead of the Windows-
-default backslash (\). If the path you want to specify contains spaces (e.g.,
-D:/Userdata/My Account/), use quotes around the path (“…”)
+#### Documentation ####
+RStudio and GitHub
+- The RStudio User Guide: https://docs.posit.co/ide/user/
+- The help page of RStudio about version control:
+  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
+- The help page of GitHub: https://docs.github.com/en
+- The help page of GitHub on setting up GitHub:
+  https://docs.github.com/en/get-started/quickstart/set-up-git
+- Happy Git and GitHub for the useR (Jennifer Bryan): https://happygitwithr.com/index.html
+- Pro Git Book: https://git-scm.com/book/en/v2
 
 
-#### Add a new file ####
-To add a file to GitHub which was not yet there, first 'add' it to the local
-(i.e., on PC) folder, then let git know it is there by typing (tip: use
+#### Workflow ####
+To work with GitHub, you should NOT open the plain R script directly,
+but instead open the R Project file (i.e., with extension .Rproj).
+Then the Git menu will be visible.
+
+Pull to get the local directory (i.e., the files on your PC) up-to-date with
+the remote directory (i.e., the files on GitHub). In RStudio this can be done
+through the pull button in the Git menu. In the shell it can be done by:
+git pull https://github.com/UserName/RepositoryName
+where UserName/RepositoryName has to be replaced with the relevant names.
+
+Then after you have made some changes, you first have to save the modified file
+on your local PC, only then will the modified file appear in the Git menu of
+RStudio to commit changes.
+When you commit your changes, briefly describe the changes.
+To commit and push only a single file, point to that specific file when committing
+(in the shell: git commit 'type your message here' path/to/your/file.txt)
+
+Pull, and handle possible conflicts.
+(in the shell: git pull https://github.com/UserName/RepositoryName
+
+Push, to get the local changes incorporated into the remote version on GitHub
+(in the shell: git push https://github.com/UserName/RepositoryName)
+
+If push does not work because of an invalid username/password, push again,
+then you will be asked for the token. After you have entered it once,
+RStudio will remember this token for next times.
+
+
+#### Adding a new file ####
+To add a file to GitHub which was not there yet, first 'add' it to the local
+folder (i.e., on the PC), then let git know it is there by typing (tip: use
 tab-completion to select files):
 git add filename.extension
+
 If the working directory is NOT the folder where the to-be-added file is in,
-the working directory has to be set to that folder first, or a more extensive
-path has to be used)
+the working directory has to be set to that folder first, or the path has to be
+added in front of the filename.
 
 
-#### Clone a GitHub repository ####
-To clone a GitHub repository on other machine, push the green button 'code' in
-the repository and copy the URL to the clipboard (i.e., do NOT use 'download ZIP'.
-Next, create a new R project in RStudio (File > New Project > Version control > Git),
-paste the repository URL in the designated field, and create the project.
+#### Cloning a GitHub repository ####
+To clone a GitHub repository to another machine, push the green button 'code' in
+the repository and copy the URL to the clipboard (i.e., do NOT use 'download ZIP').
+Next, create a new R project in RStudio (File > New Project > Version control >
+Git), paste the repository URL in the designated field, and create the project.
 
 
 #### Common shell commands ####
@@ -67,30 +95,8 @@ Change working directory: cd 'D:/Userdata/PCName/Documents/GIT/SomeFolder'
 List files: ls
 
 
-#### Workflow ####
-To work with GitHub, you should NOT open the plain R script directly,
-but instead open the R Project file (i.e., with extension .Rproj).
-Then the Git menu will be visible.
-
-Pull to get the local directory (i.e., the files on your PC) up-to-date with
-the remote directory (i.e., the files on GitHub)
-In RStudio this can be done through the pull button in the git menu.
-In the shell it is done by:
-git pull https://github.com/UserName/RepositoryName
-where UserName/RepositoryName has to be replaced with the relevant names.
-
-Then after you have made some changes, you first have to save those changes,
-then the modified file appears in the Git menu of RStudio to commit changes.
-When you commit your changes, briefly describe the changes.
-To commit and push only a single file, point to that specific file when committing
-(in the shell: git commit 'type your message here' path/to/your/file.txt)
-
-Pull, and handle possible conflicts.
-(in the shell: git pull https://github.com/UserName/RepositoryName
-
-Push, to get the local changes incorporated into the remote version on GitHub
-(in the shell: git push https://github.com/UserName/RepositoryName)
-
-If push does not work because of invalid username/password, push again,
-then you will be asked for the token. After you have entered it once,
-RStudio will remember this token for next times.
+#### Note on paths ####
+When entering paths in the shell, use forwardslash (/) instead of the Windows-
+default backslash (\). If the path you want to specify contains spaces (e.g.,
+D:/Userdata/My Account/), use quotes around the path (“…”). Using tab-completion
+saves typing and prevents errors.
