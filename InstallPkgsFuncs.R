@@ -86,7 +86,7 @@ prepare_install <- function() {
 
 
 #### choose_mirrors ####
-# Choose CRAN and Bionconductor mirrors based on selected countries.
+# Choose CRAN and BioConductor mirrors based on selected countries.
 # Input:
 #   countries: Countries to select mirrors from, with most relevant first
 #   databases: databases to set mirrors for. "BioConductor", "CRAN", or both.
