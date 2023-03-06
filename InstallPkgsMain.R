@@ -3,6 +3,9 @@
 # about them. It was created by Jesse Alderliesten, see
 # https://github.com/JesseAlderliesten
 
+# It is assumed R has been installed and Rtools has been set up, see the file
+# 'InstallR.txt' for instructions.
+
 
 #### To do ####
 # - When testing if package is functioning correctly, differentiate between
@@ -10,7 +13,7 @@
 
 
 #### Required user input ####
-# Library path to directory where R-packages are stored or should be installed
+# Library path to directory where R-packages are or will be installed
 lib <- file.path("C:", "Program Files", "R",
                  paste0("R-", paste(R.Version()[c("major", "minor")], collapse = ".")),
                  "library")
@@ -20,13 +23,12 @@ mirror_countries <- c("Belgium", "Germany")
 
 
 #### Preparations to use this script ####
-
 # Load required functions and package lists
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
 # Perform various checks to ensure the rest of the script can run. It is
-# sufficient to run this only once after (re)installing R
+# sufficient to run this only once after (re)installing R.
 prepare_install()
 
 # Select mirrors
@@ -34,7 +36,8 @@ choose_mirrors(countries = mirror_countries,
                databases = c("BioConductor", "CRAN"))
 
 # Package lists
-pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs, used_pkgs_UU = used_pkgs_UU,
+pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
+                   used_pkgs_UU = used_pkgs_UU,
                    used_pkgs_UvA = used_pkgs_UvA)
 
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs, 
@@ -75,15 +78,15 @@ check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
 
 
 #### Install new packages #### 
-# The 'update' argument is set to FALSE to prevent inadvertently changing the
-# version of already installed packages when installing new packages. However,
-# updating out-of-date packages might be preferable to prevent compatibility
-# issues between already installed packages and newly installed packages. If
-# packages are not functional after updating, re-install them using the argument
-# force = TRUE.
 # Notes:
 # - Run R as administrator to install or update packages!
 # - 'pkgs' should be a character vector, not a list of character vectors.
+# - The 'update' argument is set to FALSE to prevent inadvertently changing the
+#   version of already installed packages when installing new packages. However,
+#   updating out-of-date packages might be preferable to prevent compatibility
+#   issues between already installed packages and newly installed packages.
+# - If packages are not functional after updating, re-install them using the
+#   argument force = TRUE.
 BiocManager::install(pkgs = new_pkgs, lib = lib, verbose = FALSE, type = "binary",
                      update = FALSE, ask = FALSE, checkBuilt = TRUE, force = FALSE)
 
