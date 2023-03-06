@@ -1,0 +1,109 @@
+#### Introduction ####
+This file provides information on installing R packages.
+
+
+#### Installing alternative versions of a package ####
+Installing an old version of a package usually requires installation of RTools
+to build the packages from source, see the section 'Rtools' in the file
+'InstallR.txt'.
+
+The function 'install_version' from the 'remotes' package can be used to
+install an old version of a package:
+install_version("ggplot2", version = "3.3.4", upgrade = "ask").
+
+Alternatively, for CRAN packages obtain the URL pointing to the desired version
+at its CRAN page at 'Downloads > Old sources > pkgs archive' and use this URL:
+install.packages("https://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.3.4.tar.gz",
+lib = lib, repos = NULL, type = "source").
+
+Older versions of Bioconductor packages can be found by visiting the appropriate
+version of bioconductor, e.g., https://bioconductor.org/packages/3.13/BiocViews.html
+(see https://bioconductor.org/about/release-announcements/ for a list of versions
+with the corresponding R version).
+
+Versions of CRAN R packages can be compared with diffify (https://diffify.com/)
+and an overview of changes in CRAN packages is available at CRANBERRIES:
+https://dirk.eddelbuettel.com/cranberries/.
+
+
+#### Installing task views ####
+To install or update all core packages from a CRAN taskview
+(https://cran.r-project.org/web/views/) install the package 'ctv' and run
+install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
+
+
+#### CRAN mirrors ####
+A list of CRAN mirrors (i.e., websites hosted in various parts of the world with
+the same content as the main CRAN website) is available at
+https://cran.r-project.org/mirrors.html, and information about their status is
+available at https://cran.r-project.org/mirmon_report.html and in the function
+getCRANmirrors() from the R-package 'utils'. 
+
+
+#### Package repositories ####
+R packages can be obtained from various repositories, which commonly have
+thematic selections of packages as well:
+- Bioconductor: https://bioconductor.org/
+  (thematic: https://bioconductor.org/packages/release/BiocViews.html#___Software
+  also see the biocManager package: https://cran.r-project.org/web/packages/BiocManager/)
+- https://cran.r-project.org/web/packages/index.html
+  (thematic: https://cran.r-project.org/web/views/, includes overviews of
+  related links and resources; see also the section 'Installing task views' below)
+- https://neuroconductor.org/list-packages/all
+- https://r-forge.r-project.org/
+  (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
+- https://ropensci.org/packages/all/
+  (thematic: https://ropensci.org/packages/)
+
+The following websites are useful to obtain information on R packages:
+- https://search.r-project.org/ (access from within R using utils::RSiteSearch())
+- https://rseek.org/
+- METACRAN: https://www.r-pkg.org/ to search in CRAN packages
+- R universe: https://r-universe.dev/search/
+
+A short selection of books and websites that discuss various R packages:
+Microbiology and ecology:
+- Bolker BM. 2008. Ecological models and data. Princeton: Princeton University
+  Press. R-package 'emdbook'.
+- Borcard D, Gillet F, Legendre P. 2018. Numerical ecology with R. Springer.
+  R-scripts available at: http://www.numericalecology.com/numecolR/
+- Swenson NG. 2014. Functional and Phylogenetic Ecology in R. Springer.
+  (with a list of discussed packages at p. 7)
+- Van den Boogaart KG, Tolosana-Delgado R. 2013. Analyzing compositional data
+  with R. Heidelberg: Springer.
+- https://microsud.github.io/Tools-Microbiome-Analysis/ (List of R-based tools)
+
+Numerical optimization:
+- Cortez P. 2021. Modern optimization with R (2nd ed). Springer.
+
+ODEs and Epidemiology:
+- https://cran.r-project.org/view=DifferentialEquations
+- https://cran.r-project.org/view=Epidemiology
+- https://cran.r-project.org/view=Pharmacokinetics
+- Batra N, et al. The Epidemiologist R Handbook. 2021.
+  https://epirhandbook.com/en/index.html
+- Bjornstad ON. 2018. Epidemics: models and data using R. Springer.
+- Ellner and Guckenheimer. 2006. Dynamic models in biology. Princeton University
+  Press. Supplementary files and computer lab manual available at
+  https://github.com/ellner/DMB-supplements
+- Reconverse: A coherent ecosystem of R packages for outbreak analytics:
+  https://www.reconverse.org/
+- R Epidemics consortium: https://www.repidemicsconsortium.org/projects/
+
+Statistics:
+- Various CRAN task views (https://cran.r-project.org/web/views/)
+- Holmes S, Huber W. Modern statistics for modern biology.
+  http://web.stanford.edu/class/bios221/book/
+
+
+#### Documentation and help ####
+If errors occur when loading packages that require Java, make sure the 64-bit
+version of Java is installed on 64-bit PCs. The different versions are
+available at https://www.java.com/download/manual.jsp.
+
+After a package has been loaded (i.e., library(packagename) has been run),
+help(packagename) and help(functionname) provides help pages on the package
+and its functions. args(functionname) gives an overview of the function
+arguments. To get the help page of operators (e.g., ||), the operator has to
+be quoted: help('||'). The installed version of a package is given by
+packageVersion("packagename") (from the 'utils' package).
