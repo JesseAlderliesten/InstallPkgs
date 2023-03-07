@@ -10,6 +10,8 @@
 #### To do ####
 # - When testing if package is functioning correctly, differentiate between
 #   missing and non-functioning packages.
+# - Various functions (e.g., choose_mirrors(), list_dependencies(), fail if no
+#   internet connection is present. How do other packages handle this?
 
 
 #### Required user input ####
