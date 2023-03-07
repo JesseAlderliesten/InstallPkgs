@@ -1,5 +1,5 @@
 #### Introduction ####
-This file provides information on installing R, RStudio, and RTools on Windows.
+File with installation instructions for R, RStudio, and RTools on Windows.
 
 
 #### R ####
