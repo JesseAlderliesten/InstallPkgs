@@ -1,5 +1,5 @@
 #### Introduction ####
-This file provides information on installing R packages.
+File with information on installing and getting information about R packages.
 
 
 #### Installing alternative versions of a package ####
@@ -55,6 +55,8 @@ thematic selections of packages as well:
 - https://ropensci.org/packages/all/
   (thematic: https://ropensci.org/packages/)
 
+
+#### Information about R packages ####
 The following websites are useful to obtain information on R packages:
 - https://search.r-project.org/ (access from within R using utils::RSiteSearch())
 - https://rseek.org/
@@ -100,10 +102,3 @@ Statistics:
 If errors occur when loading packages that require Java, make sure the 64-bit
 version of Java is installed on 64-bit PCs. The different versions are
 available at https://www.java.com/download/manual.jsp.
-
-After a package has been loaded (i.e., library(packagename) has been run),
-help(packagename) and help(functionname) provides help pages on the package
-and its functions. args(functionname) gives an overview of the function
-arguments. To get the help page of operators (e.g., ||), the operator has to
-be quoted: help('||'). The installed version of a package is given by
-packageVersion("packagename") (from the 'utils' package).
