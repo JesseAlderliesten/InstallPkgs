@@ -322,9 +322,10 @@ check_status <- function(checkBuilt = TRUE,
   print_output <- match.arg(print_output, several.ok = TRUE)
   
   stopifnot(is_logical(checkBuilt), is_logical(save_file))
-  if("none" %in% print_output && length(print_output) > 1) {
-    warning("'none' in argument 'print_output' overrides other entries")
-    print_output <- "none"
+  if(length(print_output) > 1) {
+    print_output <- print_output[1]
+    warning("Only the first element (\'", print_output, "\') of the argument ",
+            "'print_output' will be used.")
   }
   
   valid_out <- BiocManager::valid(checkBuilt = checkBuilt, type = type)
@@ -424,6 +425,8 @@ check_status <- function(checkBuilt = TRUE,
 #     consequence, this function returns too few dependencies for non-CRAN
 #     packages.
 # To do:
+#   tools::package_dependencies() requires internet access? Rewrite to use
+#     info from local package versions instead?
 #   Separately handle packages with no dependencies (returning integer(0)) from
 #     packages that were not found in the database such that no information on
 #     dependencies could be obtained (returning NULL). Alternatively, use
