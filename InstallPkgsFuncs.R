@@ -143,15 +143,20 @@ choose_mirrors <- function(countries = c("Belgium", "Germany"),
 #     when checking for duplicates, such that packages with the same name from
 #     different repositories (e.g., 'pkgname' and 'repositoryname/pkgname') are
 #     considered duplicates.
+#   quietly: a logical. If FALSE (default), a message will be printed if no
+#     duplicates were found.
 # Return:
 #   A list containing the names of duplicated packages if any are found 
 #     (returned invisible), and NULL otherwise.
 # Side-effects:
 #   Names of duplicate package are printed to the console if they are found,
 #     with a warning.
-check_duplicates <- function(pkgs_lists, neglect_repos = TRUE) {
+check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) {
   stopifnot(is.list(pkgs_lists), all_characters(unlist(pkgs_lists)),
-            is_logical(neglect_repos))
+            is_logical(neglect_repos), is_logical(quietly))
+  if(is.null(names(pkgs_lists))) {
+    names(pkgs_lists) <- paste0("unnamed_list_entry_", seq_along(pkgs_lists))
+  }
   
   githuburls <- grep("github", unlist(pkgs_lists, use.names = FALSE),
                      ignore.case = TRUE, value = TRUE)
@@ -200,6 +205,10 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE) {
   if(length(checklist) > 0) {
     warning("Package lists contain duplicate package names.")
     print(checklist)
+  } else {
+    if(quietly == FALSE) {
+      message("No duplicates were found in package lists.")
+    }
   }
   
   invisible(checklist)
