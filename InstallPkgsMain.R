@@ -12,6 +12,9 @@
 #   missing and non-functioning packages.
 # - Various functions (e.g., choose_mirrors(), list_dependencies(), fail if no
 #   internet connection is present. How do other packages handle this?
+# - 'list' is used both in the strict sense as 'an object of class (mode?) list'
+#   and in the loose sense as 'a character vector'. Distinguish between these
+#   two uses.
 
 
 #### Required user input ####
@@ -19,6 +22,7 @@
 lib <- file.path("C:", "Program Files", "R",
                  paste0("R-", paste(R.Version()[c("major", "minor")], collapse = ".")),
                  "library")
+message("Library path has been set to ", lib)
 
 # Countries to select mirrors from, in order of decreasing priority
 mirror_countries <- c("Belgium", "Germany")
@@ -66,7 +70,7 @@ pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
 
 
 #### Check if package lists contain duplicates #### 
-check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE)
+check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = TRUE)
 
 
 #### Check if all packages from the lists are installed and functional #### 
