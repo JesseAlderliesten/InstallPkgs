@@ -17,45 +17,43 @@ all_characters <- function(x) {
 
 #### prepare_install ####
 # Perform various checks to ensure the rest of the script can run: (1) if Rtools
-#   works and can write, (2) if the library path 'lib' is specified and matches
-#   the currently used version of R, and (3) if the BiocManager package is
-#   installed and functional.
+#   utilities have been put on the search path, (2) if the library path 'lib' is
+#   specified and matches the currently used version of R, and (3) if the
+#   BiocManager package is installed and functional.
 # Input:
 #   None
 # Return:
 #   invisible NULL
 # Side-effects:
-#   The location of Rtools utilities is put on the path if it is not there yet.
+#   The location of Rtools utilities is put on the search path if it is not
+#     there yet.
 #   The BiocManager package is installed if it is not installed and functional
 # Note:
 #   It is sufficient to run this only once after (re)installing R.
 prepare_install <- function() {
-  # Put the location of Rtools utilities (bash, make, etc) on the path if it is
-  # not there yet.
   if(nchar(Sys.which("make")) == 0) {
-    if(isTRUE(all.equal(as.numeric(R.version$major), 4)) &&
-       as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
+    if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
+      # Put the location of Rtools utilities (bash, make, etc) on the search
+      # path if it is not there yet.
       write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
             append = TRUE)
-      stop("Restart R session. The location of Rtools utilities has been put",
-           " on the path.\nFor help on installing and using Rtools see",
-           " https://cran.r-project.org/bin/windows/Rtools/rtools40.html.")
-    } else {
-      stop("The location of Rtools utilities is not on the path. For help on",
-           " installing and using Rtools see",
-           "\nhttps://cran.r-project.org/bin/windows/Rtools/history.html",
-           " and choose the right version.\nYou are using ", R.version.string)
     }
+    stop("Download Rtools from https://cran.r-project.org/bin/windows/Rtools/",
+         " if you have not yet installed Rtools.\nYou are using ", R.version.string,
+         ".\nThen restart R and run this function 'prepare_install()' again.",
+         "\nSee https://cran.r-project.org/bin/windows/Rtools/",
+         " for help on Rtools if this error keeps occuring.")
   }
   
   # Check if the user-supplied library path 'lib' is specified, points to an R
   # library path, and matches the currently used version of R.
   rversion <- paste0("R-", as.character(getRversion()))
   msg_lib <- paste0("Specify global variable 'lib' containing a character",
-                    " string giving\nthe library path where packages are or",
-                    " should be installed, e.g.\nlib <- \"C:/Program Files/R/",
-                    rversion, "/library\"\n(instead of single forward slashes,",
-                    " double backward slashes can be used).")
+                    " string giving the\nlibrary path where packages are or",
+                    " should be installed by running the following line:\n",
+                    "lib <- file.path(\"C:\", \"Program Files\", \"R\",",
+                    "paste0(\"R-\", paste(R.Version()[c(\"major\", \"minor\")],",
+                    "collapse = \".\")), \"library\")")
   if(!exists("lib")) {
     stop(msg_lib)
   } else {
