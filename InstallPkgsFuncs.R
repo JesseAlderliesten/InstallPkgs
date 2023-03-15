@@ -31,18 +31,24 @@ all_characters <- function(x) {
 # Note:
 #   It is sufficient to run this only once after (re)installing R.
 prepare_install <- function() {
-  if(nchar(Sys.which("make")) == 0) {
-    if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
-      # Put the location of Rtools utilities (bash, make, etc) on the search
-      # path if it is not there yet.
-      write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
-            append = TRUE)
+  if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE) == FALSE) {
+    warning("This script was written using Windows, but you appear to be using",
+            " another operating system.\nTherefore this script may fail. Check",
+            " the installation instructions at https://cran.r-project.org/index.html")
+  } else {
+    if(nchar(Sys.which("make")) == 0) {
+      if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
+        # Put the location of Rtools utilities (bash, make, etc) on the search
+        # path if it is not there yet.
+        write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
+              append = TRUE)
+      }
+      stop("Download Rtools from https://cran.r-project.org/bin/windows/Rtools/",
+           " if you have not yet installed Rtools.\nYou are using ", R.version.string,
+           ".\nThen restart R and run this function 'prepare_install()' again.",
+           "\nSee https://cran.r-project.org/bin/windows/Rtools/",
+           " for help on Rtools if this error keeps occuring.")
     }
-    stop("Download Rtools from https://cran.r-project.org/bin/windows/Rtools/",
-         " if you have not yet installed Rtools.\nYou are using ", R.version.string,
-         ".\nThen restart R and run this function 'prepare_install()' again.",
-         "\nSee https://cran.r-project.org/bin/windows/Rtools/",
-         " for help on Rtools if this error keeps occuring.")
   }
   
   # Check if the user-supplied library path 'lib' is specified, points to an R
