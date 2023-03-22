@@ -58,8 +58,8 @@ prepare_install <- function() {
                     " string giving the\nlibrary path where packages are or",
                     " should be installed by running the following line:\n",
                     "lib <- file.path(\"C:\", \"Program Files\", \"R\",",
-                    "paste0(\"R-\", paste(R.Version()[c(\"major\", \"minor\")],",
-                    "collapse = \".\")), \"library\")")
+                    " paste0(\"R-\", paste(R.Version()[c(\"major\", \"minor\")],",
+                    " collapse = \".\")), \"library\")")
   if(!exists("lib")) {
     stop(msg_lib)
   } else {
@@ -80,8 +80,17 @@ prepare_install <- function() {
   # (re)install the BiocManager package if it is not installed and functional
   if(!requireNamespace("BiocManager", lib.loc = lib, quietly = TRUE)) {
     message("Installing BiocManager package")
-    install.packages(Bioc_missing, lib = lib, type = "source")
-    stop("Installed BiocManager package. Restart R session before proceeding.")
+    install.packages("BiocManager", lib = lib, type = "binary")
+    if(requireNamespace("BiocManager", quietly = TRUE)) {
+      stop("Installed BiocManager package. Restart R session before proceeding.")
+    } else {
+      stop("Installation of the BiocManager package failed.",
+           "\nIf the warning 'lib = \"", lib, "\" is not writeable' was issued,",
+           "\nyou most likely forgot to run R as administrator.\nPlease close",
+           " R, right-click on the R or RStudio icon, select 'Run as",
+           " administrator',\nopen the 'InstallPkgs' R-project file, and try",
+           " again.", call. = FALSE)
+    }
   }
   
   message("Succesfully completed preparations.")
@@ -122,8 +131,8 @@ choose_mirrors <- function(countries = c("Belgium", "Germany"),
     } else {
       mirror_index <- 1
       warning("No ", database, " mirror available for any of the provided",
-              " countries (", paste0(countries, collapse = ", "), ").\nDefault",
-              " mirror will be used instead")
+              " countries (", paste0(countries, collapse = ", "), ").\nDefault ",
+              database, " mirror will be used instead.", call. = FALSE)
     }
     
     if(database == "BioConductor") {
