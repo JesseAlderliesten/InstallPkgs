@@ -8,6 +8,7 @@
 
 
 #### To do ####
+# - See code to install beware packages for potential updates.
 # - When testing if package is functioning correctly, differentiate between
 #   missing and non-functioning packages.
 # - Various functions (e.g., choose_mirrors(), list_dependencies(), fail if no
@@ -38,6 +39,8 @@ source(file.path(".", "InstallPkgsLists.R"))
 prepare_install()
 
 # Select mirrors
+# Selection of mirrors is performed after prepare_install(), because BiocManager
+# might be not installed before prepare_install() is run.
 choose_mirrors(countries = mirror_countries,
                databases = c("BioConductor", "CRAN"))
 
@@ -87,14 +90,16 @@ check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
 # Notes:
 # - Run R as administrator to install or update packages!
 # - 'pkgs' should be a character vector, not a list of character vectors.
+#   So you probably first want to run 'new_pkgs <- unique(unlist(pkgs_lists))'.
 # - The 'update' argument is set to FALSE to prevent inadvertently changing the
 #   version of already installed packages when installing new packages. However,
 #   updating out-of-date packages might be preferable to prevent compatibility
 #   issues between already installed packages and newly installed packages.
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
-BiocManager::install(pkgs = new_pkgs, lib = lib, verbose = FALSE, type = "binary",
-                     update = FALSE, ask = FALSE, checkBuilt = TRUE, force = FALSE)
+BiocManager::install(pkgs = new_pkgs, lib.loc = lib, lib = lib, verbose = FALSE,
+                     type = "both", update = FALSE, ask = FALSE,
+                     checkBuilt = TRUE, force = FALSE)
 
 
 #### List dependencies of specific packages ####
