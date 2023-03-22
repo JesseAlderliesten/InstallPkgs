@@ -89,6 +89,10 @@ check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
 #### Install new packages #### 
 # Notes:
 # - Run R as administrator to install or update packages!
+#   If the warning 'lib = ... is not writeable' was issued, you most likely
+#   forgot to run R as administrator. Please close R, right-click on the R or
+#   RStudio icon, select 'Run as administrator', open the 'InstallPkgs' R-project
+#   file, and try again.
 # - 'pkgs' should be a character vector, not a list of character vectors.
 #   So you probably first want to run 'new_pkgs <- unique(unlist(pkgs_lists))'.
 # - The 'update' argument is set to FALSE to prevent inadvertently changing the
