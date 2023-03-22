@@ -80,7 +80,8 @@ added in front of the filename.
 To clone a GitHub repository to another machine, push the green button 'code' in
 the repository and copy the URL to the clipboard (i.e., do NOT use 'download ZIP').
 Next, create a new R project in RStudio (File > New Project > Version control >
-Git), paste the repository URL in the designated field, and create the project.
+Git), paste the repository URL in the designated field, select the desired
+location, and create the project.
 
 
 #### Common shell commands ####
