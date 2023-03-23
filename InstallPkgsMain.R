@@ -34,15 +34,13 @@ mirror_countries <- c("Belgium", "Germany")
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
+# Select mirrors
+choose_mirrors(countries = mirror_countries,
+               databases = c("BioConductor", "CRAN"))
+
 # Perform various checks to ensure the rest of the script can run. It is
 # sufficient to run this only once after (re)installing R.
 prepare_install()
-
-# Select mirrors
-# Selection of mirrors is performed after prepare_install(), because BiocManager
-# might be not installed before prepare_install() is run.
-choose_mirrors(countries = mirror_countries,
-               databases = c("BioConductor", "CRAN"))
 
 # Package lists
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
