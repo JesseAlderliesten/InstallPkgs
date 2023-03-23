@@ -46,13 +46,13 @@ thematic selections of packages as well:
 - Bioconductor: https://bioconductor.org/
   (thematic: https://bioconductor.org/packages/release/BiocViews.html#___Software
   also see the biocManager package: https://cran.r-project.org/web/packages/BiocManager/)
-- https://cran.r-project.org/web/packages/index.html
+- CRAN: https://cran.r-project.org/web/packages/index.html
   (thematic: https://cran.r-project.org/web/views/, includes overviews of
   related links and resources; see also the section 'Installing task views' below)
-- https://neuroconductor.org/list-packages/all
-- https://r-forge.r-project.org/
+- Neuroconductor: https://neuroconductor.org/list-packages/all
+- R-Forge: https://r-forge.r-project.org/
   (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
-- https://ropensci.org/packages/all/
+- rOpenSci: https://ropensci.org/packages/all/
   (thematic: https://ropensci.org/packages/)
 
 
