@@ -32,9 +32,10 @@ all_characters <- function(x) {
 #   It is sufficient to run this only once after (re)installing R.
 prepare_install <- function() {
   if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE) == FALSE) {
-    warning("This script was written using Windows, but you appear to be using",
-            " another operating system.\nTherefore this script may fail. Check",
-            " the installation instructions at https://cran.r-project.org/index.html")
+    warning("This script might fail because it is meant to be used on Windows,",
+            " whereas you appear to be using ", Sys.info()["sysname"], 
+            ".\nPlatform-specific installation instructions are available at",
+            " https://cran.r-project.org/index.html.")
   } else {
     if(nchar(Sys.which("make")) == 0) {
       if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
