@@ -202,6 +202,7 @@ graphics_pkgs <- c(
   "ggthemes",    # Extra Themes, Scales and Geoms for 'ggplot2'
   "labeling",    # Axis Labeling
   "pheatmap",    # Pretty Heatmaps
+  "grantmcdermott/plot2", # Lightweight extension of base R's plot function
   "plotrix",     # Various Plotting Functions
   "png",         # Read and write PNG images
   "rgl",         # 3D Visualization Using OpenGL
