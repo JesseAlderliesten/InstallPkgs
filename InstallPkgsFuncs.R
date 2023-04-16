@@ -181,32 +181,32 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   }
   
   checklist <- NULL
-  for(index1 in seq_along(pkgs_lists)) {
-    unlisted1 <- unlist(pkgs_lists[index1], use.names = FALSE)
+  for(index_first_element in seq_along(pkgs_lists)) {
+    unlisted1 <- unlist(pkgs_lists[index_first_element], use.names = FALSE)
     if(neglect_repos == TRUE) {
       unlisted1 <- sub(".*/", "", unlisted1)
     }
     
-    # Start index2 at index1 to prevent double counting while including checks
-    # for duplicates within lists.
-    for(index2 in (index1:length(pkgs_lists))) {
-      unlisted2 <- unlist(pkgs_lists[index2], use.names = FALSE)
+    # Start index_second_element at index_first_element to prevent double
+    # counting while including checks for duplicates within lists.
+    for(index_second_element in (index_first_element:length(pkgs_lists))) {
+      unlisted2 <- unlist(pkgs_lists[index_second_element], use.names = FALSE)
       if(neglect_repos == TRUE) {
         unlisted2 <- sub(".*/", "", unlisted2)
       }
       
-      if(index1 == index2) {
+      if(index_first_element == index_second_element) {
         # Check for duplicate names within package list
         add_to_checklist <- structure(
           list(unlisted1[anyDuplicated(unlisted1)]),
-          names = paste0("duplicates_in_", names(pkgs_lists[index1]))
+          names = paste0("duplicates_in_", names(pkgs_lists[index_first_element]))
         )
       } else {
         # Check for duplicate names across package lists
         add_to_checklist <- structure(
           list(unique(unlisted1[(unlisted1 %in% unlisted2)])),
-          names = paste0(names(pkgs_lists[index1]), "_in_",
-                         names(pkgs_lists[index2]))
+          names = paste0(names(pkgs_lists[index_first_element]), "_in_",
+                         names(pkgs_lists[index_second_element]))
         )
       }
       
