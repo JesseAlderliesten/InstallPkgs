@@ -2,6 +2,12 @@
 File with information on installing and getting information about R packages.
 
 
+
+#### See also ####
+https://thomasadventure.blog/posts/install-r-packages/
+
+
+
 #### Installing alternative versions of a package ####
 Installing an old version of a package usually requires installation of RTools
 to build the packages from source, see the section 'Rtools' in the file
@@ -26,18 +32,12 @@ and an overview of changes in CRAN packages is available at CRANBERRIES:
 https://dirk.eddelbuettel.com/cranberries/.
 
 
+
 #### Installing task views ####
 To install or update all core packages from a CRAN taskview
 (https://cran.r-project.org/web/views/) install the package 'ctv' and run
 install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
 
-
-#### CRAN mirrors ####
-A list of CRAN mirrors (i.e., websites hosted in various parts of the world with
-the same content as the main CRAN website) is available at
-https://cran.r-project.org/mirrors.html, and information about their status is
-available at https://cran.r-project.org/mirmon_report.html and in the function
-getCRANmirrors() from the R-package 'utils'. 
 
 
 #### Package repositories ####
@@ -48,7 +48,8 @@ thematic selections of packages as well:
   also see the biocManager package: https://cran.r-project.org/web/packages/BiocManager/)
 - CRAN: https://cran.r-project.org/web/packages/index.html
   (thematic: https://cran.r-project.org/web/views/, includes overviews of
-  related links and resources; see also the section 'Installing task views' below)
+  related links and resources; see also the sections 'CRAN mirrors' and
+  'Installing task views' below)
 - Neuroconductor: https://neuroconductor.org/list-packages/all
 - R-Forge: https://r-forge.r-project.org/
   (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
@@ -56,12 +57,38 @@ thematic selections of packages as well:
   (thematic: https://ropensci.org/packages/)
 
 
-#### Information about R packages ####
+
+#### CRAN mirrors ####
+A list of CRAN mirrors (i.e., websites hosted in various parts of the world with
+the same content as the main CRAN website) is available at
+https://cran.r-project.org/mirrors.html, and information about their status is
+available at https://cran.r-project.org/mirmon_report.html and in the function
+getCRANmirrors() from the R-package 'utils'. 
+
+
+
+#### Information about not-yet-installed R packages ####
+A PDF with all help files of the R standard and recommended packages is
+available at https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf.
+
 The following websites are useful to obtain information on R packages:
 - https://search.r-project.org/ (access from within R using utils::RSiteSearch())
 - https://rseek.org/
 - METACRAN: https://www.r-pkg.org/ to search in CRAN packages
 - R universe: https://r-universe.dev/search/
+
+
+
+#### Information about yet-installed R packages ####
+After a package has been loaded (i.e., library(packagename) has been run),
+various kinds of information on the package and its functions is available from
+within R:
+- Display all package functions: ls("package:packagename")
+- Display main help page: help(packagename)
+- Display function help pages: help(functionname)
+  An operator (e.g., ||) has to be quoted to get its help page: help('||')
+- Display function arguments: args(functionname)
+- Display installed package version: utils::packageVersion("packagename")
 
 A short selection of books and websites that discuss various R packages:
 Microbiology and ecology:
@@ -96,6 +123,7 @@ Statistics:
 - Various CRAN task views (https://cran.r-project.org/web/views/)
 - Holmes S, Huber W. Modern statistics for modern biology.
   http://web.stanford.edu/class/bios221/book/
+
 
 
 #### Documentation and help ####
