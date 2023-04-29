@@ -12,7 +12,7 @@
 #   in my scripts.
 # The remaining sets are thematic collections of packages
 
-
+#### high_prio_pkgs ####
 # Note:
 #   the 'translations' package is not a recommended package, but will be
 #   installed with R if that option is set during the installation.
@@ -23,6 +23,7 @@ high_prio_pkgs <- c("base", "boot", "class", "cluster", "codetools", "compiler",
                     "splines", "stats", "stats4", "survival", "tcltk", "tools",
                     "utils")
 
+#### used_pkgs_UU ####
 used_pkgs_UU <- c(
   ## Package management
   "BiocManager", # Access the Bioconductor Project Package Repository
@@ -92,6 +93,7 @@ used_pkgs_UU <- c(
   "rmarkdown"    # Dynamic Documents for R
 )
 
+#### used_pkgs_UvA ####
 used_pkgs_UvA <- c(
   "BiocManager", # Access the Bioconductor Project Package Repository
   "deSolve",     # Solvers for Initial Value Problems of Differential Equations
@@ -114,6 +116,7 @@ used_pkgs_UvA <- c(
   "TruncatedNormal" # Truncated Multivariate Normal and Student Distributions
 )
 
+#### coding_data_handling ####
 coding_data_handling <- c(
   "abind",       # Combine Multidimensional Arrays
   "Biostrings",  # Efficient manipulation of biological strings
@@ -130,6 +133,7 @@ coding_data_handling <- c(
   "tidyverse"    # Easily Install and Load the 'Tidyverse'
 )
 
+#### coding_documentation ####
 coding_documentation <- c(
   "bookdown",    # Authoring Books and Technical Documents with R Markdown
   "knitr",       # A General-Purpose Package for Dynamic Report Generation in R
@@ -138,6 +142,7 @@ coding_documentation <- c(
   "shiny"        # Web Application Framework for R
 )
 
+#### coding_package_management ####
 coding_package_management <- c(
   "BiocManager", # Access the Bioconductor Project Package Repository
   "credentials", # Tools for Managing SSH and Git Credentials
@@ -149,6 +154,7 @@ coding_package_management <- c(
   "sessioninfo"  # R Session Information
 )
 
+#### coding_performance ####
 coding_performance <- c(
   ## Data inspection
   "lobstr",      # Visualize R Data Structures with Trees
@@ -174,6 +180,7 @@ coding_performance <- c(
   "RcppParallel" # Parallel Programming Tools for 'Rcpp'
 )
 
+#### graphics_palettes ####
 graphics_palettes <- c(
   "khroma",      # Colour Schemes for Scientific Data Visualization
   "paletteer",   # Comprehensive Collection of Color Palettes
@@ -181,12 +188,14 @@ graphics_palettes <- c(
   "viridis"      # Colorblind-Friendly Color Maps for R
 )
 
+#### graphics_combine_plots ####
 graphics_combine_plots <- c(
   "cowplot",     # Streamlined Plot Theme and Plot Annotations for 'ggplot2'
   "gclus",       # Clustering Graphics
   "patchwork"    # The Composer of Plots
 )
 
+#### graphics_pkgs ####
 graphics_pkgs <- c(   
   "aRtsy",       # Generative Art with 'ggplot2'
   "beanplot",    # Visualization via Beanplots (like Boxplot/Stripchart/Violin Plot)
@@ -213,6 +222,7 @@ graphics_pkgs <- c(
   "xtable"       # Export Tables to LaTeX or HTML
 )
 
+#### math_distr_random ####
 math_distr_random <- c(
   "distributional", # Vectorised Probability Distributions
   "fitdistrplus",# Help to Fit of a Parametric Distribution to Non-Censored or
@@ -227,6 +237,7 @@ math_distr_random <- c(
   "truncdist"    # Truncated Random Variables
 )
 
+#### math_multidimensional_networks ####
 math_multidimensional_networks <- c(
   "ade4",        # Analysis of Ecological Data: Exploratory and Euclidean
                  #   Methods in Environmental Sciences
@@ -249,6 +260,7 @@ math_multidimensional_networks <- c(
                  #   (principal component analysis, among others)
 )
 
+#### math_num_optim ####
 math_num_optim <- c(
   "caracas",     # Computer Algebra (symbolically solve equations, find integrals)
   "DEoptim",     # Global Optimization by Differential Evolution
@@ -274,6 +286,7 @@ math_num_optim <- c(
                  #   Analysis
 )
 
+#### math_stats_sets ####
 math_stats_sets <- c(
   "bbmle",       # Tools for General Maximum Likelihood Estimation
   "combinat",    # combinatorics utilities
@@ -298,6 +311,7 @@ math_stats_sets <- c(
   "statpsych"    # Statistical Methods for Psychologists
 )
 
+#### math_stats_MCMC_bayes ####
 math_stats_MCMC_bayes <- c(
   "abc",         # Tools for Approximate Bayesian Computation (ABC)
   "BayesFactor", # Computation of Bayes Factors for Common Designs
@@ -319,6 +333,7 @@ math_stats_MCMC_bayes <- c(
   "vizdraws"     # Visualize Draws from the Prior and Posterior Distribution
 )
 
+#### math_stats_regression ####
 math_stats_regression <- c(
   "brglm2",      # Bias Reduction in Generalized Linear Models
   "broom",       # Convert Statistical Objects into Tidy Tibbles
@@ -341,6 +356,7 @@ math_stats_regression <- c(
   "visreg"       # Visualization of Regression Models
 )
 
+#### math_stats ####
 math_stats <- c(
   "binom",       # Binomial Confidence Intervals For Several Parameterizations
   "cAIC4",       # Conditional Akaike Information Criterion for 'lme4' and 'nlme'
@@ -376,6 +392,98 @@ math_stats <- c(
                  # Workflow
 )
 
+#### math_MSMB ####
+math_MSMB <- c(
+  "MSMB",       # Data sets for the book 'Modern Statistics for Biology'
+  "airway",     # RangedSummarizedExperiment for RNA-Seq in airway smooth muscle cells
+  "AnnotationDbi", # Implements a user-friendly interface for querying
+                   # SQLite-based annotation data packages
+  "apeglm",     # Approximate posterior estimation for GLM coefficients
+  "BioNet",     # Routines for the functional analysis of biological networks
+  "biovizBase", # Basic graphic utilities for visualization of genomic data
+  "bootstrap",  # Functions for the Book "An Introduction to the Bootstrap"
+  "BSgenome",   # Software infrastructure for efficient representation of full
+                # genomes and their SNPs
+  "BSgenome.Celegans.UCSC.ce2", # Full genome sequences for Caenorhabditis
+                                # elegans (UCSC version ce2)
+  "BSgenome.Ecoli.NCBI.20080805",  # Escherichia coli full genomes
+  "BSgenome.Hsapiens.UCSC.hg19", # Full genome sequences for Homo sapiens (UCSC
+                                 # version hg19, based on GRCh37.p13)
+  "clusterExperiment", # Compare Clusterings for Single-Cell Sequencing
+  "dbscan",     # Density-Based Spatial Clustering of Applications with Noise
+                # (DBSCAN) and Related Algorithms
+  "DECIPHER",   # Tools for curating, analyzing, and manipulating biological
+                #   sequences 
+  "DESeq2",     # Differential gene expression analysis based on the negative
+                #   binomial distribution
+  "diffusionMap", # Diffusion Map
+  "DLBCL",      # Diffuse large B-cell lymphoma expression data
+  "EBImage",    # Image processing and analysis toolbox for R
+  "ExperimentHub", # Client to access ExperimentHub resources
+  "fdrtool",    # Estimation of (Local) False Discovery Rates and Higher Criticism
+  "flexmix",    # Flexible Mixture Modeling
+  "flowCore",   # Basic structures for flow cytometry data
+  "flowPeaks",  # An R package for flow data clustering
+  "flowViz",    # Visualization for flow cytometry
+  "fpc",        # Flexible Procedures for Clustering
+  "GenomicRanges", # Representation and manipulation of genomic intervals
+  "geometry",   # Mesh Generation and Surface Tessellation
+  "ggbeeswarm", # Categorical Scatter (Violin Point) Plots [Wickham]
+  "ggbio",      # Visualization tools for genomic data
+  "ggcyto",     # Visualize Cytometry data with ggplot
+  "ggthemes",   # Extra Themes, Scales and Geoms for 'ggplot2'
+  "glmnet",     # Lasso and Elastic-Net Regularized Generalized Linear Models
+  "GOplot",     # Visualization of Functional Analysis Data
+  "GSEABase",   # Gene set enrichment data structures and methods
+  "Gviz",       # Plotting data and annotation information along genomic coordinates
+  "HardyWeinberg", # Statistical Tests and Graphics for Hardy-Weinberg Equilibrium
+  "Hiiragi2013",# Cell-to-cell expression variability followed by signal
+                #   reinforcement progressively segregates early mouse lineages
+  "HistData",   #   Data Sets from the History of Statistics and Data Visualization
+  "HSMMSingleCell", # Single-cell RNA-Seq for differentiating human skeletal muscle myoblasts (HSMM)
+  "IHW",        # Independent Hypothesis Weighting
+  "kernlab",    # Kernel-Based Machine Learning Lab
+  "labeling",   # Axis Labeling
+  "limma",      # Linear Models for Microarray Data
+  "LPCM",       # Local Principal Curve Methods
+  "magrittr",   # A Forward-Pipe Operator for R
+  "markovchain",# Easy Handling Discrete Time Markov Chains
+  "mixtools",   # Tools for Analyzing Finite Mixture Models
+  "monocle",    # Clustering, differential expression, and trajectory analysis
+                #   for single- cell RNA-Seq
+  "mosaics",    # MOSAiCS (MOdel-based one and two Sample Analysis and Inference
+                #   for ChIP-Seq)
+  "mosaicsExample", # Example data for the mosaics package
+  "mouse4302.db", # Affymetrix Affymetrix Mouse430_2 Array annotation data (chip mouse4302)
+  "networksis", # Simulate Bipartite Graphs with Fixed Marginals Through
+                #   Sequential Importance Sampling
+  "pasilla",    # Data package with per-exon and per-gene read counts of RNA-seq
+                #   RNA-seq samples of Pasilla knock-down
+  "photobiology", # Photobiological Calculations
+  "phyloseqGraphTest", # Graph-Based Permutation Tests for Microbiome Data
+  "PMA",        # Penalized Multivariate Analysis
+  "pwr",        # Basic Functions for Power Analysis
+  "Renext",     # Renewal Method for Extreme Values Extrapolation
+  "Rtsne",      # T-Distributed Stochastic Neighbor Embedding using a Barnes-Hut
+                #   Implementation
+  "rworldmap",  # Mapping Global Data
+  "SamSPECTRAL",# Identifies cell population in flow cytometry data
+  "scRNAseq",   # Collection of Public Single-Cell RNA-Seq Datasets
+  "seqLogo",    # Sequence logos for DNA sequence alignments
+  "showtext",   # Using Fonts More Easily in R Graphs
+  "spatstat",   # Spatial Point Pattern Analysis, Model-Fitting, Simulation, Tests
+  "krisrs1128/structSSI", # Hierarchical FDR procedure and Group Benjamini-Hochberg procedure
+  "SummarizedExperiment", # SummarizedExperiment container
+  "survey",     # Analysis of Complex Survey Samples
+  "sva",        # Surrogate Variable Analysis
+  "sysfonts",   # Loading Fonts into R
+  "vsn",        # Variance stabilization and calibration for microarray data
+  "xcms",       # LC-MS and GC-MS Data Analysis
+  "xkcd",       # Plotting ggplot2 Graphics in an XKCD Style
+  "xtable"      # Export Tables to LaTeX or HTML
+)
+
+#### microbio_eco ####
 microbio_eco <- c(
   # See also the sets 'graphics_multidimensional_networks' and
   #   'taxonomy_phylogeny'
@@ -413,6 +521,7 @@ microbio_eco <- c(
   "vegan3d"      # Static and Dynamic 3D Plots for the 'vegan' Package
 )
 
+#### ODE_epi_growth ####
 ODE_epi_growth <- c(
   "biogrowth",   # Modelling of Population Growth
   "EpiDynamics", # Dynamic Models in Epidemiology (replicating scripts for
@@ -433,6 +542,7 @@ ODE_epi_growth <- c(
                  #   Death, and Respiration of Macroinvertebrate and Algae Taxa
 )
 
+#### ODE_handling ####
 ODE_handling <- c(
   # See also the set 'math_num_optim'
   "cOde",        # Automated C Code Generation for 'deSolve', 'bvpSolve'
@@ -474,6 +584,7 @@ ODE_handling <- c(
                  #   (ODE) Solvers (not using deSolve)
 )
 
+#### ODE_PBPK ####
 ODE_PBPK <- c(
   "ecotox",      # Analysis of Ecotoxicology
   "nlmixr2",     # Nonlinear Mixed Effects Models in Population PK/PD 
@@ -484,6 +595,7 @@ ODE_PBPK <- c(
                  #   Analysis  
 )
 
+#### taxonomy_phylogeny ####
 taxonomy_phylogeny <- c(
   # See also the sets 'graphics_multidimensional_networks' and 'microbio_eco'
   "ape",         # Analyses of Phylogenetics and Evolution
