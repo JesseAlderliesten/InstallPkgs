@@ -1,10 +1,10 @@
 # InstallPkgs
 
 Repository containing utility functions to install R packages and obtain
-information about installed packages. Also contains information on installing R,
-RStudio, and Rtools and setting up and using Git and GitHub.
-The information is intended for Windows-users and the code was run with R
-version 4.1.3 on Windows 10.
+information about to-be-installed and already-installed packages. Also contains
+information on installing R, RStudio, and Rtools and setting up and using Git
+and GitHub. The information is intended for Windows-users and the code was run
+with R versions 4.1.3 and 4.2.3 on Windows 10.
 
 Overview of the files:
 
