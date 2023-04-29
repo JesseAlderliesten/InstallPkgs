@@ -1,9 +1,9 @@
 #### Introduction ####
-This file provides information on setting up Git and GitHub on Windows.
+This file provides information on setting up and using Git and GitHub on Windows.
 
 
 #### Setting up Git and GitHub ####
-Create an account at https://github.com/, download a GitHub client
+Create a GitHub account at https://github.com/, download a GitHub client
 (e.g., Git for Windows from https://gitforwindows.org/) and install it.
 To update the Git for Windows GitHub client if you already have it,
 type ‘git update-git-for-windows’ in the shell.
@@ -36,7 +36,7 @@ RStudio and GitHub
 - Pro Git Book: https://git-scm.com/book/en/v2
 
 
-#### Workflow ####
+#### Using Git and GitHub ####
 To work with GitHub, you should NOT open the plain R script directly,
 but instead open the R Project file (i.e., with extension .Rproj).
 Then the Git menu will be visible.
