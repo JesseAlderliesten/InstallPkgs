@@ -1,8 +1,8 @@
 # InstallPkgs
 
 Repository containing utility functions to install R packages and obtain
-information about installed packages.
-Also contains information on installing R, RStudio, Rtools and GitHub.
+information about installed packages. Also contains information on installing R,
+RStudio, and Rtools and setting up and using Git and GitHub.
 The information is intended for Windows-users and the code was run with R
 version 4.1.3 on Windows 10.
 
@@ -24,4 +24,4 @@ Overview of the files:
   package versions and task views, lists of CRAN mirrors and package
   repositories, and a selection of books and websites that discuss R packages.
 - InstructionsGitGithub.text: text file that provides information on setting up
-  Git and GitHub.
+  and using Git and GitHub.
