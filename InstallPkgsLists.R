@@ -29,6 +29,7 @@ used_pkgs_UU <- c(
   "devtools",    # Tools to Make Developing R Packages Easier
   "remotes",     # R Package Installation from Remote Repositories, Including
                  #   'GitHub'
+  "renv",        # Project Environments
 
   ## Data handling
   "dplyr",       # A Grammar of Data Manipulation
