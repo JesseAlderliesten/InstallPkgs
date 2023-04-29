@@ -7,10 +7,15 @@
 # 'InstallR.txt' for instructions.
 
 
+
 #### To do ####
-# - See code to install beware packages for potential updates.
-# - When testing if package is functioning correctly, differentiate between
-#   missing and non-functioning packages.
+# - Add remark about questions 'update packages' and 'Do you want to install
+#   from sources the package which needs compilation'? that will probably arise
+#   during installation.
+
+
+
+#### Wishlist ####
 # - Various functions (e.g., choose_mirrors(), list_dependencies(), fail if no
 #   internet connection is present. How do other packages handle this?
 # - 'list' is used both in the strict sense as 'an object of class (mode?) list'
