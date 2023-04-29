@@ -2,6 +2,7 @@
 File with installation instructions for R, RStudio, and RTools on Windows.
 
 
+
 #### R ####
 Download R from a nearby CRAN-mirror (https://cran.r-project.org/mirrors.html,
 see the section 'CRAN mirrors' in the file InstructionsPkgs.txt for some
@@ -9,13 +10,24 @@ details) or from the main page (https://cran.r-project.org/) via 'Download R
 for Windows' > base > 'Download R-X.X.X for Windows' and install it.
 
 
+
 #### RStudio ####
 Download RStudio Desktop (https://posit.co/download/rstudio-desktop/) and
-install it. To make work portable and reproducible, go to Tools > Global Options
+install it.
+
+To make work portable and reproducible, go to Tools > Global Options
 > General and deselect the option 'Restore .RData into workspace at startup' to
-prevent using hidden user-made changes. Optionally, modify keyboard shortcuts at
-Tools > Modify Keyboard Shortcuts, e.g., change the shortcut 'Run current line or
-selection' from 'Ctrl+Enter' to 'Ctrl+R'.
+prevent using hidden user-made changes.
+
+Optionally, modify keyboard shortcuts at Tools > Modify Keyboard Shortcuts,
+e.g., change the shortcut 'Run current line or selection' from 'Ctrl+Enter' to
+'Ctrl+R'.
+
+The appearance of code can be changed at Tools > Global options > Appearance. I
+use RStudio theme 'Modern', Editor font: 'Lucida Console', Editor font size 10,
+with a dark Editor theme 'Tomorrow Night Bright' (default: 'textmate';
+alternative with a white background: Xcode).
+
 
 
 #### Rtools ####
@@ -26,6 +38,7 @@ when installing a package from GitHub that is distributed as a source file or
 when installing old package versions from CRAN, and to execute scripts that
 contain calls to scripts written in compiled code such as C or Fortran to speed
 up code execution.
+
 
 
 #### Documentation and help ####
