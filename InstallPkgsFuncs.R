@@ -1,5 +1,34 @@
 #### Introduction #####
-# Functions to install R-packages and obtain information about packages.
+# Functions to install R-packages and obtain information about installed packages.
+
+
+#### To do ####
+# - Change the documentation on installing RTools. See the point on Rtools in
+#   the wishlist for additional info.
+#   'RTools ('the C++ Toolchain) has to be downloaded from
+#   https://cran.r-project.org/bin/windows/Rtools/ and has to be installed.
+#   In addition, RTools has to be configured by putting the location of Rtools
+#   utilities (bash, make, etc) on the search path if it is not there yet.
+#   devtools::find_rtools(debug = TRUE) checks if this is done, and gives
+#   instructions how to perform it if it is not yet done.
+#   For R versions 4.0.0 to 4.1.3, putting Rtools on the search path can be
+#   achieved by running the following line:
+#   write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
+#   append = TRUE)'
+
+
+#### Wishlist ####
+# - Write a utility function to check if 'output' folder exists, create one if
+#   not, write results to file, and print message on how to read data back in.
+#   This is now coded repeatedly.
+# - Should I provide a function to install and / or check the status of RTools?
+#   But the benefit of providing a link is that I don't need to update the info!
+#   See devtools::find_rtools(debug = TRUE), cmdstanr::check_cmdstan_toolchain(),
+#   and documentation at https://cran.r-project.org/bin/windows/Rtools/,
+#   https://github.com/stan-dev/rstan/wiki/Configuring-C---Toolchain-for-Windows,
+#   https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#installing-rstan)
+# - Check select_libpath(), update it to let selection of library path depend on
+#   currently used R-version, and implement it into prepare_install()
 
 
 #### Utility functions ####
@@ -12,6 +41,67 @@ is_logical <- function(x) {
 # Includes test of nchar(x) > 0 to return FALSE in case of ""
 all_characters <- function(x) {
   is.character(x) && length(x) > 0 && all(nchar(x) > 0)
+}
+
+
+#### select_libpath ####
+select_libpath <- function() {
+  warning("This function has not yet been checked.")
+  if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE)) {
+    # The location to install R packages is chosen based on existing library
+    # paths. A path containing 'Program Files' (case-insensitive) is used, or,
+    # if such path does not exist, the path where R is installed. If that also
+    # does not exist, the current working directory is used. Only first match is
+    # selected if multiple matches are present, to make downstream code work.
+    Rstring <- paste0("R-", paste(R.Version()[c("major", "minor")],
+                                  collapse = "."))
+    
+    indices_path_current_R <- grep(tolower(Rstring), tolower(.libPaths()),
+                                   fixed = TRUE)
+    indices_path_program_files <- grep("program files", tolower(.libPaths()),
+                                       fixed = TRUE)
+    same_indices <- indices_path_current_R %in% indices_path_program_files
+    if(any(same_indices)) {
+      # Use the first path that contains both the current R version and "program
+      # files"
+      use_path <- .libPaths()[indices_path_current_R[same_indices[1]]]
+    } else {
+      # Use first path that contains 'program files'
+      if(length(indices_path_program_files) > 0) {
+        use_path <- .libPaths()[indices_path_program_files]
+      } else {
+        warning("Packages will be installed at ", lib, ".\nThis library path",
+                " does not point to 'Program Files' because no such library",
+                " path was found.\nIf the library path points to a network",
+                " drive, installation of R packages and cmdstan might fail.")
+      }
+    }
+    
+    message("R packages will be installed at ", lib)
+    
+    index_first_OK_path <- index_path_program_files[1]
+    if(length(index_first_OK_path) > 0) {
+      lib <- .libPaths()[index_first_OK_path]
+      
+    } else {
+      index_first_OK_path <- grep("/R/", .libPaths(), fixed = TRUE,
+                                  ignore.case = FALSE)[1]
+      if(length(index_first_OK_path) > 0) {
+        
+      } else {
+        lib <- getwd()
+        warning("Packages will be installed in the current working directory:\n",
+                lib, ".\nThis library path does not point to 'Program Files'",
+                " or a parent folder of an R installation\nbecause no such",
+                " library paths were found.\nTherefor installation of R packages",
+                " might fail.")
+      }
+    }
+  } else {
+    warning("This script was written using Windows, but you appear to be using",
+            " another operating system.\nTherefore this script may fail. Check",
+            " the installation instructions at https://cran.r-project.org/.")
+  }
 }
 
 
@@ -78,7 +168,8 @@ prepare_install <- function() {
     }
   }
   
-  # (re)install the BiocManager package if it is not installed and functional
+  # (re)install the BiocManager package from CRAN if it is not installed or not
+  # functional
   if(!requireNamespace("BiocManager", lib.loc = lib, quietly = TRUE)) {
     message("Installing BiocManager package")
     install.packages("BiocManager", lib = lib, type = "binary")
@@ -238,7 +329,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #   save_file: a logical indicating if the names of non-functional packages
 #     should be saved as a .txt-file, such that they can be obtained easily
 #     after restarting the R-session.
-#   sort: a logical indicating if the names of nonfunctioning packages should be
+#   sort: a logical indicating if the names of non-functional packages should be
 #     sorted.
 #   quietly: a logical indicating if printing the reason why packages are not
 #     functioning should be suppressed, regarded to be FALSE if verbose is TRUE.
@@ -253,12 +344,13 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     they are not unloaded first. A message is printed urging to restart R
 #     before continuing to prevent this.
 #   The names of non-functional packages are printed to the console, and, if
-#     save_file = TRUE, saved as a .txt-file.
+#     save_file = TRUE, saved as a .txt-file inside the subfolder 'output'.
 # Note:
-#   installed.packages() does not check if packages are functional, nor if all
-#     needed dependencies are installed and functional. In addition, it can be
-#     slow such that ?installed.packages() states that requireNamespace() or
-#     require() should be used instead.
+#   This function uses requireNamespace() instead of installed.packages(),
+#     because installed.packages() does not check if packages are functional,
+#     nor if all needed dependencies are installed and functional, and can be
+#     slow such that its help page states that requireNamespace() or require()
+#     should be used instead.
 list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
@@ -298,12 +390,24 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
       file_name <- paste0("nonfunc_pkgs_",
                           format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
                           "_", paste0("R", as.character(getRversion())), ".txt")
-      dput(nonfunctional_pkgs, file = file_name)
-      message("Textfile with names of non-functional packages saved as ",
-              file_name, "\nat ", getwd(), "\nUse nonfunctional_pkgs <- dget(\"",
-              file_name, "\") to read the package names back into R.")
+      dir_path <- file.path(".", "output")
+      if(!dir.exists(dir_path)){
+        dir.create(dir_path)
+      }
+      read_back_path <- file.path(dir_path, file_name)
+      message_read_back <- paste0("\nTo read the package names back into R use",
+                                  "\nnonfunctional_pkgs <- dget(\"",
+                                  read_back_path, "\")")
+      if(file.exists(read_back_path)) {
+        warning("Textfile with names of non-functional packages already exists,",
+                " not saved again!")
+        message(message_read_back)
+      } else {
+        dput(nonfunctional_pkgs, file = read_back_path)
+        message("Textfile with names of non-functional packages saved as ",
+                file_name, "\nin ", file.path(getwd(), "output"), message_read_back)
+      }
     }
-    
   } else {
     message("All packages are functional")
   }
@@ -334,8 +438,8 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
 #   Packages are loaded, with the result that updating packages might fail if
 #     they are not unloaded first. A message is printed urging to restart R
 #     before continuing to prevent this.
-#   The details of invalid packages are saved in a .csv file if the argument
-#     'save_file' is TRUE.
+#   The details of invalid packages are saved as a .csv file inside the
+#     subfolder 'output' if the argument 'save_file' is TRUE.
 check_status <- function(checkBuilt = TRUE,
                          type = c("binary", "both", "source", "win.binary"),
                          save_file = FALSE,
@@ -385,12 +489,22 @@ check_status <- function(checkBuilt = TRUE,
       file_name <- paste0("invalid_pkgs_",
                           format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
                           "_", paste0("R", as.character(getRversion())), ".csv")
-      write.csv(invalid_details, file = file.path(getwd(), file_name),
-                row.names = FALSE)
-      message("A .csv file with details of invalid packages saved as ",
-              file_name, "\nat ", getwd(), "\nUse invalid_pkgs <- ",
-              "read.csv(\"", file.path(getwd(), file_name), "\")\nto read the",
-              " information back into R.")
+      dir_path <- file.path(".", "output")
+      if(!dir.exists(dir_path)){
+        dir.create(dir_path)
+      }
+      read_back_path <- file.path(dir_path, file_name)
+      message_read_back <- paste0("\nTo read the information back into R use",
+                                  "\ninvalid_pkgs <- read.csv(\"",
+                                  read_back_path, "\")")
+      if(file.exists(read_back_path)) {
+        warning("File with invalid packages already exists, not saved again!")
+        message(message_read_back)
+      } else {
+        write.csv(invalid_details, file = read_back_path, row.names = FALSE)
+        message("A .csv file with details of invalid packages saved as ",
+                file_name, "\nat ", file.path(getwd(), "output"), message_read_back)
+      }
     }
     
     if(any(print_output %in% c("both", "pkgs_names"))) {
@@ -546,7 +660,8 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 # - A matrix containing the details of the installed packages is returned
 #   invisible.
 # Side effects:
-# - A .csv-file giving details of installed packages is saved.
+# - A .csv-file giving details of installed packages is saved inside the
+#     subfolder 'output'.
 save_details <- function(PC_name = "desktop") {
   stopifnot((length(PC_name) == 1L && is.character(PC_name)) || is.null(PC_name))
   PC_name <- gsub("[^[:alnum:]_]", "_", PC_name)
@@ -554,14 +669,27 @@ save_details <- function(PC_name = "desktop") {
   installed_pkgs <- installed.packages()[, c("Package", "Version", "Built",
                                              "NeedsCompilation", "Priority")]
   rownames(installed_pkgs) <- NULL
-  file_name <- paste0("installed_pkgs", PC_name, "_", format(Sys.Date(), format = "%Y_%m_%d"),
+  file_name <- paste0("installed_pkgs", PC_name, "_",
+                      format(Sys.Date(), format = "%Y_%m_%d"),
                       "_", paste0("R", as.character(getRversion())), ".csv")
-  write.csv(installed_pkgs, file = file.path(getwd(), file_name),
-            row.names = FALSE)
-  message("A .csv-file with details of installed packages saved as ",
-          file_name, "\nat ", getwd(), "\nUse installed_pkgs <- ",
-          "read.csv(\"", file.path(getwd(), file_name), "\")\nto read the",
-          " information back into R.")
+  dir_path <- file.path(".", "output")
+  if(!dir.exists(dir_path)){
+    dir.create(dir_path)
+  }
+  read_back_path <- file.path(dir_path, file_name)
+  message_read_back <- paste0("\nTo read the information back into R use",
+                              "\ninstalled_pkgs <- read.csv(\"", read_back_path,
+                              "\")")
+  if(file.exists(read_back_path)) {
+    warning("File with details of installed packages already exists,",
+            " not saved again!")
+    message(message_read_back)
+  } else {
+    write.csv(installed_pkgs, file = file.path(dir_path, file_name),
+              row.names = FALSE)
+    message("A .csv-file with details of installed packages saved as ",
+            file_name, "\nat ", file.path(getwd(), "output"), message_read_back)
+  }
   invisible(installed_pkgs)
 }
 
