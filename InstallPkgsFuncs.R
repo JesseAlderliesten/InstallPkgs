@@ -27,8 +27,7 @@
 #   and documentation at https://cran.r-project.org/bin/windows/Rtools/,
 #   https://github.com/stan-dev/rstan/wiki/Configuring-C---Toolchain-for-Windows,
 #   https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#installing-rstan)
-# - Check select_libpath(), update it to let selection of library path depend on
-#   currently used R-version, and implement it into prepare_install()
+
 
 
 #### Utility functions ####
@@ -45,6 +44,10 @@ all_characters <- function(x) {
 
 
 #### select_libpath ####
+# To do:
+#   Check select_libpath() and implement it into prepare_install().
+# Wishlist:
+#   Let selection of library path depend on currently used R-version
 select_libpath <- function() {
   warning("This function has not yet been checked.")
   if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE)) {
@@ -351,6 +354,9 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     nor if all needed dependencies are installed and functional, and can be
 #     slow such that its help page states that requireNamespace() or require()
 #     should be used instead.
+# Wishlist:
+#   When testing if package is functioning correctly, differentiate between
+#     missing and non-functioning packages.
 list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
