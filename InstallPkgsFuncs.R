@@ -3,6 +3,12 @@
 
 
 #### To do ####
+# - Check if install.packages() and the BioConductor equivalent by default use
+#   the nearest mirror. In that case, I can deprecate choose_mirror(). For
+#   documentation see ?Startup, help("install.packages"), help("getOption"),
+#   https://cran.r-project.org/web/packages/startup/readme/README.html,
+#   https://blog.djnavarro.net/posts/2022-01-10_setting-cran-repositories/,
+#   https://support.posit.co/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager
 # - Change the documentation on installing RTools. See the point on Rtools in
 #   the wishlist for additional info.
 #   'RTools ('the C++ Toolchain) has to be downloaded from
