@@ -99,11 +99,15 @@ used_pkgs_UvA <- c(
   "deSolve",     # Solvers for Initial Value Problems of Differential Equations
                  #   ('ODE', 'DAE', 'DDE')
   "devtools",    # Tools to Make Developing R Packages Easier
+  "dplyr",       # A Grammar of Data Manipulation
   "FME",         # A Flexible Modelling Environment for Inverse Modelling,
                  #   Sensitivity, Identifiability and Monte Carlo Analysis
+  "GGally",      # Extension to 'ggplot2'
+  "ggplot2",     # Create Elegant Data Visualisations Using the Grammar of Graphics
   "knitr",       # A General-Purpose Package for Dynamic Report Generation in R
   "matrixStats", # Functions that Apply to Rows and Columns of Matrices (and to
                  #   Vectors)
+  "microbenchmark", # Accurate Timing Functions
   "minpack.lm",  # R Interface to the Levenberg-Marquardt Nonlinear
                  #   Least-Squares Algorithm Found in MINPACK, Plus Support for
                  #   Bounds
