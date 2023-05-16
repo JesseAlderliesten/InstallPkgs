@@ -93,6 +93,12 @@ used_pkgs_UU <- c(
   "rmarkdown"    # Dynamic Documents for R
 )
 
+# pkgs_lists <- list(used_pkgs_UvA = used_pkgs_UvA, UvA_data = UvA_data,
+#                    UvA_EnzKin = UvA_EnzKin, UvA_ExpDesign = UvA_ExpDesign,
+#                    UvA_Fitting = UvA_Fitting, UvA_ODEs = UvA_ODEs,
+#                    UvA_plot = UvA_plot, UvA_simul = UvA_simul,
+#                    UvA_stat = UvA_stat, UvA_misc = UvA_misc)
+
 #### used_pkgs_UvA ####
 used_pkgs_UvA <- c(
   "BiocManager", # Access the Bioconductor Project Package Repository
@@ -119,6 +125,62 @@ used_pkgs_UvA <- c(
   "tidyr",       # Tidy Messy Data
   "TruncatedNormal" # Truncated Multivariate Normal and Student Distributions
 )
+
+#### Candidate pkgs UvA ####
+UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse", 
+              "Matrix", "matrixcalc", "matrixStats", "matrixTests", "numDeriv", 
+              "poorman", "pracma", "purrr", "readr", "rje", "tidyr", "TruncatedNormal", 
+              "truncdist")
+
+UvA_data_val <- c("data.validator", "dataverifyr", "describeDF", "enviGCMS", "LCMSQA",
+                  "validate", "wrMisc", "xcms")
+
+UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC", "enzkin", 
+                "ezmmek", "findkm", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
+                "nlmixr2extra", "renz")
+
+UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED", 
+                   "CellNOptR", "cluster", "CNORode", "daewr", "DoE.base",
+                   "faux", "gsDesign", "microsamplingDesign",
+                   "NMproject", "optedr", "OptimalDesign", "OptimaRegion",
+                   "PFIM", "PopED", "rsm", "seasonalclumped", "SimDesign",
+                   "skpr", "WtTopsis")
+
+UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR", 
+                 "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts", "jchristopherson/nonlin", 
+                 "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob", "MSinference", 
+                 "NISTnls", "nleqslv", "nlme", "nloptr", "nlreg", "nlsMicrobio", 
+                 "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "performance", 
+                 "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "robustbase", 
+                 "Ryacas", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
+                 "yardstick", "yueqinhu/defit")
+
+UvA_ODEs <- c("bvpSolve", "ccsolve", "cOde", "deSolve", "deTestSet", "FME", 
+              "mrgsolve", "ODEsensitivity", "rodeo", "rootSolve", "rxode2",
+              "sde")
+
+UvA_plot <- c("bubbleHeatmap", "coefplot", "GGally", "ggalt", "ggdist",
+              "ggflowchart", "ggpairs", "ggplate", "ggplot2", "ggpubr",
+              "ggthemes", "HistData",
+              "nlmixr2plot", "plotrix", "scales", "tidydensity")
+
+UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
+               "capm", "clarify", "clinPK", "cpk", "ecolMod", "epimdr",
+               "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
+               "microeco", "microPop", "NonCompart", "parSim", "pomp", "primer",
+               "rsimsum", "simchef", "simChef", "SimDesign", "simecol",
+               "simframe", "simFrame", "simglm", "simhelpers", "SimInf",
+               "simode", "simpr", "simsalapar", "simstudy", "simTool",
+               "simulator", "tidymodels")
+
+UvA_stat <- c("basicMCMCplots", "boot", "CausalImpact", "SamCH93/ciCalibrate",
+              "coda", "confintr", 
+              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus",
+              "Hmisc", "ks", "MASS", "matlib", "MCMCglmm", "NCmisc", "propagate",
+              "psych", "RUVIIIC", "SHT", "stats", "trend")
+
+UvA_misc <- c("hadley/strict", "knitr", "PRIMME", "rmarkdown", "tinytest",
+              "tolerance")
 
 #### coding_data_handling ####
 coding_data_handling <- c(
