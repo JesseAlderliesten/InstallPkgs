@@ -85,7 +85,7 @@ list_nonfunctional_pkgs(pkgs = pkgs_lists, save_file = TRUE, sort = TRUE,
 
 
 #### Check if all installed packages are up-to-date ####
-check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
+check_status(checkBuilt = TRUE, type = "both", save_file = TRUE,
              print_output = "both")
 
 
@@ -106,7 +106,7 @@ check_status(checkBuilt = TRUE, type = "binary", save_file = TRUE,
 #   argument force = TRUE.
 BiocManager::install(pkgs = new_pkgs, lib.loc = lib, lib = lib, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
-                     checkBuilt = TRUE, force = FALSE)
+                     checkBuilt = TRUE, force = FALSE, version = 3.16)
 
 
 #### List dependencies of specific packages ####
