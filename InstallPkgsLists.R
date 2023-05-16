@@ -135,8 +135,8 @@ UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse
 UvA_data_val <- c("data.validator", "dataverifyr", "describeDF", "enviGCMS", "LCMSQA",
                   "validate", "wrMisc", "xcms")
 
-UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC", "enzkin", 
-                "ezmmek", "findkm", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
+UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
+                "ezmmek", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
                 "nlmixr2extra", "renz")
 
 UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED", 
@@ -160,16 +160,16 @@ UvA_ODEs <- c("bvpSolve", "ccsolve", "cOde", "deSolve", "deTestSet", "FME",
               "sde")
 
 UvA_plot <- c("bubbleHeatmap", "coefplot", "GGally", "ggalt", "ggdist",
-              "ggflowchart", "ggpairs", "ggplate", "ggplot2", "ggpubr",
+              "ggflowchart", "ggplate", "ggplot2", "ggpubr",
               "ggthemes", "HistData",
-              "nlmixr2plot", "plotrix", "scales", "tidydensity")
+              "nlmixr2plot", "plotrix", "scales", "TidyDensity")
 
 UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
                "capm", "clarify", "clinPK", "cpk", "ecolMod", "epimdr",
                "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
                "microeco", "microPop", "NonCompart", "parSim", "pomp", "primer",
-               "rsimsum", "simchef", "simChef", "SimDesign", "simecol",
-               "simframe", "simFrame", "simglm", "simhelpers", "SimInf",
+               "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
+               "simFrame", "simglm", "simhelpers", "SimInf",
                "simode", "simpr", "simsalapar", "simstudy", "simTool",
                "simulator", "tidymodels")
 
