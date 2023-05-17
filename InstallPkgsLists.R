@@ -132,7 +132,7 @@ UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse
               "poorman", "pracma", "purrr", "readr", "rje", "tidyr", "TruncatedNormal", 
               "truncdist")
 
-UvA_data_val <- c("data.validator", "dataverifyr", "describeDF", "enviGCMS", "LCMSQA",
+UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS", "LCMSQA",
                   "validate", "wrMisc", "xcms")
 
 UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
@@ -155,7 +155,7 @@ UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR",
                  "Ryacas", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
                  "yardstick", "yueqinhu/defit")
 
-UvA_ODEs <- c("bvpSolve", "ccsolve", "cOde", "deSolve", "deTestSet", "FME", 
+UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME", 
               "mrgsolve", "ODEsensitivity", "rodeo", "rootSolve", "rxode2",
               "sde")
 
