@@ -15,7 +15,7 @@ to build the packages from source, see the section 'Rtools' in the file
 
 The function 'install_version' from the 'remotes' package can be used to
 install an old version of a package:
-install_version("ggplot2", version = "3.3.4", upgrade = "ask").
+remotes::install_version("ggplot2", version = "3.3.4", upgrade = "ask").
 
 Alternatively, for CRAN packages obtain the URL pointing to the desired version
 at its CRAN page at 'Downloads > Old sources > pkgs archive' and use this URL:
@@ -83,7 +83,9 @@ The following websites are useful to obtain information on R packages:
 After a package has been loaded (i.e., library(packagename) has been run),
 various kinds of information on the package and its functions is available from
 within R:
-- Display all package functions: ls("package:packagename")
+- Display package functions: getNamespaceExports("packagename"),
+  ls("package:packagename", all.names = TRUE),
+  ls(getNamespace("packagename"))
 - Display main help page: help(packagename)
 - Display function help pages: help(functionname)
   An operator (e.g., ||) has to be quoted to get its help page: help('||')
