@@ -140,14 +140,14 @@ UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
                 "nlmixr2extra", "renz")
 
 UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED", 
-                   "CellNOptR", "cluster", "CNORode", "daewr", "DoE.base",
+                   "CellNOptR", "cluster", "CNORode", "daewr", "DiceDesign", "DoE.base", "DoE.wrapper",
                    "faux", "gsDesign", "microsamplingDesign",
                    "NMproject", "optedr", "OptimalDesign", "OptimaRegion",
                    "PFIM", "PopED", "rsm", "seasonalclumped", "SimDesign",
                    "skpr", "WtTopsis")
 
 UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR", 
-                 "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts", "jchristopherson/nonlin", 
+                 "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts",
                  "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob", "MSinference", 
                  "NISTnls", "nleqslv", "nlme", "nloptr", "nlreg", "nlsMicrobio", 
                  "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "performance", 
@@ -159,28 +159,32 @@ UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME",
               "mrgsolve", "ODEsensitivity", "rodeo", "rootSolve", "rxode2",
               "sde")
 
-UvA_plot <- c("bubbleHeatmap", "coefplot", "GGally", "ggalt", "ggdist",
+UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist", 
               "ggflowchart", "ggplate", "ggplot2", "ggpubr",
-              "ggthemes", "HistData",
-              "nlmixr2plot", "plotrix", "scales", "TidyDensity")
+              "ggragged", "ggthemes", "HistData", "hughjonesd/ggmagnify",
+              "nlmixr2plot", "plotrix", "rgl", "scales", "TidyDensity")
 
 UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
-               "capm", "clarify", "clinPK", "cpk", "ecolMod", "epimdr",
+               "capm", "clarify", "clinPK", "counterfactuals", "cpk", "ecolMod", "epimdr",
                "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
-               "microeco", "microPop", "NonCompart", "parSim", "pomp", "primer",
+               "microeco", "microPop", "mpmsim", "NonCompart", "parSim", "pomp", "primer",
                "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
                "simFrame", "simglm", "simhelpers", "SimInf",
                "simode", "simpr", "simsalapar", "simstudy", "simTool",
                "simulator", "tidymodels")
 
-UvA_stat <- c("basicMCMCplots", "boot", "CausalImpact", "SamCH93/ciCalibrate",
-              "coda", "confintr", 
-              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus",
-              "Hmisc", "ks", "MASS", "matlib", "MCMCglmm", "NCmisc", "propagate",
-              "psych", "RUVIIIC", "SHT", "stats", "trend")
+UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact", "SamCH93/ciCalibrate",
+              "coda", "confintr", "cxhull", 
+              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus", "funStatTest",
+              "Hmisc", "ks", "MASS", "matlib", "MCMCglmm", "NCmisc", "predictNMB", "predRupdate", "propagate",
+              "psych", "RUVIIIC", "SHT", "stats", "SurrogateRsq", "trend", "tdsa", "tseriesTARMA")
 
-UvA_misc <- c("hadley/strict", "knitr", "PRIMME", "rmarkdown", "tinytest",
-              "tolerance")
+UvA_misc <- c("diffr", "fitlandr", "gcplyr", "GPUmatrix", "hadley/strict", 
+              "hydroMOPSO", "knitr", "Morphoscape", "PRIMME", "rmarkdown", 
+              "stxplore", "tinytest", "tolerance", "turtletopia/woodendesc", 
+              "xts")
+
+
 
 #### coding_data_handling ####
 coding_data_handling <- c(
@@ -214,6 +218,8 @@ coding_package_management <- c(
   "credentials", # Tools for Managing SSH and Git Credentials
   "ctv",         # CRAN Task Views
   "devtools",    # Tools to Make Developing R Packages Easier
+  "installr",    # Using R to Install Stuff on Windows OS (Such As: R, 'Rtools',
+                 #   'RStudio', 'Git', and More!)
   "needs",       # Attaches and Installs Packages
   "remotes",     # R Package Installation from Remote Repositories, Including
                  #   'GitHub'
@@ -424,6 +430,7 @@ math_stats_regression <- c(
 
 #### math_stats ####
 math_stats <- c(
+  "alpha.correction.bh", # Benjamini-Hochberg Alpha Correction
   "binom",       # Binomial Confidence Intervals For Several Parameterizations
   "cAIC4",       # Conditional Akaike Information Criterion for 'lme4' and 'nlme'
   "coin",        # Conditional Inference Procedures in a Permutation Test Framework
