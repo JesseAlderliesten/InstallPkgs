@@ -104,6 +104,8 @@ check_status(checkBuilt = TRUE, type = "both", save_file = TRUE,
 #   issues between already installed packages and newly installed packages.
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
+# - For an overview which Bioconductor release corresponds to which R version,
+#   see http://bioconductor.org/about/release-announcements/#release-versions
 BiocManager::install(pkgs = new_pkgs, lib.loc = lib, lib = lib, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
                      checkBuilt = TRUE, force = FALSE, version = 3.16)
