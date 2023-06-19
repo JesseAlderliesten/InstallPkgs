@@ -127,20 +127,25 @@ used_pkgs_UvA <- c(
 )
 
 #### Candidate pkgs UvA ####
+UvA_task_views <- c("ChemPhys", "DifferentialEquations", "ExperimentalDesign",
+                    "MixedModels", "NumericalMathematics", "Optimization",
+                    "Pharmacokinetics", "Psychometrics", "Robust", "TimeSeries")
+
 UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse", 
               "Matrix", "matrixcalc", "matrixStats", "matrixTests", "numDeriv", 
               "poorman", "pracma", "purrr", "readr", "rje", "tidyr", "TruncatedNormal", 
               "truncdist")
 
-UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS", "LCMSQA",
-                  "validate", "wrMisc", "xcms")
+UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS",
+                  "LCMSQA", "validate", "wrMisc", "xcms")
 
 UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
                 "ezmmek", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
                 "nlmixr2extra", "renz")
 
 UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED", 
-                   "CellNOptR", "cluster", "CNORode", "daewr", "DiceDesign", "DoE.base", "DoE.wrapper",
+                   "CellNOptR", "cluster", "CNORode", "daewr", "DiceDesign",
+                   "DoE.base", "DoE.wrapper",
                    "faux", "gsDesign", "microsamplingDesign",
                    "NMproject", "optedr", "OptimalDesign", "OptimaRegion",
                    "PFIM", "PopED", "rsm", "seasonalclumped", "SimDesign",
@@ -148,12 +153,13 @@ UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED",
 
 UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR", 
                  "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts",
-                 "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob", "MSinference", 
+                 "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob",
+                 "MSinference", 
                  "NISTnls", "nleqslv", "nlme", "nloptr", "nlreg", "nlsMicrobio", 
                  "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "performance", 
                  "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "robustbase", 
                  "Ryacas", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
-                 "yardstick", "yueqinhu/defit")
+                 "yardstick", "yueqinhu/deFit")
 
 UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME", 
               "mrgsolve", "ODEsensitivity", "rodeo", "rootSolve", "rxode2",
@@ -165,19 +171,21 @@ UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist",
               "nlmixr2plot", "plotrix", "rgl", "scales", "TidyDensity")
 
 UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
-               "capm", "clarify", "clinPK", "counterfactuals", "cpk", "ecolMod", "epimdr",
-               "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
-               "microeco", "microPop", "mpmsim", "NonCompart", "parSim", "pomp", "primer",
-               "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
+               "capm", "clarify", "clinPK", "counterfactuals", "cpk", "ecolMod",
+               "epimdr", "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
+               "microeco", "microPop", "mpmsim", "NonCompart", "parSim", "pomp",
+               "primer", "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
                "simFrame", "simglm", "simhelpers", "SimInf",
                "simode", "simpr", "simsalapar", "simstudy", "simTool",
                "simulator", "tidymodels")
 
-UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact", "SamCH93/ciCalibrate",
-              "coda", "confintr", "cxhull", 
-              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus", "funStatTest",
-              "Hmisc", "ks", "MASS", "matlib", "MCMCglmm", "NCmisc", "predictNMB", "predRupdate", "propagate",
-              "psych", "RUVIIIC", "SHT", "stats", "SurrogateRsq", "trend", "tdsa", "tseriesTARMA")
+UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact",
+              "SamCH93/ciCalibrate", "coda", "confintr", "cxhull",
+              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus",
+              "funStatTest", "Hmisc", "ks", "MASS", "matlib", "MCMCglmm",
+              "NCmisc", "nimble", "predictNMB", "predRupdate", "propagate",
+              "psych", "RUVIIIC", "SHT", "stats", "SurrogateRsq", "trend",
+              "tdsa", "tseriesTARMA")
 
 UvA_misc <- c("diffr", "fitlandr", "gcplyr", "GPUmatrix", "hadley/strict", 
               "hydroMOPSO", "knitr", "Morphoscape", "PRIMME", "rmarkdown", 
@@ -223,6 +231,7 @@ coding_package_management <- c(
   "needs",       # Attaches and Installs Packages
   "remotes",     # R Package Installation from Remote Repositories, Including
                  #   'GitHub'
+  "riskmetric",  # Risk Metrics to Evaluating R Packages
   "sessioninfo"  # R Session Information
 )
 
@@ -513,7 +522,8 @@ math_MSMB <- c(
   "Hiiragi2013",# Cell-to-cell expression variability followed by signal
                 #   reinforcement progressively segregates early mouse lineages
   "HistData",   #   Data Sets from the History of Statistics and Data Visualization
-  "HSMMSingleCell", # Single-cell RNA-Seq for differentiating human skeletal muscle myoblasts (HSMM)
+  "HSMMSingleCell", # Single-cell RNA-Seq for differentiating human skeletal
+                    # muscle myoblasts (HSMM)
   "IHW",        # Independent Hypothesis Weighting
   "kernlab",    # Kernel-Based Machine Learning Lab
   "labeling",   # Axis Labeling
@@ -649,8 +659,8 @@ ODE_handling <- c(
   "tpetzoldt/rodeoExt", # Extensions to the 'rodeo' Package (stoichiometry notation)
   "rootSolve",   # Nonlinear Root Finding, Equilibrium and Steady-State Analysis
                  #   of Ordinary Differential Equations
-  "RxODE",       # Facilities for Simulating from ODE-Based Models (developed for
-                 #   PKPD analyses; automatically translates to C)
+  "rxode2",      # Facilities for Simulating from ODE-Based Models (developed
+                 #   for PKPD analyses; automatically translates to C)
   "SimInf",      # A Framework for Data-Driven Stochastic Disease Spread Simulations
   "simlandr",    # Simulation-Based Landscape Construction for Dynamical Systems
   "sundialr"     # An Interface to 'SUNDIALS' Ordinary Differential Equation
