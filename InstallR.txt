@@ -24,9 +24,19 @@ e.g., change the shortcut 'Run current line or selection' from 'Ctrl+Enter' to
 'Ctrl+R'.
 
 The appearance of code can be changed at Tools > Global options > Appearance. I
-use RStudio theme 'Modern', Editor font: 'Lucida Console', Editor font size 10,
-with a dark Editor theme 'Tomorrow Night Bright' (default: 'textmate';
-alternative with a white background: Xcode).
+use RStudio theme 'Modern', Editor font: 'Consolas' (also fine: 'Lucida Console'),
+Editor font size 11, with a dark Editor theme 'Tomorrow Night Bright' (default:
+'textmate'; alternative with a white background: Xcode). When testing for fonts,
+https://fonts.google.com/ can be used to compare different fonts, and the string
+1lI|i/ 0ODo S5Z2B8 UUVVW uuvvw cldrnm __gqy417 can be used to check
+for unwanted similarities between different characters (with symbols
+num one, lower el, upper I, vert bar, lower I, slash [next group]
+num zero, upper o, upper d, lower o [next group]
+upper s, num 5, upper z, num two, upper B, num eight [next group]
+double upper U, double upper V, upper double-u [next group]
+double lower U, double lower V, lower double-u [next group]
+lower c + lower el, lower d, lower er + lower en, lower em [next group]
+double underscore, lower g, lower q, lower y, num four, num one, num 7
 
 
 
