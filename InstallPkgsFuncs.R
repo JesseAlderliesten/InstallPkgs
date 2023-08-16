@@ -3,12 +3,6 @@
 
 
 #### To do ####
-# - Check if install.packages() and the BioConductor equivalent by default use
-#   the nearest mirror. In that case, I can deprecate choose_mirror(). For
-#   documentation see ?Startup, help("install.packages"), help("getOption"),
-#   https://cran.r-project.org/web/packages/startup/readme/README.html,
-#   https://blog.djnavarro.net/posts/2022-01-10_setting-cran-repositories/,
-#   https://support.posit.co/hc/en-us/articles/360046703913-FAQ-for-RStudio-Public-Package-Manager
 # - Change the documentation on installing RTools. See the point on Rtools in
 #   the wishlist for additional info.
 #   'RTools ('the C++ Toolchain) has to be downloaded from
@@ -24,16 +18,15 @@
 
 
 #### Wishlist ####
-# - Write a utility function to check if 'output' folder exists, create one if
-#   not, write results to file, and print message on how to read data back in.
-#   This is now coded repeatedly.
+# - Write a utility function to check if an 'output' folder exists and to create
+#   one if it does not yet exist, write results to file, and print message on
+#   how to read data back in R. That is now coded repeatedly.
 # - Should I provide a function to install and / or check the status of RTools?
 #   But the benefit of providing a link is that I don't need to update the info!
 #   See devtools::find_rtools(debug = TRUE), cmdstanr::check_cmdstan_toolchain(),
 #   and documentation at https://cran.r-project.org/bin/windows/Rtools/,
 #   https://github.com/stan-dev/rstan/wiki/Configuring-C---Toolchain-for-Windows,
 #   https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#installing-rstan)
-
 
 
 #### Utility functions ####
@@ -60,8 +53,9 @@ select_libpath <- function() {
     # The location to install R packages is chosen based on existing library
     # paths. A path containing 'Program Files' (case-insensitive) is used, or,
     # if such path does not exist, the path where R is installed. If that also
-    # does not exist, the current working directory is used. Only first match is
-    # selected if multiple matches are present, to make downstream code work.
+    # does not exist, the current working directory is used. Only the first
+    # match is selected if multiple matches are present, to make downstream code
+    # work.
     Rstring <- paste0("R-", paste(R.Version()[c("major", "minor")],
                                   collapse = "."))
     
@@ -127,7 +121,7 @@ select_libpath <- function() {
 #   The location of Rtools utilities is put on the search path if it is not
 #     there yet.
 #   The BiocManager package is installed if it is not installed and functional
-# Note:
+# Notes:
 #   It is sufficient to run this only once after (re)installing R.
 prepare_install <- function() {
   if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE) == FALSE) {
@@ -199,55 +193,6 @@ prepare_install <- function() {
 }
 
 
-#### choose_mirrors ####
-# Choose CRAN and BioConductor mirrors based on selected countries.
-# Input:
-#   countries: Countries to select mirrors from, with most relevant first
-#   databases: databases to set mirrors for. "BioConductor", "CRAN", or both.
-# Return:
-#   invisible NULL
-# Side-effects:
-#   The CRAN and BioConductor mirrors are set
-# Note:
-#   The default mirror will be used if no mirror is available from any of the
-#     provided countries, with a warning. 
-choose_mirrors <- function(countries = c("Belgium", "Germany"),
-                           databases = c("BioConductor", "CRAN")) {
-  databases <- match.arg(databases, several.ok = TRUE)
-  stopifnot(all_characters(countries))
-  
-  for(database in databases) {
-    if(database == "BioConductor") {
-      BioC <- read.csv(paste0(R.home(), "/doc/BioC_mirrors.csv"))[, "Country"]
-      indices_matched <- which(BioC %in% countries)
-    }
-    
-    if(database == "CRAN") {
-      CRAN <- getCRANmirrors()[, "Country"]
-      indices_matched <- which(CRAN %in% countries)
-    }
-    
-    if(length(indices_matched) > 0) {
-      mirror_index <- indices_matched[1]
-    } else {
-      mirror_index <- 1
-      warning("No ", database, " mirror available for any of the provided",
-              " countries (", paste0(countries, collapse = ", "), ").\nDefault ",
-              database, " mirror will be used instead.", call. = FALSE)
-    }
-    
-    if(database == "BioConductor") {
-      chooseBioCmirror(ind = mirror_index, local.only = TRUE)
-    }
-    
-    if(database == "CRAN") {
-      chooseCRANmirror(ind = mirror_index, local.only = TRUE)
-    }
-  }
-  invisible(NULL)
-}
-
-
 #### check_duplicates ####
 # Check for duplicates within or across the various package lists.
 # Input:
@@ -261,7 +206,7 @@ choose_mirrors <- function(countries = c("Belgium", "Germany"),
 #     duplicates were found.
 # Return:
 #   A list containing the names of duplicated packages if any are found 
-#     (returned invisible), and NULL otherwise.
+#     (returned invisibly), and NULL otherwise.
 # Side-effects:
 #   Names of duplicate package are printed to the console if they are found,
 #     with a warning.
@@ -341,29 +286,28 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #   sort: a logical indicating if the names of non-functional packages should be
 #     sorted.
 #   quietly: a logical indicating if printing the reason why packages are not
-#     functioning should be suppressed, regarded to be FALSE if verbose is TRUE.
+#     functioning should be suppressed.
 #   verbose: a logical indicating if other warnings issued when packages are
-#     loaded should be printed. The argument 'quietly' is regarded to be FALSE
-#     if verbose is TRUE.
+#     loaded should be printed.
 # Return:
 #   a character vector containing the names of non-functional packages, sorted
-#     if argument sort is TRUE, returned invisible.
+#     if argument sort is TRUE, returned invisibly.
 # Side-effects:
 #   Packages are loaded, with the result that updating packages might fail if
 #     they are not unloaded first. A message is printed urging to restart R
 #     before continuing to prevent this.
 #   The names of non-functional packages are printed to the console, and, if
-#     save_file = TRUE, saved as a .txt-file inside the subfolder 'output'.
-# Note:
+#     save_file = TRUE, saved as a text-file inside the subfolder 'output'.
+# Notes:
 #   This function uses requireNamespace() instead of installed.packages(),
-#     because installed.packages() does not check if packages are functional,
-#     nor if all needed dependencies are installed and functional, and can be
-#     slow such that its help page states that requireNamespace() or require()
-#     should be used instead.
+#     because installed.packages() does not check if packages are functional
+#     nor if all needed dependencies are installed and functional. In addition,
+#     installed.packages() can be slow such that its help page states that
+#     requireNamespace() or require() should be used instead.
 # Wishlist:
-#   When testing if package is functioning correctly, differentiate between
+#   When testing if packages are functioning correctly, differentiate between
 #     missing and non-functioning packages.
-list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
+list_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
     pkgs <- unlist(pkgs, use.names = FALSE)
@@ -376,15 +320,15 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
   pkgs_input <- pkgs
   pkgs <- sub(".*/", "", pkgs) # Package name is the part after the last '/'
   
-  index_nonfunctional <- if(verbose == FALSE) {
-    suppressWarnings(suppressPackageStartupMessages(
+  if(verbose == FALSE) {
+    index_nonfunctional <- suppressWarnings(suppressPackageStartupMessages(
       which(!sapply(X = pkgs, FUN = requireNamespace, lib.loc = lib,
                     quietly = quietly, simplify = TRUE))
     ))
   } else {
-    suppressPackageStartupMessages(
+    index_nonfunctional <- suppressPackageStartupMessages(
       which(!sapply(X = pkgs, FUN = requireNamespace, lib.loc = lib,
-                    quietly = FALSE, simplify = TRUE))
+                    quietly = quietly, simplify = TRUE))
     )
   }
   
@@ -439,11 +383,11 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
 #   save_file: a logical indicating if the details of invalid packages (i.e.,
 #     packages that are outdated or too new) should be saved in a .csv-file,
 #     such that they can be obtained easily after restarting the R-session.
-#   print_output: a character vector indicating what information on nonvalid
+#   print_output: a character vector indicating what information on invalid
 #     packages should be printed to the console: their details, a character
 #     vector with their names, both of these, or none.
 # Return:
-#   A list (returned invisible) containing a character vector with the names of
+#   A list (returned invisibly) containing a character vector with the names of
 #     packages that are outdated or too new, and a matrix containing their
 #     details. Both entries in the list are NULL if all packages are valid.
 # Side-effects:
@@ -454,7 +398,7 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = FALSE, sort = TRUE,
 #     subfolder 'output' if the argument 'save_file' is TRUE.
 check_status <- function(checkBuilt = TRUE,
                          type = c("binary", "both", "source", "win.binary"),
-                         save_file = FALSE,
+                         save_file = TRUE,
                          print_output = c("both", "pkgs_details", "pkgs_names",
                                           "none")) {
   type <- match.arg(type, several.ok = FALSE)
@@ -471,14 +415,14 @@ check_status <- function(checkBuilt = TRUE,
   out_of_date_names <- NULL
   too_new_names <- NULL
   invalid_details <- NULL
-  # NOTE: valid() returns TRUE if all packages are valid, not an empty list
+  # valid() returns TRUE if all packages are valid, not an empty list
   if(length(valid_out) > 1) {
     if(length(valid_out$out_of_date) > 0) {
       out_of_date_names <- dimnames(valid_out$out_of_date)[[1]]
       cols_specs <- c("Package", "Installed", "ReposVer", "Built")
       invalid_details <- valid_out$out_of_date[, cols_specs, drop = FALSE]
       if(any(print_output %in% c("both", "pkgs_details"))) {
-        print("Some packages are out-of-date:")
+        message("Some packages are out-of-date:")
         print(invalid_details)
       }
     }
@@ -489,7 +433,7 @@ check_status <- function(checkBuilt = TRUE,
                                   ReposVer = NA, Built = NA)
       invalid_details <- rbind(invalid_details, too_new_specs)
       if(any(print_output %in% c("both", "pkgs_details"))) {
-        print("Some packages are too new:")
+        message("Some packages are too new:")
         print(valid_out$too_new[, c("Version"), drop = FALSE])
       }
     }
@@ -520,7 +464,7 @@ check_status <- function(checkBuilt = TRUE,
     }
     
     if(any(print_output %in% c("both", "pkgs_names"))) {
-      print("Package names of invalid packages:")
+      message("Package names of invalid packages:")
       dput(invalid_names)
     }
     warning("Restart R before continuing, to prevent problems when updating",
@@ -705,4 +649,5 @@ save_details <- function(PC_name = "desktop") {
   invisible(installed_pkgs)
 }
 
-message("The script containing the functions to install R-packages has been sourced.")
+
+message("Sourced script containing the functions to check and install R-packages.")
