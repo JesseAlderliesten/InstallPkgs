@@ -1,51 +1,56 @@
 #### Introduction ####
-File with installation instructions for R, RStudio, and RTools on Windows.
+This file gives instructions for the installing and configuring R, RStudio, and
+RTools on Windows. It also includes a check for fonts.
 
 
 
-#### R ####
-Download R from a nearby CRAN-mirror (https://cran.r-project.org/mirrors.html,
-see the section 'CRAN mirrors' in the file InstructionsPkgs.txt for some
-details) or from the main page (https://cran.r-project.org/) via 'Download R
-for Windows' > base > 'Download R-X.X.X for Windows' and install it.
+#### Installing R ####
+Select a nearby CRAN mirror website at https://cran.r-project.org/mirrors.html
+(see the section 'CRAN mirrors' in the file InstructionsPkgs.txt for some
+details) or use the main page (https://cran.r-project.org/) and download R via
+'Download R for Windows' > 'base' > 'Download R-X.X.X for Windows' and install
+it.
 
 
 
-#### RStudio ####
+#### Installing and configuring RStudio ####
 Download RStudio Desktop (https://posit.co/download/rstudio-desktop/) and
 install it.
 
-To make work portable and reproducible, go to Tools > Global Options
-> General and deselect the option 'Restore .RData into workspace at startup' to
-prevent using hidden user-made changes.
+To make work portable, start RStudio, go to 'Tools' > 'Global Options' >
+'General' and deselect the option 'Restore .RData into workspace at startup'.
 
-Optionally, modify keyboard shortcuts at Tools > Modify Keyboard Shortcuts,
-e.g., change the shortcut 'Run current line or selection' from 'Ctrl+Enter' to
-'Ctrl+R'.
+Keyboard shortcuts can be modified at 'Tools' > 'Modify Keyboard Shortcuts',
+e.g., to change the shortcut 'Run current line or selection' from 'Ctrl+Enter'
+to 'Ctrl+R'.
 
-The appearance of code can be changed at Tools > Global options > Appearance. I
-use RStudio theme 'Modern', Editor font: 'Consolas' (also fine: 'Lucida Console'),
-Editor font size 11, with a dark Editor theme 'Tomorrow Night Bright' (default:
-'textmate'; alternative with a white background: Xcode). When testing for fonts,
-https://fonts.google.com/ can be used to compare different fonts, and the string
-1lI|i/ 0ODo S5Z2B8 UUVVW uuvvw cldrnm __gqy417 can be used to check
-for unwanted similarities between different characters (with symbols
-num one, lower el, upper I, vert bar, lower I, slash [next group]
-num zero, upper o, upper d, lower o [next group]
-upper s, num 5, upper z, num two, upper B, num eight [next group]
-double upper U, double upper V, upper double-u [next group]
-double lower U, double lower V, lower double-u [next group]
-lower c + lower el, lower d, lower er + lower en, lower em [next group]
-double underscore, lower g, lower q, lower y, num four, num one, num 7
+The appearance of code can be changed at 'Tools' > 'Global options' >
+'Appearance'. I use Editor fonts 'Consolas', 'Cacadia Mono Light', or
+'Lucida Console' with dark Editor theme 'Tomorrow Night Bright' (the default
+light theme is 'textmate', another nice light theme is Xcode).
+
+Different fonts can be compared at https://fonts.google.com/, and similarities
+between different characters can be checked using the string
+1lI|i/ 0ODo S5Z2B8 UVVW uvvw cldrnm __gqy417
+consisting of the following numeric (num), lower case (lower), and upper case
+(upper) symbols:
+num 1, lower L, upper I, vertical bar, lower I, slash /
+num 0, upper O, upper D, lower O /
+upper S, num 5, upper Z, num 2, upper B, num 8 /
+upper U, upper V, upper V, upper double-U /
+lower U, lower V, lower V, lower double-U /
+lower C, lower L, lower D, lower R, lower N, lower M /
+double underscore, lower G, lower Q, lower Y, num 4, num 1, num 7
 
 
 
-#### Rtools ####
-Before installing and updating R packages, download Rtools from a CRAN website
-(see above) via 'Download R for Windows > Rtools' and set it up using the
-instructions given there. Rtools is needed to compile source packages, e.g.,
-when installing a package from GitHub that is distributed as a source file or
-when installing old package versions from CRAN, and to execute scripts that
+#### Installing and configuring Rtools ####
+Before installing and updating R packages, download the version of Rtools
+appropriate for the installed R-version from a CRAN website (see above) via
+'Download R for Windows' >' 'Rtools' and set it up using the instructions given
+there. Although Rtools is usually not required to install packages from CRAN, it
+is needed to install old package versions from CRAN, to install packages from
+GitHub that are distributed as source files, and to execute R-scripts that
 contain calls to scripts written in compiled code such as C or Fortran to speed
 up code execution.
 
@@ -55,5 +60,7 @@ up code execution.
 - CRAN main website: https://cran.r-project.org/
 - CRAN R FAQs: https://cran.r-project.org/faqs.html
 - CRAN R manuals: https://cran.r-project.org/manuals.html
-- The R homepage: https://www.r-project.org/
-- The RStudio User Guide: https://docs.posit.co/ide/user/
+- CRAN R News: https://cran.r-project.org/doc/manuals/r-release/NEWS.html
+- R homepage: https://www.r-project.org/
+- R developer page: https://developer.r-project.org/
+- RStudio user guide: https://docs.posit.co/ide/user/
