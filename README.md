@@ -23,5 +23,5 @@ Overview of the files:
   information about R packages. Includes sections about installing alternative
   package versions and task views, lists of CRAN mirrors and package
   repositories, and a selection of books and websites that discuss R packages.
-- InstructionsGitGithub.text: text file that provides information on setting up
+- InstructionsGitGithub.txt: text file that provides information on setting up
   and using Git and GitHub.
