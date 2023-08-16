@@ -1,11 +1,12 @@
 #### Introduction #####
-# This script calls functions to install R-packages and to obtain information
-# about them. It was created by Jesse Alderliesten, see
-# https://github.com/JesseAlderliesten
+# This script can be used to check if R-packages are installed, get information
+# about installed R-packages, and to install new R-packages. It was created by
+# Jesse Alderliesten, see https://github.com/JesseAlderliesten
 
-# It is assumed R has been installed and Rtools has been set up, see the file
-# 'InstallR.txt' for instructions.
-
+# It is assumed R has been installed, see the file 'InstallR.txt' for
+# instructions. It is also assumed the R-scripts "InstallPkgsFuncs.R" and
+# "InstallPkgsLists.R" are in the same folder as the current R-script.
+# See also the file 'InstructionsPkgs.txt' for details.
 
 
 #### To do ####
@@ -14,34 +15,30 @@
 #   during installation.
 
 
-
 #### Wishlist ####
-# - Various functions (e.g., choose_mirrors(), list_dependencies(), fail if no
-#   internet connection is present. How do other packages handle this?
+# - Various functions (e.g., list_dependencies()), fail if no internet
+#   connection is present. How do other packages handle this?
 # - 'list' is used both in the strict sense as 'an object of class (mode?) list'
 #   and in the loose sense as 'a character vector'. Distinguish between these
 #   two uses.
+# - 'pkgs' should be a character vector, not a list of character vectors, so it
+#   is needed to use 'new_pkgs <- unique(unlist(pkgs_lists))'. Let that be
+#   handled inside the functions if necessary.
 
 
 #### Required user input ####
-# Library path to directory where R-packages are or will be installed
-lib <- file.path("C:", "Program Files", "R",
-                 paste0("R-", paste(R.Version()[c("major", "minor")], collapse = ".")),
-                 "library")
-message("Library path has been set to ", lib)
-
-# Countries to select mirrors from, in order of decreasing priority
-mirror_countries <- c("Belgium", "Germany")
+# The directory where R-packages are or will be installed is taken from the
+# first element of .libPaths() that contains the string 'Program Files'. See
+# ?libPaths and ?Startup for details, and the function 'select_libpath()' for
+# alternative options.
+lib <- grep("Program Files", x = .libPaths(), value = TRUE, fixed = TRUE)[1]
+message(lib, " will be used as library path")
 
 
 #### Preparations to use this script ####
 # Load required functions and package lists
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
-
-# Select mirrors
-choose_mirrors(countries = mirror_countries,
-               databases = c("BioConductor", "CRAN"))
 
 # Perform various checks to ensure the rest of the script can run. It is
 # sufficient to run this only once after (re)installing R.
@@ -51,6 +48,10 @@ prepare_install()
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
                    used_pkgs_UU = used_pkgs_UU,
                    used_pkgs_UvA = used_pkgs_UvA)
+
+pkgs_lists_UvA <- list(used_pkgs_UvA, UvA_data, UvA_data_val, UvA_EnzKin, 
+                       UvA_ExpDesign, UvA_Fitting, UvA_misc, UvA_ODEs, UvA_plot, 
+                       UvA_simul, UvA_stat, UvA_task_views)
 
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs, 
                    coding_data_handling = coding_data_handling,
@@ -71,12 +72,11 @@ pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
                    ODE_epi_growth = ODE_epi_growth,
                    ODE_handling = ODE_handling,
                    ODE_PBPK = ODE_PBPK,
-                   taxonomy_phylogeny = taxonomy_phylogeny
-)
+                   taxonomy_phylogeny = taxonomy_phylogeny)
 
 
 #### Check if package lists contain duplicates #### 
-check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = TRUE)
+check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = FALSE)
 
 
 #### Check if all packages from the lists are installed and functional #### 
@@ -89,19 +89,32 @@ check_status(checkBuilt = TRUE, type = "both", save_file = TRUE,
              print_output = "both")
 
 
+#### Save details of installed packages to a CSV file ####
+save_details(PC_name = "desktop")
+
+
+#### List dependencies of specific packages ####
+list_dependencies(pkgs, deps_type = "strong", recursive = TRUE,
+                  name_per_pkg = FALSE, number_per_pkg = TRUE,
+                  name_total = TRUE, add_pkgs_to_total = FALSE,
+                  exclude_high_prio = FALSE, exclude_pkgs = NULL,
+                  sort_ndeps_by = "ndeps")
+
+
 #### Install new packages #### 
 # Notes:
-# - Run R as administrator to install or update packages!
-#   If the warning 'lib = ... is not writeable' was issued, you most likely
-#   forgot to run R as administrator. Please close R, right-click on the R or
-#   RStudio icon, select 'Run as administrator', open the 'InstallPkgs' R-project
-#   file, and try again.
+# - Run RStudio as administrator to install or update packages! If the warning
+#   'lib = ... is not writeable' was issued, you most likely forgot to run
+#   RStudio as administrator: close RStudio and open it with administrator
+#   rights by right-clicking on the RStudio icon and selecting 'Run as
+#   administrator'. Within RStudio, open the R-project file 'InstallPkgs.Rproj',
+#   and try installing again.
 # - 'pkgs' should be a character vector, not a list of character vectors.
 #   So you probably first want to run 'new_pkgs <- unique(unlist(pkgs_lists))'.
-# - The 'update' argument is set to FALSE to prevent inadvertently changing the
-#   version of already installed packages when installing new packages. However,
+# - Argument 'update' is set to FALSE to prevent inadvertently changing the
+#   version of already-installed packages when installing new packages. However,
 #   updating out-of-date packages might be preferable to prevent compatibility
-#   issues between already installed packages and newly installed packages.
+#   issues between already-installed packages and newly-installed packages.
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
 # - For an overview which Bioconductor release corresponds to which R version,
@@ -109,14 +122,3 @@ check_status(checkBuilt = TRUE, type = "both", save_file = TRUE,
 BiocManager::install(pkgs = new_pkgs, lib.loc = lib, lib = lib, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
                      checkBuilt = TRUE, force = FALSE, version = 3.16)
-
-
-#### List dependencies of specific packages ####
-list_dependencies(pkgs, deps_type = "strong", recursive = TRUE, name_per_pkg = FALSE,
-                  number_per_pkg = TRUE, name_total = TRUE,
-                  add_pkgs_to_total = FALSE, exclude_high_prio = FALSE,
-                  exclude_pkgs = NULL, sort_ndeps_by = "ndeps")
-
-
-#### Save details of installed packages to a .csv file ####
-save_details(PC_name = "desktop")
