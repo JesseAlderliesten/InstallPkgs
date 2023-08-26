@@ -3,14 +3,14 @@ This file provides information on setting up and using Git and GitHub on Windows
 
 
 #### Setting up Git and GitHub ####
-Create a GitHub account at https://github.com/, download a GitHub client
-(e.g., Git for Windows from https://gitforwindows.org/) and install it.
-To update the Git for Windows GitHub client if you already have it,
-type ‘git update-git-for-windows’ in the shell.
+Create a GitHub account at https://github.com/, download a GitHub client from
+https://git-scm.com/download or from https://gitforwindows.org/ and install it.
+To update the Git for Windows GitHub client if you already have it, type
+'git\update-git-for-windows' in the shell.
 
 To use Git and GitHub from RStudio: in RStudio at 'Tools > Global Options >
-Git/SVN', tick 'Enable version control interface for RStudio projects'.
-The Git executable is at C:/Program Files/Git/bin/git.exe.
+Git/SVN', tick 'Enable version control interface for RStudio projects'. The Git
+executable is at C:/Program Files/Git/bin/git.exe.
 
 Open the Git Bash shell (which was installed when installing Git for Windows)
 by typing ‘Git Bash’ + Enter in the Windows start menu.
@@ -23,57 +23,79 @@ git config --global user.email 'jane@example.com'
 git config --global --list
 The last line should return the username and email address you just entered.
 
+Also see https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+and https://happygitwithr.com/https-pat.html on the use of personal access
+tokens (PATs) instead of a username and password.
+
 
 #### Documentation ####
-RStudio and GitHub
-- The RStudio User Guide: https://docs.posit.co/ide/user/
-- The help page of RStudio about version control:
-  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
-- The help page of GitHub: https://docs.github.com/en
-- The help page of GitHub on setting up GitHub:
+- Git documentation: https://git-scm.com/doc
+- GitHub help page: https://docs.github.com/en
+- GitHub help page on setting up GitHub:
   https://docs.github.com/en/get-started/quickstart/set-up-git
-- Happy Git and GitHub for the useR (Jennifer Bryan): https://happygitwithr.com/index.html
-- Pro Git Book: https://git-scm.com/book/en/v2
+- Happy Git and GitHub for the useR, by Jennifer Bryan:
+  https://happygitwithr.com/index.html
+- RStudio help page about version control:
+  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
+- RStudio User Guide: https://docs.posit.co/ide/user/
+- Pro Git Book, by Scott Chacon and Ben Straub: https://git-scm.com/book/en/v2
 
 
 #### Using Git and GitHub ####
-To work with GitHub, you should NOT open the plain R script directly,
-but instead open the R Project file (i.e., with extension .Rproj).
-Then the Git menu will be visible.
+To work with GitHub in RStudio, you should NOT open the plain R script directly,
+but instead open the R Project file (i.e., with extension .Rproj). Then the Git
+menu will be visible.
 
-Pull to get the local directory (i.e., the files on your PC) up-to-date with
-the remote directory (i.e., the files on GitHub). In RStudio this can be done
-through the pull button in the Git menu. In the shell it can be done by:
-git pull https://github.com/UserName/RepositoryName
-where UserName/RepositoryName has to be replaced with the relevant names.
+Pull to get changes from the remote directory (i.e., GitHub) incorporated in the
+local directory (i.e., your computer), and handle any conflicts to get the local
+directory up-to-date with the remote directory:
+- in RStudio: use the pull button (downward arrow) in the Git menu
+- in the shell: git pull https://github.com/UserName/RepositoryName
+  (UserName/RepositoryName has to be replaced with the relevant names)
 
-Then after you have made some changes, you first have to save the modified file
-on your local PC, only then will the modified file appear in the Git menu of
-RStudio to commit changes.
-When you commit your changes, briefly describe the changes.
-To commit and push only a single file, point to that specific file when committing
-(in the shell: git commit 'type your message here' path/to/your/file.txt)
+Save the modified file after you have made some changes to it, only then will
+the name of the file appear in the Git menu of RStudio to review changes:
+- in RStudio: check the checkbox in front of the relevant filename, use the Diff
+  button in the Git menu to get an overview of the changes to the file, describe
+  the changes in the box 'Commit message', and use the Commit button. Pull again
+  (downward arrow) to make sure the local file is up-to-date, and handle any
+  conflicts. Then push (upward arrow) to incorporate the changes in the remote
+  directory.
+- in the shell: to compare the content of two files, see the instructions in
+  section 'Comparing files using the shell' below. Next, to commit changes, use:
+  git commit -m 'your commit message goes here' path/and/filename.R
+  git push https://github.com/UserName/RepositoryName
+  (UserName/RepositoryName has to be replaced with the relevant names)
 
-Pull, and handle possible conflicts.
-(in the shell: git pull https://github.com/UserName/RepositoryName
+If push does not work because of an invalid username/password, push again, then
+you will be asked for the token. After you have entered it once, RStudio will
+remember this token for next times.
 
-Push, to get the local changes incorporated into the remote version on GitHub
-(in the shell: git push https://github.com/UserName/RepositoryName)
 
-If push does not work because of an invalid username/password, push again,
-then you will be asked for the token. After you have entered it once,
-RStudio will remember this token for next times.
+#### Comparing files using the shell ####
+Open the Bash shell (...) and copy the file names (including the paths) of the
+two files to be compared into the shell on the same line, and press Enter:
+git diff path/and/filename_file1.R path/and/filename_file2.R
+
+Notes:
+- Paths that contain spaces have to be quoted (i.e., enclosed in '')
+- The two paths should be on the same line, i.e., not separated by a newline.
+- To compare files that are not under version control in Git, add the flag
+  --no-index after 'diff'.
+- Although the scroll bar in Git Bash indicates it is at the end of the file
+  (and scrolling with the mouse does not work), using the down arrow key allows
+  you to see the whole document.
 
 
 #### Adding a new file ####
 To add a file to GitHub which was not there yet, first 'add' it to the local
-folder (i.e., on the PC), then let git know it is there by typing (tip: use
-tab-completion to select files):
+folder (i.e., on the computer), then let git know it is there by typing (it is
+convenient to use tab-completion to select files):
 git add filename.extension
 
 If the working directory is NOT the folder where the to-be-added file is in,
-the working directory has to be set to that folder first, or the path has to be
-added in front of the filename.
+the working directory has to be set to that folder first (in the shell: use
+cd file/path/to/folder), or the path has to be added in front of the filename.
 
 
 #### Cloning a GitHub repository ####
@@ -87,17 +109,19 @@ location, and create the project.
 #### Common shell commands ####
 For an overview of some commands in the BASH shell, type ‘git config’ (without
 the quotes) or git help commit (replace 'commit' by the command you want help
-about) in the shell, and see https://happygitwithr.com/shell.html
+about) in the shell, and see https://git-scm.com/docs
 
 Show user details: git config --global --list
 Print working directory: pwd
-Change working directory: cd 'D:/Userdata/PCName/Documents/GIT/SomeFolder'
+Change working directory: cd 'D:/Userdata/computerName/Documents/GIT/SomeFolder'
 (note: put path in quotes if it contains a space)
 List files: ls
+.: current directory
+..: parent folder
 
 
 #### Note on paths ####
 When entering paths in the shell, use forwardslash (/) instead of the Windows-
 default backslash (\). If the path you want to specify contains spaces (e.g.,
-D:/Userdata/My Account/), use quotes around the path (“…”). Using tab-completion
-saves typing and prevents errors.
+D:/Userdata/My Account/), use quotes around the path ("..."). It is convenient
+to use tab-completion because it saves typing and prevents errors.
