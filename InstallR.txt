@@ -42,6 +42,11 @@ lower U, lower V, lower V, lower double-U /
 lower C, lower L, lower D, lower R, lower N, lower M /
 double underscore, lower G, lower Q, lower Y, num 4, num 1, num 7
 
+Further configuration of R is possible by tweaking options for startup, general
+options, and opitons for installing packages (documentated at help("startup"),
+help("options"), help("install.packages") and in the 'R Installation and
+Administration' manual at https://cran.r-project.org/manuals.html.
+
 
 
 #### Installing and configuring Rtools ####
