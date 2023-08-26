@@ -107,21 +107,23 @@ location, and create the project.
 
 
 #### Common shell commands ####
-For an overview of some commands in the BASH shell, type ‘git config’ (without
-the quotes) or git help commit (replace 'commit' by the command you want help
-about) in the shell, and see https://git-scm.com/docs
+For an overview of some shell commands see https://git-scm.com/docs,
+or use the the BASH shell and type any of the next two lines:
+git config
+git help command (replace 'command' by the command you want help about)
 
-Show user details: git config --global --list
-Print working directory: pwd
-Change working directory: cd 'D:/Userdata/computerName/Documents/GIT/SomeFolder'
-(note: put path in quotes if it contains a space)
-List files: ls
-.: current directory
-..: parent folder
+directory, change working directory: cd 'D:/Userdata/computerName/Documents/GIT/SomeFolder'
+directory, indicate current: .
+directory, indicate parent: ..
+directory, navigate to working directory: cd ~
+directory, print working directory: pwd
+files, list -: ls (use ls -a to also show hidden files)
+user details, show: git config --global --list
 
 
 #### Note on paths ####
 When entering paths in the shell, use forwardslash (/) instead of the Windows-
 default backslash (\). If the path you want to specify contains spaces (e.g.,
-D:/Userdata/My Account/), use quotes around the path ("..."). It is convenient
-to use tab-completion because it saves typing and prevents errors.
+D:/Userdata/My Account/), use quotes around the path ("..."). Tab-completion can
+be used when entering paths: single-tab to select an option, double-tab to see
+multiple options.
