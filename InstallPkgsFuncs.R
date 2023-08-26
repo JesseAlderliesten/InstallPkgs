@@ -132,8 +132,8 @@ prepare_install <- function() {
   } else {
     if(nchar(Sys.which("make")) == 0) {
       if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
-        # Put the location of Rtools utilities (bash, make, etc) on the search
-        # path if it is not there yet.
+        # Put the location of Rtools (the C++ Toolchain) utilities (bash, make,
+        # etc) on the search path if it is not there yet.
         write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
               append = TRUE)
       }
@@ -141,7 +141,8 @@ prepare_install <- function() {
            " if you have not yet installed Rtools.\nYou are using ", R.version.string,
            ".\nThen restart R and run this function 'prepare_install()' again.",
            "\nSee https://cran.r-project.org/bin/windows/Rtools/",
-           " for help on Rtools if this error keeps occuring.")
+           " for help on Rtools if this error keeps occuring, or install",
+           " package 'devtools' and use devtools::find_rtools(debug = TRUE)")
     }
   }
   
