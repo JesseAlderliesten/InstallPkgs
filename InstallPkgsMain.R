@@ -115,6 +115,8 @@ list_dependencies(pkgs, deps_type = "strong", recursive = TRUE,
 #   version of already-installed packages when installing new packages. However,
 #   updating out-of-date packages might be preferable to prevent compatibility
 #   issues between already-installed packages and newly-installed packages.
+#   To update packages in base-R (i.e., not using BioConductor), use 
+#   update.packages(instlib = lib, ask = FALSE, checkBuilt = TRUE).
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
 # - For an overview which Bioconductor release corresponds to which R version,
