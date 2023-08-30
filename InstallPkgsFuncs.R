@@ -20,7 +20,8 @@
 #### Wishlist ####
 # - Write a utility function to check if an 'output' folder exists and to create
 #   one if it does not yet exist, write results to file, and print message on
-#   how to read data back in R. That is now coded repeatedly.
+#   how to read data back in R. That is now coded repeatedly. See my function
+#   create_directory() in utils.R from the UvA.
 # - Should I provide a function to install and / or check the status of RTools?
 #   But the benefit of providing a link is that I don't need to update the info!
 #   See devtools::find_rtools(debug = TRUE), cmdstanr::check_cmdstan_toolchain(),
@@ -275,7 +276,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 }
 
 
-#### list_nonfunctional_pkgs ####
+#### find_nonfunctional_pkgs ####
 # Function to check for non-functional packages
 # Input:
 #   pkgs: a character vector, or list of character vectors, of package names to
@@ -298,7 +299,8 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     they are not unloaded first. A message is printed urging to restart R
 #     before continuing to prevent this.
 #   The names of non-functional packages are printed to the console, and, if
-#     save_file = TRUE, saved as a text-file inside the subfolder 'output'.
+#     save_file = TRUE, saved as a text-file inside the subfolder 'output' of
+#     the current working directory.
 # Notes:
 #   This function uses requireNamespace() instead of installed.packages(),
 #     because installed.packages() does not check if packages are functional
@@ -308,7 +310,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 # Wishlist:
 #   When testing if packages are functioning correctly, differentiate between
 #     missing and non-functioning packages.
-list_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
+find_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
     pkgs <- unlist(pkgs, use.names = FALSE)
@@ -349,11 +351,18 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
                           "_", paste0("R", as.character(getRversion())), ".txt")
       dir_path <- file.path(".", "output")
       if(!dir.exists(dir_path)){
-        dir.create(dir_path)
+        dir.create(dir_path, recursive = TRUE)
       }
-      read_back_path <- file.path(dir_path, file_name)
-      message_read_back <- paste0("\nTo read the package names back into R use",
-                                  "\nnonfunctional_pkgs <- dget(\"",
+      
+      # Normalise path such that the printed path also works to read the data
+      # back into R after the working has changed, for example because R is not
+      # opened through InstallPkgs.proj. Using "/" instead of "\\" as winslash
+      # so the printed path can be directly used in dget().
+      read_back_path <- normalizePath(file.path(dir_path, file_name),
+                                      winslash = "/",
+                                      mustWork = FALSE)
+      message_read_back <- paste0("\nTo read the package names back into R use:",
+                                  " nonfunctional_pkgs <- dget(\n\"",
                                   read_back_path, "\")")
       if(file.exists(read_back_path)) {
         warning("Textfile with names of non-functional packages already exists,",
@@ -361,8 +370,8 @@ list_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
         message(message_read_back)
       } else {
         dput(nonfunctional_pkgs, file = read_back_path)
-        message("Textfile with names of non-functional packages saved as ",
-                file_name, "\nin ", file.path(getwd(), "output"), message_read_back)
+        message("Saved textfile with names of non-functional packages.",
+                message_read_back)
       }
     }
   } else {
@@ -448,19 +457,20 @@ check_status <- function(checkBuilt = TRUE,
                           "_", paste0("R", as.character(getRversion())), ".csv")
       dir_path <- file.path(".", "output")
       if(!dir.exists(dir_path)){
-        dir.create(dir_path)
+        dir.create(dir_path, recursive = TRUE)
       }
-      read_back_path <- file.path(dir_path, file_name)
-      message_read_back <- paste0("\nTo read the information back into R use",
-                                  "\ninvalid_pkgs <- read.csv(\"",
+      read_back_path <- normalizePath(file.path(dir_path, file_name),
+                                      winslash = "/", mustWork = FALSE)
+      message_read_back <- paste0("\nTo read the information back into R use:",
+                                  " invalid_pkgs <- read.csv(\n\"",
                                   read_back_path, "\")")
       if(file.exists(read_back_path)) {
         warning("File with invalid packages already exists, not saved again!")
         message(message_read_back)
       } else {
         write.csv(invalid_details, file = read_back_path, row.names = FALSE)
-        message("A .csv file with details of invalid packages saved as ",
-                file_name, "\nat ", file.path(getwd(), "output"), message_read_back)
+        message("Saved .csv-file with details of invalid packages.",
+                message_read_back)
       }
     }
     
@@ -525,6 +535,8 @@ check_status <- function(checkBuilt = TRUE,
 #     packages that were not found in the database such that no information on
 #     dependencies could be obtained (returning NULL). Alternatively, use
 #     utils::packageDescription() or utils::installed.packages()?
+#   See also https://pak.r-lib.org/reference/pkg_deps_explain.html which gives
+#     details about which function creates the dependency.
 list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
                               name_per_pkg = FALSE, number_per_pkg = TRUE,
                               name_total = TRUE, add_pkgs_to_total = FALSE,
@@ -631,12 +643,13 @@ save_details <- function(PC_name = "desktop") {
                       "_", paste0("R", as.character(getRversion())), ".csv")
   dir_path <- file.path(".", "output")
   if(!dir.exists(dir_path)){
-    dir.create(dir_path)
+    dir.create(dir_path, recursive = TRUE)
   }
-  read_back_path <- file.path(dir_path, file_name)
-  message_read_back <- paste0("\nTo read the information back into R use",
-                              "\ninstalled_pkgs <- read.csv(\"", read_back_path,
-                              "\")")
+  read_back_path <- normalizePath(file.path(dir_path, file_name),
+                                  winslash = "/", mustWork = FALSE)
+  message_read_back <- paste0("\nTo read the information back into R use:",
+                              " installed_pkgs <- read.csv(\n\"",
+                              read_back_path, "\")")
   if(file.exists(read_back_path)) {
     warning("File with details of installed packages already exists,",
             " not saved again!")
@@ -644,8 +657,8 @@ save_details <- function(PC_name = "desktop") {
   } else {
     write.csv(installed_pkgs, file = file.path(dir_path, file_name),
               row.names = FALSE)
-    message("A .csv-file with details of installed packages saved as ",
-            file_name, "\nat ", file.path(getwd(), "output"), message_read_back)
+    message("Saved .csv-file with details of installed packages.",
+            message_read_back)
   }
   invisible(installed_pkgs)
 }
