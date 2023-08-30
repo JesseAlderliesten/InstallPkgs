@@ -18,12 +18,6 @@
 #### Wishlist ####
 # - Various functions (e.g., list_dependencies()), fail if no internet
 #   connection is present. How do other packages handle this?
-# - 'list' is used both in the strict sense as 'an object of class (mode?) list'
-#   and in the loose sense as 'a character vector'. Distinguish between these
-#   two uses.
-# - 'pkgs' should be a character vector, not a list of character vectors, so it
-#   is needed to use 'new_pkgs <- unique(unlist(pkgs_lists))'. Let that be
-#   handled inside the functions if necessary.
 
 
 #### Required user input ####
@@ -37,6 +31,7 @@ message(lib, " will be used as library path")
 
 #### Preparations to use this script ####
 # Load required functions and package lists
+
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
@@ -80,7 +75,10 @@ check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = FALSE)
 
 
 #### Check if all packages from the lists are installed and functional #### 
-list_nonfunctional_pkgs(pkgs = pkgs_lists, save_file = TRUE, sort = TRUE,
+# Note:
+# - Input for argument 'pkgs' can be a character vector or a list of character
+#   vectors.
+find_nonfunctional_pkgs(pkgs = pkgs_lists, save_file = TRUE, sort = TRUE,
                         quietly = FALSE, verbose = FALSE)
 
 
@@ -94,7 +92,10 @@ save_details(PC_name = "desktop")
 
 
 #### List dependencies of specific packages ####
-list_dependencies(pkgs, deps_type = "strong", recursive = TRUE,
+# Note:
+# - Input for argument 'pkgs' can be a character vector or a list of character
+#   vectors.
+list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
                   name_per_pkg = FALSE, number_per_pkg = TRUE,
                   name_total = TRUE, add_pkgs_to_total = FALSE,
                   exclude_high_prio = FALSE, exclude_pkgs = NULL,
@@ -109,8 +110,6 @@ list_dependencies(pkgs, deps_type = "strong", recursive = TRUE,
 #   rights by right-clicking on the RStudio icon and selecting 'Run as
 #   administrator'. Within RStudio, open the R-project file 'InstallPkgs.Rproj',
 #   and try installing again.
-# - 'pkgs' should be a character vector, not a list of character vectors.
-#   So you probably first want to run 'new_pkgs <- unique(unlist(pkgs_lists))'.
 # - Argument 'update' is set to FALSE to prevent inadvertently changing the
 #   version of already-installed packages when installing new packages. However,
 #   updating out-of-date packages might be preferable to prevent compatibility
@@ -121,6 +120,7 @@ list_dependencies(pkgs, deps_type = "strong", recursive = TRUE,
 #   argument force = TRUE.
 # - For an overview which Bioconductor release corresponds to which R version,
 #   see http://bioconductor.org/about/release-announcements/#release-versions
-BiocManager::install(pkgs = new_pkgs, lib.loc = lib, lib = lib, verbose = FALSE,
+BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
+                     lib.loc = lib, lib = lib, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
                      checkBuilt = TRUE, force = FALSE, version = 3.16)
