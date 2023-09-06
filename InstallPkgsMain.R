@@ -20,23 +20,17 @@
 #   connection is present. How do other packages handle this?
 
 
-#### Required user input ####
-# The directory where R-packages are or will be installed is taken from the
-# first element of .libPaths() that contains the string 'Program Files'. See
-# ?libPaths and ?Startup for details, and the function 'select_libpath()' for
-# alternative options.
-lib <- grep("Program Files", x = .libPaths(), value = TRUE, fixed = TRUE)[1]
-message(lib, " will be used as library path")
-
-
 #### Preparations to use this script ####
 # Load required functions and package lists
-
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
-# Perform various checks to ensure the rest of the script can run. It is
-# sufficient to run this only once after (re)installing R.
+# Get the path where R-packages are (or will be) installed from the first
+# non-empty element of .libPaths() (if present one that contains the current R
+# version number), see annotation of the function 'get_paths()' for details.
+lib_path <- get_paths(path = character(0), quietly = FALSE)$first_path
+
+# Perform various checks to ensure the rest of the script can run.
 prepare_install()
 
 # Package lists
@@ -78,12 +72,12 @@ check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = FALSE)
 # Note:
 # - Input for argument 'pkgs' can be a character vector or a list of character
 #   vectors.
-find_nonfunctional_pkgs(pkgs = pkgs_lists, save_file = TRUE, sort = TRUE,
-                        quietly = FALSE, verbose = FALSE)
+find_nonfunctional_pkgs(pkgs = pkgs_lists, lib = lib_path, save_file = TRUE,
+                        sort = TRUE, quietly = FALSE, verbose = FALSE)
 
 
 #### Check if all installed packages are up-to-date ####
-check_status(checkBuilt = TRUE, type = "both", save_file = TRUE,
+check_status(lib = lib_path, checkBuilt = TRUE, type = "both", save_file = TRUE,
              print_output = "both")
 
 
