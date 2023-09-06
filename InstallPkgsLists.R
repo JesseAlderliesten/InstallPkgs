@@ -1,4 +1,4 @@
-#### Introduction #####
+#### introduction #####
 # This script contains thematic collections of packages I use, find useful, or
 #   want to store for potential later use.
 # The set 'high_prio_pkgs' contains the high-priority packages, consisting of
@@ -36,9 +36,6 @@ used_pkgs_UU <- c(
   "dplyr",       # A Grammar of Data Manipulation
   "purrr",       # Functional Programming Tools
   "readr",       # Read Rectangular Text Data
-  "reshape",     # (RETIRED! Use tidyr) Flexibly Reshape Data
-  "reshape2",    # (RETIRED! Use tidyr) Flexibly Reshape Data: A Reboot of the
-                 #   Reshape Package
   "tidyr",       # Tidy Messy Data
   "tidyverse",   # Easily Install and Load the 'Tidyverse'
   
@@ -126,14 +123,14 @@ used_pkgs_UvA <- c(
   "TruncatedNormal" # Truncated Multivariate Normal and Student Distributions
 )
 
-#### Candidate pkgs UvA ####
+#### candidate pkgs UvA ####
 UvA_task_views <- c("ChemPhys", "DifferentialEquations", "ExperimentalDesign",
                     "MixedModels", "NumericalMathematics", "Optimization",
                     "Pharmacokinetics", "Psychometrics", "Robust", "TimeSeries")
 
 UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse", 
               "Matrix", "matrixcalc", "matrixStats", "matrixTests", "numDeriv", 
-              "poorman", "pracma", "purrr", "readr", "rje", "tidyr", "TruncatedNormal", 
+              "poorman", "pracma", "purrr", "rje", "tidyr", "TruncatedNormal", 
               "truncdist")
 
 UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS",
@@ -155,15 +152,15 @@ UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR",
                  "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts",
                  "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob",
                  "MSinference", 
-                 "NISTnls", "nleqslv", "nlme", "nloptr", "nlreg", "nlsMicrobio", 
-                 "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "performance", 
-                 "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "robustbase", 
-                 "Ryacas", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
+                 "NISTnls", "nleqslv", "nlme", "nloptr", "nlpsem", "nlreg", "nlsMicrobio", 
+                 "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "pCODE", "performance", 
+                 "NNS", "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "robustbase", 
+                 "Ryacas", "scaRabee", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
                  "yardstick", "yueqinhu/deFit")
 
 UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME", 
-              "mrgsolve", "ODEsensitivity", "rodeo", "rootSolve", "rxode2",
-              "sde")
+              "mrgsolve", "ODEsensitivity", "pCODE", "rodeo", "rootSolve", "rxode2",
+              "scaRabee", "sde")
 
 UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist", 
               "ggflowchart", "ggplate", "ggplot2", "ggpubr",
@@ -172,7 +169,7 @@ UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist",
 
 UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
                "capm", "clarify", "clinPK", "counterfactuals", "cpk", "ecolMod",
-               "epimdr", "EpiModel","growthrates", "jwb133/SimStudiesR", "miaSim",
+               "epimdr", "EpiModel","growthrates", "miaSim",
                "microeco", "microPop", "mpmsim", "NonCompart", "parSim", "pomp",
                "primer", "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
                "simFrame", "simglm", "simhelpers", "SimInf",
@@ -180,7 +177,7 @@ UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation",
                "simulator", "tidymodels")
 
 UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact",
-              "SamCH93/ciCalibrate", "coda", "confintr", "cxhull",
+              "ciCalibrate", "coda", "confintr", "cxhull",
               "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus",
               "funStatTest", "Hmisc", "ks", "MASS", "matlib", "MCMCglmm",
               "NCmisc", "nimble", "predictNMB", "predRupdate", "propagate",
@@ -189,10 +186,7 @@ UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact",
 
 UvA_misc <- c("diffr", "fitlandr", "gcplyr", "GPUmatrix", "hadley/strict", 
               "hydroMOPSO", "knitr", "Morphoscape", "PRIMME", "rmarkdown", 
-              "stxplore", "tinytest", "tolerance", "turtletopia/woodendesc", 
-              "xts")
-
-
+              "stxplore", "tinytest", "tolerance", "xts")
 
 #### coding_data_handling ####
 coding_data_handling <- c(
@@ -200,12 +194,9 @@ coding_data_handling <- c(
   "Biostrings",  # Efficient manipulation of biological strings
   "data.table",  # Extension of 'data.frame'
   "dplyr",       # A Grammar of Data Manipulation
-  "gdata",       # Various R Programming Tools for Data Manipulation
   "purrr",       # Functional Programming Tools
-  "readr",       # Read Rectangular Text Data
   "rlang",       # Functions for Base Types and Core R and 'Tidyverse' Features
   "runner",      # Running Operations for Vectors
-  "sloop",       # Helpers for 'OOP' in R
   "tidyr",       # Tidy Messy Data
   "tidytable",   # Tidy Interface to 'data.table'
   "tidyverse"    # Easily Install and Load the 'Tidyverse'
@@ -216,8 +207,7 @@ coding_documentation <- c(
   "bookdown",    # Authoring Books and Technical Documents with R Markdown
   "knitr",       # A General-Purpose Package for Dynamic Report Generation in R
   "rmarkdown",   # Dynamic Documents for R
-  "roxygen2",    # In-Line Documentation for R
-  "shiny"        # Web Application Framework for R
+  "roxygen2"     # In-Line Documentation for R
 )
 
 #### coding_package_management ####
@@ -228,22 +218,15 @@ coding_package_management <- c(
   "devtools",    # Tools to Make Developing R Packages Easier
   "installr",    # Using R to Install Stuff on Windows OS (Such As: R, 'Rtools',
                  #   'RStudio', 'Git', and More!)
-  "needs",       # Attaches and Installs Packages
   "remotes",     # R Package Installation from Remote Repositories, Including
                  #   'GitHub'
   "riskmetric",  # Risk Metrics to Evaluating R Packages
-  "sessioninfo"  # R Session Information
+  "sessioninfo", # R Session Information
+  "startup"      # Friendly R Startup Configuration
 )
 
 #### coding_performance ####
 coding_performance <- c(
-  ## Data inspection
-  "lobstr",      # Visualize R Data Structures with Trees
-  
-  ## Defensive programming
-  "assertthat",  # Easy Pre and Post Assertions
-  "testthat",    # Unit Testing for R
-  
   ## Code timing
   "bench",       # High Precision Timing of R Expressions
   "microbenchmark", # Accurate Timing Functions
@@ -258,7 +241,11 @@ coding_performance <- c(
   "parallel",    # Support for parallel computation, including by forking and by
                  #   sockets, and random-number generation (note: part of base R)
   "Rcpp",        # Seamless R and C++ Integration
-  "RcppParallel" # Parallel Programming Tools for 'Rcpp'
+  "RcppParallel",# Parallel Programming Tools for 'Rcpp'
+  
+  ## Miscellaneous
+  "lobstr",      # Visualize R Data Structures with Trees
+  "testthat"     # Unit Testing for R
 )
 
 #### graphics_palettes ####
@@ -284,6 +271,7 @@ graphics_pkgs <- c(
   "GGally",      # Extension to 'ggplot2'
   "ggalt",       # Extra Coordinate Systems, 'Geoms', Statistical Transformations,
                  #   Scales and Fonts for 'ggplot2'
+  "ggblend",     # Blending and Compositing Algebra for 'ggplot2'
   "ggforce",     # Accelerating 'ggplot2'
   "gghighlight", # Highlight Lines and Points in 'ggplot2'
   "ggmuller",    # Creates Muller plots for visualizing evolutionary dynamics
@@ -707,4 +695,21 @@ taxonomy_phylogeny <- c(
   "TreeDist"     # Calculate and Map Distances Between Phylogenetic Trees
 )
 
-message("The script containing the lists of R-packages has been sourced.")
+#### instructional ####
+instructional <- c(
+  "sloop"       # Helpers for 'OOP' in R
+)
+
+#### excluded ####
+excluded <- c(
+  "gdata",    # [not useful] Various R Programming Tools for Data Manipulation
+  "readr",    # [base r works fine] Read Rectangular Text Data
+  "reshape",  # [retired, use tidyr] Flexibly Reshape Data
+  "reshape2", # [retired, use tidyr] Flexibly Reshape Data
+  "shiny",    # [not needed] Web Application Framework for R
+  "xlsx"      # [requires Java. Save data as CSV files and use read.csv()]
+              # Read, Write, Format Excel 2007 and Excel 97/2000/XP/2003 Files
+)
+
+
+message("Sourced script containing the lists of R-packages.")
