@@ -1,20 +1,6 @@
 #### Introduction #####
-# Functions to install R-packages and obtain information about installed packages.
-
-
-#### To do ####
-# - Change the documentation on installing RTools. See the point on Rtools in
-#   the wishlist for additional info.
-#   'RTools ('the C++ Toolchain) has to be downloaded from
-#   https://cran.r-project.org/bin/windows/Rtools/ and has to be installed.
-#   In addition, RTools has to be configured by putting the location of Rtools
-#   utilities (bash, make, etc) on the search path if it is not there yet.
-#   devtools::find_rtools(debug = TRUE) checks if this is done, and gives
-#   instructions how to perform it if it is not yet done.
-#   For R versions 4.0.0 to 4.1.3, putting Rtools on the search path can be
-#   achieved by running the following line:
-#   write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
-#   append = TRUE)'
+# Functions to install R-packages and obtain information about installed
+# packages. Also includes some functions to check the installation of R.
 
 
 #### Wishlist ####
@@ -22,155 +8,190 @@
 #   one if it does not yet exist, write results to file, and print message on
 #   how to read data back in R. That is now coded repeatedly. See my function
 #   create_directory() in utils.R from the UvA.
-# - Should I provide a function to install and / or check the status of RTools?
-#   But the benefit of providing a link is that I don't need to update the info!
-#   See devtools::find_rtools(debug = TRUE), cmdstanr::check_cmdstan_toolchain(),
-#   and documentation at https://cran.r-project.org/bin/windows/Rtools/,
-#   https://github.com/stan-dev/rstan/wiki/Configuring-C---Toolchain-for-Windows,
-#   https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#installing-rstan)
 
 
 #### Utility functions ####
 # Utility functions to write more succinct code in stopifnot()
-
 is_logical <- function(x) {
   is.logical(x) && length(x) == 1L
 }
 
-# Includes test of nchar(x) > 0 to return FALSE in case of ""
-all_characters <- function(x) {
-  is.character(x) && length(x) > 0 && all(nchar(x) > 0)
+all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
+                           allow_NA_char = FALSE) {
+  # is.character(x) is TRUE for NA_character_, but FALSE for NULL, NA and NaN.
+  is.character(x) &&
+    (allow_zero_char == TRUE || length(x) > 0) &&
+    (allow_empty_char == TRUE || !any(x == "", na.rm = TRUE)) &&
+    (allow_NA_char == TRUE || !anyNA(x))
 }
 
 
-#### select_libpath ####
-# To do:
-#   Check select_libpath() and implement it into prepare_install().
-# Wishlist:
-#   Let selection of library path depend on currently used R-version
-select_libpath <- function() {
-  warning("This function has not yet been checked.")
-  if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE)) {
-    # The location to install R packages is chosen based on existing library
-    # paths. A path containing 'Program Files' (case-insensitive) is used, or,
-    # if such path does not exist, the path where R is installed. If that also
-    # does not exist, the current working directory is used. Only the first
-    # match is selected if multiple matches are present, to make downstream code
-    # work.
-    Rstring <- paste0("R-", paste(R.Version()[c("major", "minor")],
-                                  collapse = "."))
-    
-    indices_path_current_R <- grep(tolower(Rstring), tolower(.libPaths()),
-                                   fixed = TRUE)
-    indices_path_program_files <- grep("program files", tolower(.libPaths()),
-                                       fixed = TRUE)
-    same_indices <- indices_path_current_R %in% indices_path_program_files
-    if(any(same_indices)) {
-      # Use the first path that contains both the current R version and "program
-      # files"
-      use_path <- .libPaths()[indices_path_current_R[same_indices[1]]]
-    } else {
-      # Use first path that contains 'program files'
-      if(length(indices_path_program_files) > 0) {
-        use_path <- .libPaths()[indices_path_program_files]
-      } else {
-        warning("Packages will be installed at ", lib, ".\nThis library path",
-                " does not point to 'Program Files' because no such library",
-                " path was found.\nIf the library path points to a network",
-                " drive, installation of R packages and cmdstan might fail.")
-      }
-    }
-    
-    message("R packages will be installed at ", lib)
-    
-    index_first_OK_path <- index_path_program_files[1]
-    if(length(index_first_OK_path) > 0) {
-      lib <- .libPaths()[index_first_OK_path]
-      
-    } else {
-      index_first_OK_path <- grep("/R/", .libPaths(), fixed = TRUE,
-                                  ignore.case = FALSE)[1]
-      if(length(index_first_OK_path) > 0) {
-        
-      } else {
-        lib <- getwd()
-        warning("Packages will be installed in the current working directory:\n",
-                lib, ".\nThis library path does not point to 'Program Files'",
-                " or a parent folder of an R installation\nbecause no such",
-                " library paths were found.\nTherefor installation of R packages",
-                " might fail.")
-      }
-    }
+#### get_paths ####
+# Get paths to install packages.
+# Input:
+# - path: character(0) (default) or a character vector indicating paths. The
+#   first supplied path will be selected.
+# - quietly: logical of length 1 (default FALSE) indicating if messages should
+#   be suppressed.
+# Notes:
+# - It is not checked if a path supplied in argument 'path' is a valid file path.
+# - A warning is issued if the working directory is returned as element
+#   'first_path', because it implies that no path was provided in argument
+#   'path' and no paths are present in '.libPath'.
+# Return:
+# - A list of length five, all containing characters (possibly character(0)):
+#   'first_path' with the first non-empty path, 'argument_paths' with the value
+#   of argument 'path', 'Rversion_paths' with the paths from .libPath that
+#   contain the current R version number, 'other_paths' with the paths from
+#   .libPath that do not contain the current R version number, and 'wd_path'
+#   with the working directory. Elements for which no path is found are set to
+#   character(0).
+get_paths <- function(path = character(0), quietly = FALSE) {
+  stopifnot(all_characters(path, allow_zero_char = TRUE), is_logical(quietly))
+  
+  paths_libPath <- .libPaths()
+  bool_paths_Rversion <- grepl(pattern = paste0("R-", as.character(getRversion())),
+                               x = paths_libPath, fixed = TRUE)
+  
+  # Using a list because elements other than 'wd_path' can have lengths larger
+  # than one. The selection of paths returns character(0) if no path is present,
+  # because 'paths_libPath' is character.
+  paths_possible <- list(argument_paths = path,
+                         Rversion_paths = paths_libPath[bool_paths_Rversion],
+                         other_paths = paths_libPath[!bool_paths_Rversion],
+                         wd_path = getwd())
+  
+  # With these settings all_characters() only returns 'TRUE' for non-empty,
+  # non-NA_character_ character strings containing more than one character. The
+  # first character string from the first such element in paths_possible is
+  # element 'first_path' of the returned list.
+  path_first <- paths_possible[which(unlist(
+    lapply(X = paths_possible, FUN = all_characters, allow_empty_char = FALSE,
+           allow_zero_char = FALSE, allow_NA_char = FALSE),
+    use.names = FALSE) == TRUE)[1]]
+  path_first_name <- names(path_first)
+  path_first <- unlist(path_first, use.names = FALSE)
+  
+  if(path_first_name == "wd_path") {
+    warning("Returning the working directory ('", path_first,
+            "')\nas first path because no path was supplied in argument 'path'",
+            " and no path was\nfound in '.libPaths'. Installation of R",
+            " packages might fail if the path points\nto a network drive.")
   } else {
-    warning("This script was written using Windows, but you appear to be using",
-            " another operating system.\nTherefore this script may fail. Check",
-            " the installation instructions at https://cran.r-project.org/.")
+    if(!quietly) {
+      message("Returning '", path_first, "' as first path.")
+    }
   }
+  
+  c(list(first_path = path_first), paths_possible)
+}
+
+
+#### check_OS_is_Windows ####
+# Check if the operating system is windows.
+# Input:
+# - on_error: character string containing 'warn', 'message' or 'quiet' that
+#   determines how the message if the operating system is not Windows is
+#   displayed.
+# Return:
+# - A logical value indicating if the operating system is Windows, returned
+#   invisibly.
+# Programming notes:
+# - Using 'Sys.info()' which reports information the platform R is running on,
+#   instead of 'R.version()' which reports information R was built on.
+check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
+  on_error <- match.arg(on_error, several.ok = FALSE)
+  system_name <- Sys.info()["sysname"]
+  
+  # Need tolower() because 'ignore_case' does not work if 'fixed' is TRUE.
+  if(grepl("windows", tolower(system_name), fixed = TRUE)) {
+    OS_is_Windows <- TRUE
+  } else {
+    OS_is_Windows <- FALSE
+    text <- paste0("This script might fail because it is meant to be used on",
+                   " Windows, whereas you\nare using '", system_name,
+                   "' instead. See the platform-specific installation",
+                   " instructions\nat https://cran.r-project.org/ and the",
+                   " 'R installation and administration manual'\nat",
+                   " https://cran.r-project.org/doc/manuals/r-release/R-admin.html",
+                   " for help.")
+    switch(on_error, warn = warning(text), message = message(text))
+  }
+  invisible(OS_is_Windows)
 }
 
 
 #### prepare_install ####
-# Perform various checks to ensure the rest of the script can run: (1) if Rtools
-#   utilities have been put on the search path, (2) if the library path 'lib' is
-#   specified and matches the currently used version of R, and (3) if the
-#   BiocManager package is installed and functional.
+# Perform checks to ensure the rest of the script can run. Checks (1) if Rtools
+# utilities have been put on the search path (an error occurs with a message
+# proposing steps to fix it if they are not yet on the path); (2) if the path
+# 'lib' is specified
+# (otherwise error occurs) and matches the used version of R (otherwise a
+# warning is issued); and (3) if the BiocManager package is installed and
+# functional.
 # Input:
-#   None
+# - None.
 # Return:
-#   invisible NULL
+# - invisible NULL
 # Side-effects:
-#   The location of Rtools utilities is put on the search path if it is not
-#     there yet.
-#   The BiocManager package is installed if it is not installed and functional
-# Notes:
-#   It is sufficient to run this only once after (re)installing R.
+# - For R versions 4.0.0 - 4.1.3, the location of Rtools utilities is put on the
+#   search path if it is not there yet.
+# - The BiocManager package is installed if it is not installed and functional.
 prepare_install <- function() {
-  if(grepl("windows", tolower(Sys.info()["sysname"]), fixed = TRUE) == FALSE) {
-    warning("This script might fail because it is meant to be used on Windows,",
-            " whereas you appear to be using ", Sys.info()["sysname"], 
-            ".\nPlatform-specific installation instructions are available at",
-            " https://cran.r-project.org/index.html.")
-  } else {
+  if(check_OS_is_Windows(on_error = "warn") == TRUE) {
     if(nchar(Sys.which("make")) == 0) {
+      # Put the location of Rtools (the C++ Toolchain) utilities (e.g., bash,
+      # make) on the search path if it is not there yet for R versions 4.0.0 to
+      # 4.1.3.
       if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
-        # Put the location of Rtools (the C++ Toolchain) utilities (bash, make,
-        # etc) on the search path if it is not there yet.
         write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
               append = TRUE)
       }
-      stop("Download Rtools from https://cran.r-project.org/bin/windows/Rtools/",
-           " if you have not yet installed Rtools.\nYou are using ", R.version.string,
-           ".\nThen restart R and run this function 'prepare_install()' again.",
-           "\nSee https://cran.r-project.org/bin/windows/Rtools/",
-           " for help on Rtools if this error keeps occuring, or install",
-           " package 'devtools' and use devtools::find_rtools(debug = TRUE)")
+      stop("Utilities for RTools (the toolchain bundle used for building R",
+           " packages\nthat need compilation of C/C++ or Fortran code from",
+           " source) were not yet on the\nsearch path. If you have not yet",
+           " done so, download the version of Rtools that\ncorresponds to the",
+           " R version you are using (", R.version.string,
+           ") from\nhttps://cran.r-project.org/bin/windows/Rtools/ and install",
+           " it. If you are using\nan R version earlier than R 4.2.0, you have",
+           " to restart R afterwards and run this\nfunction 'prepare_install()'",
+           " again to put the location of Rtools utilities\n(bash, make, etc)",
+           " on the search path. For instructions see the link given above,",
+           "\nor install package 'pkgbuild' and run",
+           " pkgbuild::check_build_tools(debug = TRUE)\nto check if Rtools is",
+           " set up correctly and get instructions how to fix it if\nnot.")
     }
   }
   
-  # Check if the user-supplied library path 'lib' is specified, points to an R
-  # library path, and matches the currently used version of R.
-  rversion <- paste0("R-", as.character(getRversion()))
-  msg_lib <- paste0("Specify global variable 'lib' containing a character",
-                    " string giving the\nlibrary path where packages are or",
-                    " should be installed by running the following line:\n",
-                    "lib <- file.path(\"C:\", \"Program Files\", \"R\",",
-                    " paste0(\"R-\", paste(R.Version()[c(\"major\", \"minor\")],",
-                    " collapse = \".\")), \"library\")")
+  # Check if the user-supplied path 'lib' is specified, contains an R version
+  # number, and if that number matches the used version of R. The command to
+  # obtain all paths in the last line of the message contains unique(unlist(...))
+  # to remove 'first_path' is duplicated and potential other duplicates.
+  msg_lib <- paste0(" global variable 'lib' containing a character string with",
+                    " the path\nwhere packages are (or should be) installed",
+                    " by running the following line:",
+                    "\nlib <- get_paths()$first_path\nAlternatively, run the",
+                    " following line to use all paths returned by get_paths():",
+                    "\nlib <- unique(unlist(get_paths(quietly = TRUE),",
+                    " use.names = FALSE))")
   if(!exists("lib")) {
-    stop(msg_lib)
-  } else {
-    rversionpath <- regmatches(lib,
-                               regexpr("R-[[:digit:]].[[:digit:]].[[:digit:]]",
-                                       lib, ignore.case = TRUE, fixed = FALSE))
-    if(length(rversionpath) == 0) {
-      stop(msg_lib)
-    } else {
-      if(rversion != rversionpath) {
-        stop("The R-version in the specified library path (", lib, ")\ndoes",
-             " not correspond to the currently used R-version (", rversion,
-             ")!\n", msg_lib)
-      }
-    }
+    stop(paste0("Specify", msg_lib))
+  }
+  
+  rversionpath <- regmatches(unlist(lib, use.names = FALSE),
+                             regexpr("R-[[:digit:]].[[:digit:]].[[:digit:]]",
+                                     lib, ignore.case = TRUE, fixed = FALSE))
+  rversion <- paste0("R-", as.character(getRversion()))
+  if(length(rversionpath) == 0) {
+    warning("None of the specified path(s) (", paste0(lib, collapse = ",\n"),
+            ")\ncontains an R version number. You might want to\nspecify",
+            msg_lib)
+  }
+  if(!any(rversionpath == rversion)) {
+    warning("The version number in none of the specified paths\n(",
+            paste0(lib, collapse = ",\n"), ")\ncorresponds to the version of R",
+            " you are using (", rversion, ")!\nYou might want to\nspecify",
+            msg_lib)
   }
   
   # (re)install the BiocManager package from CRAN if it is not installed or not
@@ -181,12 +202,12 @@ prepare_install <- function() {
     if(requireNamespace("BiocManager", quietly = TRUE)) {
       stop("Installed BiocManager package. Restart R session before proceeding.")
     } else {
-      stop("Installation of the BiocManager package failed.",
-           "\nIf the warning 'lib = \"", lib, "\" is not writeable' was issued,",
-           "\nyou most likely forgot to run R as administrator.\nPlease close",
-           " R, right-click on the R or RStudio icon, select 'Run as",
-           " administrator',\nopen the 'InstallPkgs' R-project file, and try",
-           " again.", call. = FALSE)
+      stop("Installation of the BiocManager package failed.\nIf a warning like",
+           " 'lib = \"", lib[[1]], "\" is not writeable'\nwas issued, you most",
+           " likely forgot to run R as administrator.\nClose R and\nrestart R",
+           " as administrator (e.g., right-click on the R or RStudio icon,",
+           " select\n'Run as administrator', open the 'InstallPkgs' R-project",
+           "file, and try again.")
     }
   }
   
@@ -282,6 +303,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #   pkgs: a character vector, or list of character vectors, of package names to
 #     be checked. Names of packages from GitHub can be in the format
 #     username/repository or only the repository name.
+#   lib: character vector giving the paths where packages are installed.
 #   save_file: a logical indicating if the names of non-functional packages
 #     should be saved as a .txt-file, such that they can be obtained easily
 #     after restarting the R-session.
@@ -300,7 +322,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     before continuing to prevent this.
 #   The names of non-functional packages are printed to the console, and, if
 #     save_file = TRUE, saved as a text-file inside the subfolder 'output' of
-#     the current working directory.
+#     the working directory.
 # Notes:
 #   This function uses requireNamespace() instead of installed.packages(),
 #     because installed.packages() does not check if packages are functional
@@ -310,14 +332,14 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 # Wishlist:
 #   When testing if packages are functioning correctly, differentiate between
 #     missing and non-functioning packages.
-find_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
+find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
     pkgs <- unlist(pkgs, use.names = FALSE)
   }
   
-  stopifnot(all_characters(pkgs), is_logical(save_file), is_logical(sort),
-            is_logical(quietly), is_logical(verbose))
+  stopifnot(all_characters(pkgs), all_characters(lib), is_logical(save_file),
+            is_logical(sort), is_logical(quietly), is_logical(verbose))
   
   pkgs <- unique(pkgs)
   pkgs_input <- pkgs
@@ -386,6 +408,7 @@ find_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
 #### check_status ####
 # Function to check the status of installed packages
 # Input:
+#   lib: character vector giving the paths where packages are installed.
 #   checkBuilt: a logical of length one. If TRUE, a package built under an
 #     earlier major.minor version of R (e.g., 3.4) is considered to be old.
 #   type: a character vector indicating the type of available package (e.g.,
@@ -406,7 +429,7 @@ find_nonfunctional_pkgs <- function(pkgs, save_file = TRUE, sort = TRUE,
 #     before continuing to prevent this.
 #   The details of invalid packages are saved as a .csv file inside the
 #     subfolder 'output' if the argument 'save_file' is TRUE.
-check_status <- function(checkBuilt = TRUE,
+check_status <- function(lib, checkBuilt = TRUE,
                          type = c("binary", "both", "source", "win.binary"),
                          save_file = TRUE,
                          print_output = c("both", "pkgs_details", "pkgs_names",
@@ -421,7 +444,8 @@ check_status <- function(checkBuilt = TRUE,
             "'print_output' will be used.")
   }
   
-  valid_out <- BiocManager::valid(checkBuilt = checkBuilt, type = type)
+  valid_out <- BiocManager::valid(lib.loc = lib, checkBuilt = checkBuilt,
+                                  type = type)
   out_of_date_names <- NULL
   too_new_names <- NULL
   invalid_details <- NULL
@@ -558,7 +582,7 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
             is.null(exclude_pkgs) || all_characters(exclude_pkgs))
   
   pkgs <- sub(".*/", "", pkgs) # Package name is the part after the last '/'
-
+  
   if(sort_ndeps_by == "names") {
     pkgs <- sort(pkgs)
   }
