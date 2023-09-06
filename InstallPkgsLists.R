@@ -12,6 +12,7 @@
 #   in my scripts.
 # The remaining sets are thematic collections of packages
 
+
 #### high_prio_pkgs ####
 # Note:
 #   the 'translations' package is not a recommended package, but will be
@@ -22,6 +23,7 @@ high_prio_pkgs <- c("base", "boot", "class", "cluster", "codetools", "compiler",
                     "mgcv", "nlme", "nnet", "parallel", "rpart", "spatial",
                     "splines", "stats", "stats4", "survival", "tcltk", "tools",
                     "utils")
+
 
 #### used_pkgs_UU ####
 used_pkgs_UU <- c(
@@ -90,11 +92,13 @@ used_pkgs_UU <- c(
   "rmarkdown"    # Dynamic Documents for R
 )
 
+
 # pkgs_lists <- list(used_pkgs_UvA = used_pkgs_UvA, UvA_data = UvA_data,
 #                    UvA_EnzKin = UvA_EnzKin, UvA_ExpDesign = UvA_ExpDesign,
 #                    UvA_Fitting = UvA_Fitting, UvA_ODEs = UvA_ODEs,
 #                    UvA_plot = UvA_plot, UvA_simul = UvA_simul,
 #                    UvA_stat = UvA_stat, UvA_misc = UvA_misc)
+
 
 #### used_pkgs_UvA ####
 used_pkgs_UvA <- c(
@@ -122,6 +126,7 @@ used_pkgs_UvA <- c(
   "tidyr",       # Tidy Messy Data
   "TruncatedNormal" # Truncated Multivariate Normal and Student Distributions
 )
+
 
 #### candidate pkgs UvA ####
 UvA_task_views <- c("ChemPhys", "DifferentialEquations", "ExperimentalDesign",
@@ -188,6 +193,7 @@ UvA_misc <- c("diffr", "fitlandr", "gcplyr", "GPUmatrix", "hadley/strict",
               "hydroMOPSO", "knitr", "Morphoscape", "PRIMME", "rmarkdown", 
               "stxplore", "tinytest", "tolerance", "xts")
 
+
 #### coding_data_handling ####
 coding_data_handling <- c(
   "abind",       # Combine Multidimensional Arrays
@@ -202,6 +208,7 @@ coding_data_handling <- c(
   "tidyverse"    # Easily Install and Load the 'Tidyverse'
 )
 
+
 #### coding_documentation ####
 coding_documentation <- c(
   "bookdown",    # Authoring Books and Technical Documents with R Markdown
@@ -209,6 +216,7 @@ coding_documentation <- c(
   "rmarkdown",   # Dynamic Documents for R
   "roxygen2"     # In-Line Documentation for R
 )
+
 
 #### coding_package_management ####
 coding_package_management <- c(
@@ -224,6 +232,7 @@ coding_package_management <- c(
   "sessioninfo", # R Session Information
   "startup"      # Friendly R Startup Configuration
 )
+
 
 #### coding_performance ####
 coding_performance <- c(
@@ -248,6 +257,7 @@ coding_performance <- c(
   "testthat"     # Unit Testing for R
 )
 
+
 #### graphics_palettes ####
 graphics_palettes <- c(
   "khroma",      # Colour Schemes for Scientific Data Visualization
@@ -256,12 +266,14 @@ graphics_palettes <- c(
   "viridis"      # Colorblind-Friendly Color Maps for R
 )
 
+
 #### graphics_combine_plots ####
 graphics_combine_plots <- c(
   "cowplot",     # Streamlined Plot Theme and Plot Annotations for 'ggplot2'
   "gclus",       # Clustering Graphics
   "patchwork"    # The Composer of Plots
 )
+
 
 #### graphics_pkgs ####
 graphics_pkgs <- c(   
@@ -291,6 +303,7 @@ graphics_pkgs <- c(
   "xtable"       # Export Tables to LaTeX or HTML
 )
 
+
 #### math_distr_random ####
 math_distr_random <- c(
   "distributional", # Vectorised Probability Distributions
@@ -305,6 +318,7 @@ math_distr_random <- c(
   "TruncatedNormal",# Truncated Multivariate Normal and Student Distributions
   "truncdist"    # Truncated Random Variables
 )
+
 
 #### math_multidimensional_networks ####
 math_multidimensional_networks <- c(
@@ -328,6 +342,7 @@ math_multidimensional_networks <- c(
   "rrcov"        # Scalable Robust Estimators with High Breakdown Point
                  #   (principal component analysis, among others)
 )
+
 
 #### math_num_optim ####
 math_num_optim <- c(
@@ -355,6 +370,7 @@ math_num_optim <- c(
                  #   Analysis
 )
 
+
 #### math_stats_sets ####
 math_stats_sets <- c(
   "bbmle",       # Tools for General Maximum Likelihood Estimation
@@ -380,6 +396,7 @@ math_stats_sets <- c(
   "statpsych"    # Statistical Methods for Psychologists
 )
 
+
 #### math_stats_MCMC_bayes ####
 math_stats_MCMC_bayes <- c(
   "abc",         # Tools for Approximate Bayesian Computation (ABC)
@@ -401,6 +418,7 @@ math_stats_MCMC_bayes <- c(
   "tidybayes",   # Tidy Data and 'Geoms' for Bayesian Models
   "vizdraws"     # Visualize Draws from the Prior and Posterior Distribution
 )
+
 
 #### math_stats_regression ####
 math_stats_regression <- c(
@@ -424,6 +442,7 @@ math_stats_regression <- c(
   "standardize", # Tools for Standardizing Variables for Regression in R
   "visreg"       # Visualization of Regression Models
 )
+
 
 #### math_stats ####
 math_stats <- c(
@@ -461,6 +480,7 @@ math_stats <- c(
   "workboots"    # Generate Bootstrap Prediction Intervals from a 'tidymodels'
                  # Workflow
 )
+
 
 #### math_MSMB ####
 math_MSMB <- c(
@@ -554,6 +574,7 @@ math_MSMB <- c(
   "xtable"      # Export Tables to LaTeX or HTML
 )
 
+
 #### microbio_eco ####
 microbio_eco <- c(
   # See also the sets 'graphics_multidimensional_networks' and
@@ -592,6 +613,7 @@ microbio_eco <- c(
   "vegan3d"      # Static and Dynamic 3D Plots for the 'vegan' Package
 )
 
+
 #### ODE_epi_growth ####
 ODE_epi_growth <- c(
   "biogrowth",   # Modelling of Population Growth
@@ -612,6 +634,7 @@ ODE_epi_growth <- c(
   "streambugs"   # Parametric Ordinary Differential Equations Model of Growth,
                  #   Death, and Respiration of Macroinvertebrate and Algae Taxa
 )
+
 
 #### ODE_handling ####
 ODE_handling <- c(
@@ -655,6 +678,7 @@ ODE_handling <- c(
                  #   (ODE) Solvers (not using deSolve)
 )
 
+
 #### ODE_PBPK ####
 ODE_PBPK <- c(
   "ecotox",      # Analysis of Ecotoxicology
@@ -665,6 +689,7 @@ ODE_PBPK <- c(
   "wnl"          # Minimization Tool for Pharmacokinetic-Pharmacodynamic Data
                  #   Analysis  
 )
+
 
 #### taxonomy_phylogeny ####
 taxonomy_phylogeny <- c(
@@ -695,10 +720,12 @@ taxonomy_phylogeny <- c(
   "TreeDist"     # Calculate and Map Distances Between Phylogenetic Trees
 )
 
+
 #### instructional ####
 instructional <- c(
   "sloop"       # Helpers for 'OOP' in R
 )
+
 
 #### excluded ####
 excluded <- c(
