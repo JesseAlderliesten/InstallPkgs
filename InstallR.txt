@@ -42,22 +42,25 @@ lower U, lower V, lower V, lower double-U /
 lower C, lower L, lower D, lower R, lower N, lower M /
 double underscore, lower G, lower Q, lower Y, num 4, num 1, num 7
 
-Further configuration of R is possible by tweaking options for startup, general
-options, and opitons for installing packages (documentated at help("startup"),
-help("options"), help("install.packages") and in the 'R Installation and
-Administration' manual at https://cran.r-project.org/manuals.html.
+Further configuration of R is possible by changing options for startup, general
+options, and options for installing packages, documentated at help("Startup"),
+help("options"), and help("install.packages"), respectively, and discussed in
+the 'R Installation and Administration manual' available at
+https://cran.r-project.org/manuals.html.
 
 
 
 #### Installing and configuring Rtools ####
+Rtools (the toolchain bundle used for building R packages from source) is needed
+to install old package versions from CRAN, to install packages from GitHub that
+are distributed as source files, and to execute R-scripts that contain calls to
+scripts written in compiled code such as C or Fortran to speed up code
+execution.
+
 Before installing and updating R packages, download the version of Rtools
-appropriate for the installed R-version from a CRAN website (see above) via
-'Download R for Windows' >' 'Rtools' and set it up using the instructions given
-there. Although Rtools is usually not required to install packages from CRAN, it
-is needed to install old package versions from CRAN, to install packages from
-GitHub that are distributed as source files, and to execute R-scripts that
-contain calls to scripts written in compiled code such as C or Fortran to speed
-up code execution.
+appropriate for the installed R-version from a CRAN website (see section
+'Installing R' above) via 'Download R for Windows' >' 'Rtools' and set it up
+using the instructions given there.
 
 
 
