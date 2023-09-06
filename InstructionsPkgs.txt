@@ -9,6 +9,9 @@ https://thomasadventure.blog/posts/install-r-packages/
 
 
 #### Installing alternative versions of a package ####
+To get the version number of an installed package, use
+utils::packageVersion("pkgname") (note the package name has to be quoted).
+
 Installing an old version of a package usually requires installation of RTools
 to build the packages from source, see the section 'Rtools' in the file
 'InstallR.txt'.
@@ -149,7 +152,7 @@ Miscellaneous:
   script, by package.
 - To see which packages are used in a script, look for: library, require,
   requireNamespace, ::. To see which packages are mentioned in comments, look
-  for: package, CRAN, BioConductor, StackOverflow.
+  for: BioConductor, CRAN, package, StackOverflow.
 
 
 
