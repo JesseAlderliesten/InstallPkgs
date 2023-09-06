@@ -27,16 +27,15 @@ all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
 
 
 #### get_paths ####
-# Get paths to install packages.
+# Get paths where packages are (or should be) installed.
 # Input:
-# - path: character(0) (default) or a character vector indicating paths. The
-#   first supplied path will be selected.
+# - path: character(0) (default) or a character vector indicating paths.
 # - quietly: logical of length 1 (default FALSE) indicating if messages should
 #   be suppressed.
 # Notes:
-# - It is not checked if a path supplied in argument 'path' is a valid file path.
+# - It is NOT checked if paths supplied in argument 'path' are valid file paths.
 # - A warning is issued if the working directory is returned as element
-#   'first_path', because it implies that no path was provided in argument
+#   'first_path', because that implies that no path was provided in argument
 #   'path' and no paths are present in '.libPath'.
 # Return:
 # - A list of length five, all containing characters (possibly character(0)):
@@ -46,6 +45,11 @@ all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
 #   .libPath that do not contain the current R version number, and 'wd_path'
 #   with the working directory. Elements for which no path is found are set to
 #   character(0).
+# Programming notes:
+# - To implement a check if paths supplied in argument 'path' are valid file
+#   paths, see normalizePath(), path.expand(), checkmate::testPathForOutput(),
+#   fs::path_sanitize(), https://en.wikipedia.org/wiki/Filename#In_Windows,
+#   and https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats.
 get_paths <- function(path = character(0), quietly = FALSE) {
   stopifnot(all_characters(path, allow_zero_char = TRUE), is_logical(quietly))
   
@@ -63,14 +67,14 @@ get_paths <- function(path = character(0), quietly = FALSE) {
   
   # With these settings all_characters() only returns 'TRUE' for non-empty,
   # non-NA_character_ character strings containing more than one character. The
-  # first character string from the first such element in paths_possible is
-  # element 'first_path' of the returned list.
-  path_first <- paths_possible[which(unlist(
-    lapply(X = paths_possible, FUN = all_characters, allow_empty_char = FALSE,
-           allow_zero_char = FALSE, allow_NA_char = FALSE),
-    use.names = FALSE) == TRUE)[1]]
-  path_first_name <- names(path_first)
-  path_first <- unlist(path_first, use.names = FALSE)
+  # first such element in paths_possible is selected, and the first element of
+  # that string is included as element 'first_path' in the returned list.
+  path_first_OK <- which(vapply(X = paths_possible, FUN = all_characters,
+                                FUN.VALUE = logical(1), allow_empty_char = FALSE,
+                                allow_zero_char = FALSE, allow_NA_char = FALSE,
+                                USE.NAMES = FALSE))[1]
+  path_first_name <- names(paths_possible[path_first_OK])
+  path_first <- paths_possible[path_first_OK][[1]][1]
   
   if(path_first_name == "wd_path") {
     warning("Returning the working directory ('", path_first,
@@ -79,10 +83,10 @@ get_paths <- function(path = character(0), quietly = FALSE) {
             " packages might fail if the path points\nto a network drive.")
   } else {
     if(!quietly) {
-      message("Returning '", path_first, "' as first path.")
+      message("Path '", path_first,
+              "' is element 'first_path' of the returned list.")
     }
   }
-  
   c(list(first_path = path_first), paths_possible)
 }
 
@@ -115,7 +119,11 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
                    " 'R installation and administration manual'\nat",
                    " https://cran.r-project.org/doc/manuals/r-release/R-admin.html",
                    " for help.")
-    switch(on_error, warn = warning(text), message = message(text))
+    switch(on_error,
+           warn = warning(text),
+           message = message(text),
+           quiet = NULL, 
+           stop("'intdistr' should be 'normal' or 'uniform'."))
   }
   invisible(OS_is_Windows)
 }
@@ -163,24 +171,24 @@ prepare_install <- function() {
     }
   }
   
-  # Check if the user-supplied path 'lib' is specified, contains an R version
-  # number, and if that number matches the used version of R. The command to
-  # obtain all paths in the last line of the message contains unique(unlist(...))
-  # to remove 'first_path' is duplicated and potential other duplicates.
-  msg_lib <- paste0(" global variable 'lib' containing a character string with",
-                    " the path\nwhere packages are (or should be) installed",
-                    " by running the following line:",
-                    "\nlib <- get_paths()$first_path\nAlternatively, run the",
-                    " following line to use all paths returned by get_paths():",
-                    "\nlib <- unique(unlist(get_paths(quietly = TRUE),",
-                    " use.names = FALSE))")
-  if(!exists("lib")) {
+  # Check if the variable 'lib_path' is specified, if any of its strings contain
+  # an R version number, and if that number matches the used version of R. The
+  # command to obtain all paths in the last line of the message contains
+  # unique(unlist(...)) to remove potential duplicated entries.
+  msg_lib <- paste0(" global variable 'lib_path' containing character strings",
+                    " with the paths\nwhere packages are (or should be)",
+                    " installed by running the following line:",
+                    "\nlib_path <- get_paths()$first_path\nAlternatively, run",
+                    " the following line to use all paths returned by",
+                    " get_paths():\nlib_path <- unique(unlist(get_paths(quietly",
+                    " = TRUE), use.names = FALSE))")
+  if(!exists("lib_path")) {
     stop(paste0("Specify", msg_lib))
   }
-  
-  rversionpath <- regmatches(unlist(lib, use.names = FALSE),
+  lib_path <- unlist(lib_path, use.names = FALSE)
+  rversionpath <- regmatches(lib_path,
                              regexpr("R-[[:digit:]].[[:digit:]].[[:digit:]]",
-                                     lib, ignore.case = TRUE, fixed = FALSE))
+                                     lib_path, ignore.case = TRUE, fixed = FALSE))
   rversion <- paste0("R-", as.character(getRversion()))
   if(length(rversionpath) == 0) {
     warning("None of the specified path(s) (", paste0(lib, collapse = ",\n"),
@@ -189,23 +197,23 @@ prepare_install <- function() {
   }
   if(!any(rversionpath == rversion)) {
     warning("The version number in none of the specified paths\n(",
-            paste0(lib, collapse = ",\n"), ")\ncorresponds to the version of R",
-            " you are using (", rversion, ")!\nYou might want to\nspecify",
+            paste0(lib_path, collapse = ",\n"), ")\ncorresponds to the version",
+            " of R you are using (", rversion, ")!\nYou might want to\nspecify",
             msg_lib)
   }
   
   # (re)install the BiocManager package from CRAN if it is not installed or not
   # functional
-  if(!requireNamespace("BiocManager", lib.loc = lib, quietly = TRUE)) {
+  if(!requireNamespace("BiocManager", lib.loc = lib_path, quietly = TRUE)) {
     message("Installing BiocManager package")
-    install.packages("BiocManager", lib = lib, type = "binary")
+    install.packages("BiocManager", lib = lib_path, type = "binary")
     if(requireNamespace("BiocManager", quietly = TRUE)) {
       stop("Installed BiocManager package. Restart R session before proceeding.")
     } else {
       stop("Installation of the BiocManager package failed.\nIf a warning like",
-           " 'lib = \"", lib[[1]], "\" is not writeable'\nwas issued, you most",
-           " likely forgot to run R as administrator.\nClose R and\nrestart R",
-           " as administrator (e.g., right-click on the R or RStudio icon,",
+           " 'lib = \"", lib[[1]][1], "\" is not writeable'\nwas issued, you",
+           " most likely forgot to run R as administrator.\nClose R and\nrestart",
+           " R as administrator (e.g., right-click on the R or RStudio icon,",
            " select\n'Run as administrator', open the 'InstallPkgs' R-project",
            "file, and try again.")
     }
