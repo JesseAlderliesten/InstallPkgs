@@ -115,6 +115,6 @@ list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
 # - For an overview which Bioconductor release corresponds to which R version,
 #   see http://bioconductor.org/about/release-announcements/#release-versions
 BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
-                     lib.loc = lib, lib = lib, verbose = FALSE,
+                     lib.loc = lib_path, lib = lib_path, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
                      checkBuilt = TRUE, force = FALSE, version = 3.16)
