@@ -78,13 +78,14 @@ Output files can be compared using tools::Rdiff().
 R-scripts can be compared using the Bash shell: open the Bash shell and copy the
 file names (including the paths) of the two files to be compared into the shell
 on the same line, and press Enter:
-git diff path/and/filename_file1.R path/and/filename_file2.R
+git diff --no-index 'path/and/filename_file1.R' 'path/and/filename_file2.R'
 
 Notes:
-- Paths that contain spaces have to be quoted (i.e., enclosed in '')
 - The two paths should be on the same line, i.e., not separated by a newline.
-- To compare files that are not under version control in Git, add the flag
-  --no-index after 'diff'.
+- Using quotes ('') around the paths ensures this also works when they contain
+  spaces.
+- The flag --no-index makes it possible to compare files that are not under
+  version control in Git.
 - Although the scroll bar in Git Bash indicates it is at the end of the file
   (and scrolling with the mouse does not work), using the down arrow key allows
   you to see the whole document.
@@ -99,6 +100,14 @@ git add filename.extension
 If the working directory is NOT the folder where the to-be-added file is in,
 the working directory has to be set to that folder first (in the shell: use
 cd file/path/to/folder), or the path has to be added in front of the filename.
+
+
+#### Deleting a file ####
+You might want to move files to a folder 'Archive' instead of deleting them.
+To delete a file, find the file on the remote repository (i.e., on the GitHub
+website), click the three dots > delete > commit. Use the commit message to
+describe why the file was deleted. After that, find the file on the local
+repository (i.e., the PC) and delete the file. Then pull.
 
 
 #### Downloading or cloning a GitHub repository ####
