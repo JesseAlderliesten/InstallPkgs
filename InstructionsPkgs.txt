@@ -91,8 +91,9 @@ adding the brackets that would be added when using a function). For internal
 functions three instead of two colons should be used, and one should realise
 that internal functions are not guaranteed to stay the same. Of course the
 sources given above in the section 'Information about not-yet-installed R
-packages' can also be used to obtain information. For the source code in
-particular https://github.com/wch/r-source options
+packages' can also be used to obtain information on already-installed R
+packages, in particular the source code at https://github.com/wch/r-source
+will be useful.
 
 After a package has been loaded (i.e., library(packagename) has been run),
 various kinds of information on the package and its functions is available from
