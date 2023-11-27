@@ -2,10 +2,8 @@
 File with information on installing and getting information about R packages.
 
 
-
 #### See also ####
 https://thomasadventure.blog/posts/install-r-packages/
-
 
 
 #### Installing alternative versions of a package ####
@@ -35,12 +33,10 @@ and an overview of changes in CRAN packages is available at CRANBERRIES:
 https://dirk.eddelbuettel.com/cranberries/.
 
 
-
 #### Installing task views ####
 To install or update all core packages from a CRAN taskview
 (https://cran.r-project.org/web/views/) install the package 'ctv' and run
 install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
-
 
 
 #### Package repositories ####
@@ -58,7 +54,7 @@ thematic selections of packages as well:
   (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
 - rOpenSci: https://ropensci.org/packages/all/
   (thematic: https://ropensci.org/packages/)
-
+- R universe: https://r-universe.dev/search/
 
 
 #### CRAN mirrors ####
@@ -67,7 +63,6 @@ the same content as the main CRAN website) is available at
 https://cran.r-project.org/mirrors.html, and information about their status is
 available at https://cran.r-project.org/mirmon_report.html and in the function
 getCRANmirrors() from the R-package 'utils'. 
-
 
 
 #### Information about not-yet-installed R packages ####
@@ -80,7 +75,6 @@ The following websites are useful to obtain information on R packages:
 - METACRAN: https://www.r-pkg.org/ to search in CRAN packages
 - R universe: https://r-universe.dev/search/
 - R source code: https://github.com/wch/r-source
-
 
 
 #### Information about already-installed R packages ####
@@ -102,11 +96,16 @@ within R:
   ls("package:packagename", all.names = TRUE),
   ls(getNamespace("packagename"))
 - Display main help page: help(packagename)
+- List methods that have been defined for a generic function:
+  methods(generic.function)
+- List methods that have been defined for a generic class:
+  methods(class = classname) # For S3
+  attr(methods(class = "classname"), "info") # For S3
+  showMethods(classes = "classname", where = getNamespace("packagename")) # For S4
 - Display function help pages: help(functionname)
   An operator (e.g., ||) has to be quoted to get its help page: help('||')
 - Display function arguments: args(functionname)
 - Display installed package version: utils::packageVersion("packagename")
-
 
 
 #### Discussion of packages ####
@@ -154,7 +153,6 @@ Miscellaneous:
 - To see which packages are used in a script, look for: library, require,
   requireNamespace, ::. To see which packages are mentioned in comments, look
   for: BioConductor, CRAN, package, StackOverflow.
-
 
 
 #### Documentation and help ####
