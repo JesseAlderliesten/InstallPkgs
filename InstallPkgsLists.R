@@ -6,6 +6,7 @@
 #   'recommended' packages which are usually installed with R as well
 #   (https://cran.r-project.org/doc/FAQ/R-FAQ.html#R-Add_002dOn-Packages;
 #   https://cran.r-project.org/doc/FAQ/R-FAQ.html#Add_002don-packages-from-CRAN).
+#   (in R-devel 4.3.2+ these can be displayed by tools::standard_package_names)
 #   To see which high-priority packages are currently installed, run
 #   dput(unname(installed.packages(priority = "high")[, "Package"]))
 # The sets 'used_pkgs_UU' and 'used_pkgs_UvA' contain packages I explicitly load
