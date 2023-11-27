@@ -3,10 +3,11 @@
 # about installed R-packages, and to install new R-packages. It was created by
 # Jesse Alderliesten, see https://github.com/JesseAlderliesten
 
-# It is assumed R has been installed, see the file 'InstallR.txt' for
-# instructions. It is also assumed the R-scripts "InstallPkgsFuncs.R" and
-# "InstallPkgsLists.R" are in the same folder as the current R-script.
-# See also the file 'InstructionsPkgs.txt' for details.
+# It is assumed R has been installed (see the file 'InstallR.txt' for
+# instructions) and that that the scripts "InstallPkgsFuncs.R" and
+# "InstallPkgsLists.R" are in the same folder as the current R-script. Some
+# annotations presume RStudio is used as integrated development environment.
+# Further details are available in the file 'InstructionsPkgs.txt'.
 
 
 #### To do ####
@@ -99,10 +100,10 @@ list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
 #### Install new packages #### 
 # Notes:
 # - Run RStudio as administrator to install or update packages! If the warning
-#   'lib = ... is not writeable' was issued, you most likely forgot to run
-#   RStudio as administrator: close RStudio and open it with administrator
-#   rights by right-clicking on the RStudio icon and selecting 'Run as
-#   administrator'. Within RStudio, open the R-project file 'InstallPkgs.Rproj',
+#   'lib = ... is not writeable' was issued, you most likely forgot to run R (or
+#   RStudio) as administrator. Close R (RStudio) and restart it with
+#   administrator rights (e.g., right-click on the R or RStudio icon and select
+#   'Run as administrator'). Then open the R-project file 'InstallPkgs.Rproj',
 #   and try installing again.
 # - Argument 'update' is set to FALSE to prevent inadvertently changing the
 #   version of already-installed packages when installing new packages. However,
