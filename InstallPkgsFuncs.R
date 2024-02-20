@@ -132,11 +132,10 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
 #### prepare_install ####
 # Perform checks to ensure the rest of the script can run. Checks (1) if Rtools
 # utilities have been put on the search path (an error occurs with a message
-# proposing steps to fix it if they are not yet on the path); (2) if the path
-# 'lib' is specified
-# (otherwise error occurs) and matches the used version of R (otherwise a
-# warning is issued); and (3) if the BiocManager package is installed and
-# functional.
+# proposing steps to fix it if they are not yet on the path); (2) if the global
+# variable 'lib_path' is specified (otherwise error occurs) and that it matches
+# the used version of R (otherwise a warning is issued); and (3) if the
+# BiocManager package is installed and functional.
 # Input:
 # - None.
 # Return:
@@ -191,7 +190,7 @@ prepare_install <- function() {
                                      lib_path, ignore.case = TRUE, fixed = FALSE))
   rversion <- paste0("R-", as.character(getRversion()))
   if(length(rversionpath) == 0) {
-    warning("None of the specified path(s) (", paste0(lib, collapse = ",\n"),
+    warning("None of the specified path(s) (", paste0(lib_path, collapse = ",\n"),
             ")\ncontains an R version number. You might want to\nspecify",
             msg_lib)
   }
@@ -205,14 +204,17 @@ prepare_install <- function() {
   # (re)install the BiocManager package from CRAN if it is not installed or not
   # functional
   if(!requireNamespace("BiocManager", lib.loc = lib_path, quietly = TRUE)) {
-    message("Installing BiocManager package")
-    install.packages("BiocManager", lib = lib_path, type = "binary")
-    if(requireNamespace("BiocManager", quietly = TRUE)) {
-      stop("Installed BiocManager package. Restart R session before proceeding.")
+    message("Trying to install package 'BiocManager' in ", lib_path)
+    install.packages("BiocManager", lib.loc = lib_path, lib = lib_path,
+                     type = "binary")
+    if(requireNamespace("BiocManager", lib.loc = lib_path, quietly = TRUE)) {
+      stop("If no error message is printed below, the BiocManager package",
+           "  was\nsuccesfully installed. Restart R session before proceeding.")
     } else {
       stop("Installation of the BiocManager package failed.\nIf a warning like",
-           " 'lib = \"", lib[[1]][1], "\" is not writeable'\nwas issued, you",
-           " most likely forgot to run R as administrator.\nClose R and\nrestart",
+           " 'lib = \"", lib_path[[1]][1], "\" is not writeable'\nwas issued, you",
+           " most likely forgot to run R as administrator, or used a wrong path",
+           "(the warnings printed below might point to that).\nClose R and\nrestart",
            " R as administrator (e.g., right-click on the R or RStudio icon,",
            " select\n'Run as administrator', open the 'InstallPkgs' R-project",
            "file, and try again.")
