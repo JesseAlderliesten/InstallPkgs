@@ -11,9 +11,17 @@
 
 
 #### To do ####
-# - Add remark about questions 'update packages' and 'Do you want to install
-#   from sources the package which needs compilation'? that will probably arise
-#   during installation.
+# - Add remark about question 'update packages' that will probably arise during
+#   installation.
+# - Add remark about question 'Do you want to install from sources the package
+#   which needs compilation'? that will probably arise during installation.
+#   > You should choose 'no' if you have not installed RTools, because RTools is
+#   required to build packages from source. If you have installed RTools, you
+#   could choose 'yes' to get a later version than the binary file.
+# - Add remark about warning 'package 'x' was built under R version 'y'':
+#   If this occurs you have installed a binary package (i.e., installed a
+#   package not from source) that was compiled for a different version of R than
+#   the version you are using.
 
 
 #### Wishlist ####
@@ -115,6 +123,7 @@ list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
 #   argument force = TRUE.
 # - For an overview which Bioconductor release corresponds to which R version,
 #   see http://bioconductor.org/about/release-announcements/#release-versions
+# - See help(install.packages) for additional information.
 BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
                      lib.loc = lib_path, lib = lib_path, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
