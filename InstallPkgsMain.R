@@ -1,7 +1,7 @@
 #### Introduction #####
 # This script can be used to check if R-packages are installed, get information
 # about installed R-packages, and to install new R-packages. It was created by
-# Jesse Alderliesten, see https://github.com/JesseAlderliesten
+# Jesse Alderliesten, see https://github.com/JesseAlderliesten.
 
 # It is assumed R has been installed (see the file 'InstallR.txt' for
 # instructions) and that that the scripts "InstallPkgsFuncs.R" and
@@ -42,7 +42,7 @@ lib_path <- get_paths(path = character(0), quietly = FALSE)$first_path
 # Perform various checks to ensure the rest of the script can run.
 prepare_install()
 
-# Package lists
+# Define package lists
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
                    used_pkgs_UU = used_pkgs_UU,
                    used_pkgs_UvA = used_pkgs_UvA)
@@ -74,31 +74,33 @@ pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
 
 
 #### Check if package lists contain duplicates #### 
-check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE, quietly = FALSE)
+dupl_pkgs <- check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE,
+                              quietly = FALSE)
 
 
 #### Check if all packages from the lists are installed and functional #### 
 # Note:
 # - Input for argument 'pkgs' can be a character vector or a list of character
 #   vectors.
-find_nonfunctional_pkgs(pkgs = pkgs_lists, lib = lib_path, save_file = TRUE,
-                        sort = TRUE, quietly = FALSE, verbose = FALSE)
+nonfunc_pkgs <- find_nonfunctional_pkgs(pkgs = pkgs_lists, lib = lib_path,
+                                        save_file = TRUE, sort = TRUE,
+                                        quietly = FALSE, verbose = FALSE)
 
 
 #### Check if all installed packages are up-to-date ####
-check_status(lib = lib_path, checkBuilt = TRUE, type = "both", save_file = TRUE,
-             print_output = "both")
+status_report <- check_status(lib = lib_path, checkBuilt = TRUE, type = "both",
+                              save_file = TRUE, print_output = "both")
 
 
 #### Save details of installed packages to a CSV file ####
-save_details(PC_name = "desktop")
+details_report <- save_details(PC_name = "desktop")
 
 
 #### List dependencies of specific packages ####
 # Note:
 # - Input for argument 'pkgs' can be a character vector or a list of character
 #   vectors.
-list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
+deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
                   name_per_pkg = FALSE, number_per_pkg = TRUE,
                   name_total = TRUE, add_pkgs_to_total = FALSE,
                   exclude_high_prio = FALSE, exclude_pkgs = NULL,
