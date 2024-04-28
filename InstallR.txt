@@ -1,53 +1,54 @@
 #### Introduction ####
-This file gives instructions for the installing and configuring R, RStudio, and
-RTools on Windows. It also includes a check for fonts.
+This file contains instructions on installing and configuring R, RStudio, and
+RTools on Windows, as well as links to documentation and help on R and RStudio.
+It was created by Jesse Alderliesten, see https://github.com/JesseAlderliesten.
 
 
-
-#### Installing R ####
+#### Installing and configuring R ####
 Select a nearby CRAN mirror website at https://cran.r-project.org/mirrors.html
 (see the section 'CRAN mirrors' in the file InstructionsPkgs.txt for some
-details) or use the main page (https://cran.r-project.org/) and download R via
-'Download R for Windows' > 'base' > 'Download R-X.X.X for Windows' and install
-it.
+details) or use the main CRAN page (https://cran.r-project.org/) and download R
+via 'Download R for Windows' > 'base' > 'Download R-X.X.X for Windows' and
+install it.
 
+R can be configured by changing general options, options for startup, and
+options for installing packages, which are documentated at help("options"),
+help("Startup"), and help("install.packages"), respectively. 'Startup' and
+'install.packages' are also discussed in the section 'Add-on packages' of the 'R
+Installation and Administration manual' available at
+https://cran.r-project.org/manuals.html.
 
 
 #### Installing and configuring RStudio ####
-Download RStudio Desktop (https://posit.co/download/rstudio-desktop/) and
-install it.
+RStudio is an integrated development environment for R that can be downloaded
+from https://posit.co/download/rstudio-desktop/.
 
 To make work portable, start RStudio, go to 'Tools' > 'Global Options' >
 'General' and deselect the option 'Restore .RData into workspace at startup'.
 
 Keyboard shortcuts can be modified at 'Tools' > 'Modify Keyboard Shortcuts',
 e.g., to change the shortcut 'Run current line or selection' from 'Ctrl+Enter'
-to 'Ctrl+R'.
+to 'Ctrl+R' so it can be used with one hand.
 
 The appearance of code can be changed at 'Tools' > 'Global options' >
 'Appearance'. I use Editor fonts 'Consolas', 'Cacadia Mono Light', or
 'Lucida Console' with dark Editor theme 'Tomorrow Night Bright' (the default
 light theme is 'textmate', another nice light theme is Xcode).
 
-Different fonts can be compared at https://fonts.google.com/, and similarities
-between different characters can be checked using the string
-1lI|i/ 0ODo S5Z2B8 UVVW uvvw cldrnm __gqy417
-consisting of the following numeric (num), lower case (lower), and upper case
-(upper) symbols:
-num 1, lower L, upper I, vertical bar, lower I, slash /
-num 0, upper O, upper D, lower O /
-upper S, num 5, upper Z, num 2, upper B, num 8 /
+The following string groups together characters that are similar in appearance
+and can be used to check if characters can be properly distinguished from each
+other, for example at https://fonts.google.com/:
+71lI|i/ oO0D S5 Z2 B8 y4 gq __ UVVW uvvw cldcIdc|dc1d rnm " '' ``
+The string consists of the following numeric (num), lower case (lower), and
+upper case (upper) characters:
+num 7, num 1, lower L, upper I, vertical bar, lower I, slash /
+lower O, upper O, num 0, upper D / upper S, num 5 / upper Z, num 2 /
+upper B, num 8 / lower Y, num 4 / lower G, lower Q / underscore, underscore /
 upper U, upper V, upper V, upper double-U /
 lower U, lower V, lower V, lower double-U /
-lower C, lower L, lower D, lower R, lower N, lower M /
-double underscore, lower G, lower Q, lower Y, num 4, num 1, num 7
-
-Further configuration of R is possible by changing options for startup, general
-options, and options for installing packages, documentated at help("Startup"),
-help("options"), and help("install.packages"), respectively, and discussed in
-the 'R Installation and Administration manual' available at
-https://cran.r-project.org/manuals.html.
-
+lower C, lower L, lower D, lower C, upper I, lower D, lower C, vertical bar,
+lower D, lower C, num 1, lower D / lower R, lower N, lower M /
+double quotes, single quotes, single quotes, backtick, backtick
 
 
 #### Installing and configuring Rtools ####
@@ -57,25 +58,25 @@ are distributed as source files, and to execute R-scripts that contain calls to
 scripts written in compiled code such as C or Fortran to speed up code
 execution.
 
-Before installing and updating R packages, download the version of Rtools
-appropriate for the installed R-version from a CRAN website (see section
-'Installing R' above) via 'Download R for Windows' >' 'Rtools' and set it up
-using the instructions given there.
-
+Before installing or updating R packages that require Rtools, download the
+version of Rtools appropriate for the installed R-version from a CRAN website
+(see section 'Installing R' above) via 'Download R for Windows' > 'Rtools' > 
+'RTools X.X' and set it up using the instructions given there.
 
 
 #### Documentation and help ####
 - CRAN main website: https://cran.r-project.org/
 - CRAN R FAQs: https://cran.r-project.org/faqs.html
-- CRAN R manuals: https://cran.r-project.org/manuals.html
+- CRAN R Manuals: https://cran.r-project.org/manuals.html
 - CRAN R News: https://cran.r-project.org/doc/manuals/r-release/NEWS.html
-- R homepage: https://www.r-project.org/
 - RStudio user guide: https://docs.posit.co/ide/user/
+- R homepage: https://www.r-project.org/
+- General help from inside R: help.start()
 
 
 #### Developer documentation ####
 - CRAN R devel News: https://cran.r-project.org/doc/manuals/r-devel/NEWS.html
-- R developer page: https://developer.r-project.org/
-- R upcoming changes: https://svn.r-project.org/R/trunk/doc/NEWS.Rd
 - R bug checking and reporting: https://www.r-project.org/bugs.html, with link
   to https://bugs.r-project.org/
+- R developer page: https://developer.r-project.org/
+- R upcoming changes: https://svn.r-project.org/R/trunk/doc/NEWS.Rd
