@@ -120,8 +120,13 @@ To adjust code from a repository and push changes back to that repository (e.g.,
 to work on your project from another machine), clone the GitHub repository: by
 using the green button 'Code' in the repository, copy the URL to the clipboard
 (i.e., do NOT use 'download ZIP'), create a new R project in RStudio (File > New
-Project > Version control > Git), paste the repository URL in the designated
-field, select the desired location, and create the project.
+Project > Version control > Git), paste the repository URL (something like
+https://github.com/username/reposname) in the designated field, select the
+desired location, and create the project. The same URL can be used using shell
+commands to clone a repository, either with its complete history using
+git clone https://github.com/username/reposname
+or with only the last commit using
+git clone --depth=1 https://github.com/username/reposname
 
 
 #### Common shell commands ####
