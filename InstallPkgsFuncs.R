@@ -8,6 +8,7 @@
 #   one if it does not yet exist, write results to file, and print message on
 #   how to read data back in R. That is now coded repeatedly. See my function
 #   create_directory() in utils.R from the UvA.
+# - Write tests for the functions.
 
 
 #### Utility functions ####
@@ -38,7 +39,7 @@ all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
 #   'first_path', because that implies that no path was provided in argument
 #   'path' and no paths are present in '.libPath'.
 # Return:
-# - A list of length five, all containing characters (possibly character(0)):
+# - A list with five elements, all containing characters (possibly character(0)):
 #   'first_path' with the first non-empty path, 'argument_paths' with the value
 #   of argument 'path', 'Rversion_paths' with the paths from .libPath that
 #   contain the current R version number, 'other_paths' with the paths from
@@ -100,11 +101,11 @@ get_paths <- function(path = character(0), quietly = FALSE) {
 # Return:
 # - A logical value indicating if the operating system is Windows, returned
 #   invisibly.
-# Programming notes:
-# - Using 'Sys.info()' which reports information the platform R is running on,
-#   instead of 'R.version()' which reports information R was built on.
 check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
   on_error <- match.arg(on_error, several.ok = FALSE)
+  # Using 'Sys.info()' which returns information about the platform R is running
+  # on, not 'R.version()' which returns information about the platform R was
+  # built on.
   system_name <- Sys.info()["sysname"]
   
   # Need tolower() because 'ignore_case' does not work if 'fixed' is TRUE.
@@ -119,11 +120,11 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
                    " 'R installation and administration manual'\nat",
                    " https://cran.r-project.org/doc/manuals/r-release/R-admin.html",
                    " for help.")
+    
     switch(on_error,
-           warn = warning(text),
            message = message(text),
-           quiet = NULL, 
-           stop("'intdistr' should be 'normal' or 'uniform'."))
+           quiet = NULL,
+           warning(text))
   }
   invisible(OS_is_Windows)
 }
@@ -133,8 +134,8 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
 # Perform checks to ensure the rest of the script can run. Checks (1) if Rtools
 # utilities have been put on the search path (an error occurs with a message
 # proposing steps to fix it if they are not yet on the path); (2) if the global
-# variable 'lib_path' is specified (otherwise error occurs) and that it matches
-# the used version of R (otherwise a warning is issued); and (3) if the
+# variable 'lib_path' is specified (otherwise an error occurs) and that it
+# matches the used version of R (otherwise a warning is issued); and (3) if the
 # BiocManager package is installed and functional.
 # Input:
 # - None.
@@ -144,13 +145,16 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
 # - For R versions 4.0.0 - 4.1.3, the location of Rtools utilities is put on the
 #   search path if it is not there yet.
 # - The BiocManager package is installed if it is not installed and functional.
+# Wishlist:
+# - Check https://stackoverflow.com/questions/26244530
 prepare_install <- function() {
   if(check_OS_is_Windows(on_error = "warn") == TRUE) {
     if(nchar(Sys.which("make")) == 0) {
       # Put the location of Rtools (the C++ Toolchain) utilities (e.g., bash,
       # make) on the search path if it is not there yet for R versions 4.0.0 to
       # 4.1.3.
-      if(as.numeric(substr(R.version$minor, start = 1, stop = 1)) < 2) {
+      if(as.integer(R.version$major) == 4L &&
+         as.integer(substr(R.version$minor, start = 1, stop = 1)) < 2L) {
         write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
               append = TRUE)
       }
@@ -158,13 +162,13 @@ prepare_install <- function() {
            " packages\nthat need compilation of C/C++ or Fortran code from",
            " source) were not yet on the\nsearch path. If you have not yet",
            " done so, download the version of Rtools that\ncorresponds to the",
-           " R version you are using (", R.version.string,
-           ") from\nhttps://cran.r-project.org/bin/windows/Rtools/ and install",
-           " it. If you are using\nan R version earlier than R 4.2.0, you have",
-           " to restart R afterwards and run this\nfunction 'prepare_install()'",
-           " again to put the location of Rtools utilities\n(bash, make, etc)",
-           " on the search path. For instructions see the link given above,",
-           "\nor install package 'pkgbuild' and run",
+           " R version you are using (", R.version.string, ") from",
+           "\nhttps://cran.r-project.org/bin/windows/Rtools/ and install it.",
+           " If you are using\nR versions 4.0.0 - 4.1.3, you have to restart R",
+           " afterwards and run this\nfunction 'prepare_install()' again to",
+           " put the location of Rtools utilities\n(bash, make, etc) on the",
+           " search path. For instructions see the link given above,\nor",
+           " install package 'pkgbuild' and run",
            " pkgbuild::check_build_tools(debug = TRUE)\nto check if Rtools is",
            " set up correctly and get instructions how to fix it if\nnot.")
     }
@@ -212,16 +216,16 @@ prepare_install <- function() {
            "  was\nsuccesfully installed. Restart R session before proceeding.")
     } else {
       stop("Installation of the BiocManager package failed.\nIf a warning like",
-           " 'lib = \"", lib_path[[1]][1], "\" is not writeable'\nwas issued, you",
-           " most likely forgot to run R as administrator, or used a wrong path",
-           "(the warnings printed below might point to that).\nClose R and\nrestart",
-           " R as administrator (e.g., right-click on the R or RStudio icon,",
-           " select\n'Run as administrator', open the 'InstallPkgs' R-project",
-           "file, and try again.")
+           " 'lib = \"", lib_path[[1]][1], "\" is not writeable'\nwas issued,",
+           " you most likely forgot to run R as administrator, or used a wrong",
+           " path (the warnings printed below might point to that).\nClose R",
+           " and\nrestart R as administrator (e.g., right-click on the R or",
+           " RStudio icon, select\n'Run as administrator', open the",
+           " 'InstallPkgs' R-project file, and try again.")
     }
   }
   
-  message("Succesfully completed preparations.")
+  message("Successfully completed preparations.")
   invisible(NULL)
 }
 
@@ -229,14 +233,14 @@ prepare_install <- function() {
 #### check_duplicates ####
 # Check for duplicates within or across the various package lists.
 # Input:
-#   pkgs_lists: NULL, or a list containing (possibly named) character vectors of
-#     package names to be checked for duplicates.
+#   pkgs_lists: a list containing (possibly named) character vectors of package
+#     names to be checked for duplicates.
 #   neglect_repos: logical indicating if the repository name should be excluded
 #     when checking for duplicates, such that packages with the same name from
 #     different repositories (e.g., 'pkgname' and 'repositoryname/pkgname') are
 #     considered duplicates.
-#   quietly: a logical. If FALSE (default), a message will be printed if no
-#     duplicates were found.
+#   quietly: a logical (default FALSE) indicating if the message that is printed
+#     if no duplicates are found should be suppressed.
 # Return:
 #   A list containing the names of duplicated packages if any are found 
 #     (returned invisibly), and NULL otherwise.
@@ -295,7 +299,8 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   }
   
   if(length(checklist) > 0) {
-    warning("Package lists contain duplicate package names.")
+    warning("Package lists contain duplicate package names, see the printed",
+            " output.", call. = FALSE)
     print(checklist)
   } else {
     if(quietly == FALSE) {
@@ -353,7 +358,9 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
   
   pkgs <- unique(pkgs)
   pkgs_input <- pkgs
-  pkgs <- sub(".*/", "", pkgs) # Package name is the part after the last '/'
+  # Remove the last forward slash and everything before it, because the package
+  # name is the part after the last forward slash in GitHub repository names.
+  pkgs <- sub(pattern = ".*/", replacement = "", x = pkgs)
   
   if(verbose == FALSE) {
     index_nonfunctional <- suppressWarnings(suppressPackageStartupMessages(
@@ -382,20 +389,23 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
                           format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
                           "_", paste0("R", as.character(getRversion())), ".txt")
       dir_path <- file.path(".", "output")
-      if(!dir.exists(dir_path)){
+      
+      # Notes:
+      # - The path is normalised such that the printed path also works to read
+      #   the data back into R after the working directory has changed, for
+      #   example because R is not opened through the InstallPkgs project.
+      # - Using "/" instead of "\\" as winslash so the printed path can be
+      #   directly used in dget().
+      read_back_path <- normalizePath(file.path(dir_path, file_name),
+                                      winslash = "/", mustWork = FALSE)
+      
+      message_read_back <- paste0("\nTo read the package names back into R",
+                                  " use:\nnonfunctional_pkgs <- dget(\"",
+                                  read_back_path, "\")")
+      
+      if(!dir.exists(dir_path)) {
         dir.create(dir_path, recursive = TRUE)
       }
-      
-      # Normalise path such that the printed path also works to read the data
-      # back into R after the working has changed, for example because R is not
-      # opened through InstallPkgs.proj. Using "/" instead of "\\" as winslash
-      # so the printed path can be directly used in dget().
-      read_back_path <- normalizePath(file.path(dir_path, file_name),
-                                      winslash = "/",
-                                      mustWork = FALSE)
-      message_read_back <- paste0("\nTo read the package names back into R use:",
-                                  " nonfunctional_pkgs <- dget(\n\"",
-                                  read_back_path, "\")")
       if(file.exists(read_back_path)) {
         warning("Textfile with names of non-functional packages already exists,",
                 " not saved again!")
@@ -570,7 +580,8 @@ check_status <- function(lib, checkBuilt = TRUE,
 #     dependencies could be obtained (returning NULL). Alternatively, use
 #     utils::packageDescription() or utils::installed.packages()?
 #   See also https://pak.r-lib.org/reference/pkg_deps_explain.html which gives
-#     details about which function creates the dependency.
+#     details about which function creates the dependency and
+#     https://github.com/yihui/xfun/blob/main/R/revcheck.R
 list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
                               name_per_pkg = FALSE, number_per_pkg = TRUE,
                               name_total = TRUE, add_pkgs_to_total = FALSE,
@@ -666,17 +677,18 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 # - A .csv-file giving details of installed packages is saved inside the
 #     subfolder 'output'.
 save_details <- function(PC_name = "desktop") {
-  stopifnot((length(PC_name) == 1L && is.character(PC_name)) || is.null(PC_name))
+  stopifnot(is.null(PC_name) ||
+              (length(PC_name) == 1L && is.character(PC_name)))
   PC_name <- gsub("[^[:alnum:]_]", "_", PC_name)
   
   installed_pkgs <- installed.packages()[, c("Package", "Version", "Built",
                                              "NeedsCompilation", "Priority")]
   rownames(installed_pkgs) <- NULL
-  file_name <- paste0("installed_pkgs", PC_name, "_",
-                      format(Sys.Date(), format = "%Y_%m_%d"),
-                      "_", paste0("R", as.character(getRversion())), ".csv")
+  file_name <- paste0("pkgs_installed_", PC_name, "_",
+                      format(Sys.time(), format = "%Y_%m_%d_%H_%M"), "_",
+                      paste0("R", as.character(getRversion())), ".csv")
   dir_path <- file.path(".", "output")
-  if(!dir.exists(dir_path)){
+  if(!dir.exists(dir_path)) {
     dir.create(dir_path, recursive = TRUE)
   }
   read_back_path <- normalizePath(file.path(dir_path, file_name),
@@ -689,8 +701,7 @@ save_details <- function(PC_name = "desktop") {
             " not saved again!")
     message(message_read_back)
   } else {
-    write.csv(installed_pkgs, file = file.path(dir_path, file_name),
-              row.names = FALSE)
+    write.csv(installed_pkgs, file = read_back_path, row.names = FALSE)
     message("Saved .csv-file with details of installed packages.",
             message_read_back)
   }
