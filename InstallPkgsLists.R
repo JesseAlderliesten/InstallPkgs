@@ -3,11 +3,12 @@
 #   want to store for potential later use.
 # The set 'high_prio_pkgs' contains the high-priority packages, consisting of
 #   the 'base' R-packages that are installed if R is installed and the
-#   'recommended' packages which are usually installed with R as well
+#   'recommended' packages that are usually installed with R as well
 #   (https://cran.r-project.org/doc/FAQ/R-FAQ.html#R-Add_002dOn-Packages;
 #   https://cran.r-project.org/doc/FAQ/R-FAQ.html#Add_002don-packages-from-CRAN).
-#   (in R-devel 4.3.2+ these can be displayed by tools::standard_package_names)
-#   To see which high-priority packages are currently installed, run
+#   From R 4.4.0 onwards, tools::standard_package_names() contains the list with
+#   the names of these packages. To see which high-priority packages are
+#   currently installed, run
 #   dput(unname(installed.packages(priority = "high")[, "Package"]))
 # The sets 'used_pkgs_UU' and 'used_pkgs_UvA' contain packages I explicitly load
 #   in my scripts.
@@ -169,7 +170,7 @@ UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME",
               "scaRabee", "sde")
 
 UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist", 
-              "ggflowchart", "ggplate", "ggplot2", "ggpubr",
+              "ggflowchart", "ggpairs", "ggplate", "ggplot2", "ggpubr",
               "ggragged", "ggthemes", "HistData", "hughjonesd/ggmagnify",
               "nlmixr2plot", "plotrix", "rgl", "scales", "TidyDensity")
 
@@ -190,9 +191,10 @@ UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact",
               "psych", "RUVIIIC", "SHT", "stats", "SurrogateRsq", "trend",
               "tdsa", "tseriesTARMA")
 
-UvA_misc <- c("diffr", "fitlandr", "gcplyr", "GPUmatrix", "hadley/strict", 
-              "hydroMOPSO", "knitr", "Morphoscape", "PRIMME", "rmarkdown", 
-              "stxplore", "tinytest", "tolerance", "xts")
+UvA_misc <- c("admiraldev", "assertthat", "diffr", "fitlandr", "gcplyr",
+              "GPUmatrix", "hadley/strict", "hydroMOPSO", "knitr",
+              "Morphoscape", "PRIMME", "rmarkdown", "stxplore", "tinytest",
+              "tolerance", "xts")
 
 
 #### coding_data_handling ####
@@ -617,6 +619,7 @@ microbio_eco <- c(
 
 #### ODE_epi_growth ####
 ODE_epi_growth <- c(
+  "binGroup2",   # Identification and Estimation using Group Testing
   "biogrowth",   # Modelling of Population Growth
   "EpiDynamics", # Dynamic Models in Epidemiology (replicating scripts for
                  #   Keeling and Rohani 'Modeling Infectious Diseases in Humans
@@ -624,6 +627,7 @@ ODE_epi_growth <- c(
   "EpiEstim",    # Estimate Time Varying Reproduction Numbers from Epidemic Curves
   "epimdr2",     # Functions and Data for "Epidemics: Models and Data in R (2nd Edition)"
   "EpiModel",    # Mathematical Modeling of Infectious Disease Dynamics
+  "ern",         # Effective Reproduction Number Estimation
   "gauseR",      # Lotka-Volterra Models for Gause's 'Struggle for Existence'
   "genSEIR",     # Predict Epidemic Curves with Generalized SEIR Modeling (not
                  #   based on deSolve, but on own implementation of RK4)
@@ -725,18 +729,6 @@ taxonomy_phylogeny <- c(
 #### instructional ####
 instructional <- c(
   "sloop"       # Helpers for 'OOP' in R
-)
-
-
-#### excluded ####
-excluded <- c(
-  "gdata",    # [not useful] Various R Programming Tools for Data Manipulation
-  "readr",    # [base r works fine] Read Rectangular Text Data
-  "reshape",  # [retired, use tidyr] Flexibly Reshape Data
-  "reshape2", # [retired, use tidyr] Flexibly Reshape Data
-  "shiny",    # [not needed] Web Application Framework for R
-  "xlsx"      # [requires Java. Save data as CSV files and use read.csv()]
-              # Read, Write, Format Excel 2007 and Excel 97/2000/XP/2003 Files
 )
 
 
