@@ -392,7 +392,7 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
     
     if(save_file == TRUE) {
       file_name <- paste0("nonfunc_pkgs_",
-                          format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
+                          format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"),
                           "_", paste0("R", as.character(getRversion())), ".txt")
       dir_path <- file.path(".", "output")
       
@@ -503,7 +503,7 @@ check_status <- function(lib, checkBuilt = TRUE,
     if(save_file == TRUE) {
       rownames(invalid_details) <- NULL
       file_name <- paste0("invalid_pkgs_",
-                          format(Sys.time(), format = "%Y_%m_%d_%H_%M"),
+                          format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"),
                           "_", paste0("R", as.character(getRversion())), ".csv")
       dir_path <- file.path(".", "output")
       if(!dir.exists(dir_path)){
@@ -691,7 +691,7 @@ save_details <- function(PC_name = "desktop") {
                                              "NeedsCompilation", "Priority")]
   rownames(installed_pkgs) <- NULL
   file_name <- paste0("pkgs_installed_", PC_name, "_",
-                      format(Sys.time(), format = "%Y_%m_%d_%H_%M"), "_",
+                      format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"), "_",
                       paste0("R", as.character(getRversion())), ".csv")
   dir_path <- file.path(".", "output")
   if(!dir.exists(dir_path)) {
