@@ -143,4 +143,4 @@ deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = T
 BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
                      lib.loc = lib_path, lib = lib_path, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
-                     checkBuilt = TRUE, force = FALSE, version = 3.16)
+                     checkBuilt = TRUE, force = FALSE, version = "3.19")
