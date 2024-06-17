@@ -135,7 +135,7 @@ UvA_task_views <- c("ChemPhys", "DifferentialEquations", "ExperimentalDesign",
                     "MixedModels", "NumericalMathematics", "Optimization",
                     "Pharmacokinetics", "Psychometrics", "Robust", "TimeSeries")
 
-UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm",
+UvA_data <- c("collapse", "data.table", "dplyr", "expm",
               "fastverse", "matrixcalc", "matrixStats", "matrixTests",
               "numDeriv", "poorman", "pracma", "purrr", "rje", "tidyr",
               "TruncatedNormal", "truncdist")
@@ -143,12 +143,11 @@ UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm",
 UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS",
                   "LCMSQA", "validate", "wrMisc", "xcms")
 
-UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
-                "ezmmek", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
-                "nlmixr2extra", "renz")
+UvA_EnzKin <- c("chemometrics", "ecotox", "EKMCMC", "ezmmek", "httk",
+                "jranke/gmkin", "mkin", "nlmixr2", "nlmixr2extra", "renz")
 
 UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD",
-                   "binGroup2", "bioOED", "CellNOptR", "CNORode", "daewr",
+                   "binGroup2", "albgarre/bioOED", "CellNOptR", "CNORode", "daewr",
                    "DiceDesign", "DoE.base", "DoE.wrapper", "faux", "gsDesign",
                    "microsamplingDesign", "NMproject", "optedr",
                    "OptimalDesign", "OptimalGoldstandardDesigns",
@@ -163,14 +162,14 @@ UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR",
                  "npde", "optimx", "pCODE", "performance", "NNS",
                  "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "rms",
                  "robustbase", "Ryacas", "scaRabee", "spsh", "tidymodels",
-                 "visreg", "WeMix", "wnl", "yardstick", "yueqinhu/deFit")
+                 "visreg", "WeMix", "wnl", "yardstick", "deFit")
 
 UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME", 
               "mrgsolve", "ODEsensitivity", "pCODE", "rodeo", "rootSolve",
               "rxode2", "scaRabee", "sde")
 
 UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist", 
-              "ggflowchart", "ggpairs", "ggplate", "ggplot2", "ggpubr",
+              "ggflowchart", "ggplate", "ggplot2", "ggpubr",
               "ggragged", "ggthemes", "HistData", "hughjonesd/ggmagnify",
               "nlmixr2plot", "plotrix", "rgl", "scales", "TidyDensity")
 
@@ -187,7 +186,7 @@ UvA_stat <- c("basicMCMCplots", "Bernadette", "CausalImpact", "ciCalibrate",
               "coda", "confintr", "cxhull", "EBPI-Biostatistics/biostatUZH",
               "EnvStats", "fitdistrplus", "funStatTest", "Hmisc", "ks",
               "matlib", "MCMCglmm", "NCmisc", "nimble", "NSM3", "predictNMB",
-              "predRupdate", "propagate", "psych", "RUVIIIC", "SHT",
+              "predRupdate", "propagate", "psych", "SHT",
               "SurrogateRsq", "tdsa", "trend", "tseriesTARMA", "WRS2")
 
 UvA_misc <- c("admiraldev", "assertthat", "besmarter/BSTApp", "diffr",
