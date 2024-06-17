@@ -47,9 +47,12 @@ pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
                    used_pkgs_UU = used_pkgs_UU,
                    used_pkgs_UvA = used_pkgs_UvA)
 
-pkgs_lists_UvA <- list(used_pkgs_UvA, UvA_data, UvA_data_val, UvA_EnzKin, 
-                       UvA_ExpDesign, UvA_Fitting, UvA_misc, UvA_ODEs, UvA_plot, 
-                       UvA_simul, UvA_stat, UvA_task_views)
+pkgs_lists_UvA <- list(used_pkgs_UvA = used_pkgs_UvA, UvA_data = UvA_data,
+                       UvA_data_val = UvA_data_val, UvA_EnzKin = UvA_EnzKin, 
+                       UvA_ExpDesign = UvA_ExpDesign, UvA_Fitting = UvA_Fitting,
+                       UvA_misc = UvA_misc, UvA_ODEs = UvA_ODEs,
+                       UvA_plot = UvA_plot, UvA_simul = UvA_simul,
+                       UvA_stat = UvA_stat, UvA_task_views = UvA_task_views)
 
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs, 
                    coding_data_handling = coding_data_handling,
