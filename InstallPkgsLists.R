@@ -45,8 +45,8 @@ used_pkgs_UU <- c(
   
   ## Graphics
   "cowplot",     # Streamlined Plot Theme and Plot Annotations for 'ggplot2'
-  "ggalt",       # Extra Coordinate Systems, 'Geoms', Statistical Transformations,
-                 #   Scales and Fonts for 'ggplot2'
+  "ggalt",       # Extra Coordinate Systems, 'Geoms', Statistical
+                 #   Transformations, Scales and Fonts for 'ggplot2'
   "ggdist",      # Visualizations of distributions and uncertainty
   "ggplot2",     # Create Elegant Data Visualisations Using the Grammar of Graphics
   "ggpubr",      # 'ggplot2' Based Publication Ready Plots
@@ -135,10 +135,10 @@ UvA_task_views <- c("ChemPhys", "DifferentialEquations", "ExperimentalDesign",
                     "MixedModels", "NumericalMathematics", "Optimization",
                     "Pharmacokinetics", "Psychometrics", "Robust", "TimeSeries")
 
-UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm", "fastverse", 
-              "Matrix", "matrixcalc", "matrixStats", "matrixTests", "numDeriv", 
-              "poorman", "pracma", "purrr", "rje", "tidyr", "TruncatedNormal", 
-              "truncdist")
+UvA_data <- c("collapse", "cooltools", "data.table", "dplyr", "expm",
+              "fastverse", "matrixcalc", "matrixStats", "matrixTests",
+              "numDeriv", "poorman", "pracma", "purrr", "rje", "tidyr",
+              "TruncatedNormal", "truncdist")
 
 UvA_data_val <- c("data.validator", "dataverifyr", "DescribeDF", "enviGCMS",
                   "LCMSQA", "validate", "wrMisc", "xcms")
@@ -147,54 +147,54 @@ UvA_EnzKin <- c("CausalKinetiX", "chemometrics", "ecotox", "EKMCMC",
                 "ezmmek", "httk", "jranke/gmkin", "mkin", "nlmixr2", 
                 "nlmixr2extra", "renz")
 
-UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD", "bioOED", 
-                   "CellNOptR", "cluster", "CNORode", "daewr", "DiceDesign",
-                   "DoE.base", "DoE.wrapper",
-                   "faux", "gsDesign", "microsamplingDesign",
-                   "NMproject", "optedr", "OptimalDesign", "OptimaRegion",
-                   "PFIM", "PopED", "rsm", "seasonalclumped", "SimDesign",
-                   "skpr", "WtTopsis")
+UvA_ExpDesign <- c("agricolae", "agricolaeplotr", "AlgDesign", "bigD",
+                   "binGroup2", "bioOED", "CellNOptR", "CNORode", "daewr",
+                   "DiceDesign", "DoE.base", "DoE.wrapper", "faux", "gsDesign",
+                   "microsamplingDesign", "NMproject", "optedr",
+                   "OptimalDesign", "OptimalGoldstandardDesigns",
+                   "OptimaRegion", "optiSel", "PFIM", "PopED", "rsm",
+                   "seasonalclumped", "SimDesign", "skpr", "voi", "WtTopsis")
 
 UvA_Fitting <- c("bayesnec", "bbmle", "brms", "car", "drc", "fitode", "gauseR", 
-                 "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts",
-                 "lme4", "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob",
-                 "MSinference", 
-                 "NISTnls", "nleqslv", "nlme", "nloptr", "nlpsem", "nlreg", "nlsMicrobio", 
-                 "nlsr", "nlstools", "nlts", "nmw", "npde", "optimx", "pCODE", "performance", 
-                 "NNS", "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "robustbase", 
-                 "Ryacas", "scaRabee", "spsh", "tidymodels", "visreg", "WeMix", "wnl",
-                 "yardstick", "yueqinhu/deFit")
+                 "gglm", "glmnet", "gRc", "gslnls", "healthyR.ts", "lme4",
+                 "lmerTest", "marqLevAlg", "minpack.lm", "MixSemiRob",
+                 "MSinference", "NISTnls", "nleqslv", "nloptr", "nlpsem",
+                 "nlreg", "nlsMicrobio", "nlsr", "nlstools", "nlts", "nmw",
+                 "npde", "optimx", "pCODE", "performance", "NNS",
+                 "perryExamples", "Phxnlme", "plm", "POD", "QurvE", "rms",
+                 "robustbase", "Ryacas", "scaRabee", "spsh", "tidymodels",
+                 "visreg", "WeMix", "wnl", "yardstick", "yueqinhu/deFit")
 
 UvA_ODEs <- c("bvpSolve", "ccSolve", "cOde", "deSolve", "deTestSet", "FME", 
-              "mrgsolve", "ODEsensitivity", "pCODE", "rodeo", "rootSolve", "rxode2",
-              "scaRabee", "sde")
+              "mrgsolve", "ODEsensitivity", "pCODE", "rodeo", "rootSolve",
+              "rxode2", "scaRabee", "sde")
 
 UvA_plot <- c("bubbleHeatmap", "coefplot", "duke", "GGally", "ggalt", "ggdist", 
               "ggflowchart", "ggpairs", "ggplate", "ggplot2", "ggpubr",
               "ggragged", "ggthemes", "HistData", "hughjonesd/ggmagnify",
               "nlmixr2plot", "plotrix", "rgl", "scales", "TidyDensity")
 
-UvA_simul <- c("asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
+UvA_simul <- c("A3", "asancpt/caffsim", "asancpt/pharmavis", "bioinactivation", 
                "capm", "clarify", "clinPK", "counterfactuals", "cpk", "ecolMod",
-               "epimdr", "EpiModel","growthrates", "miaSim",
+               "epimdr", "EpiModel", "growthrates", "mcstatsim", "miaSim",
                "microeco", "microPop", "mpmsim", "NonCompart", "parSim", "pomp",
                "primer", "rsimsum", "Yu-Group/simChef", "SimDesign", "simecol",
-               "simFrame", "simglm", "simhelpers", "SimInf",
-               "simode", "simpr", "simsalapar", "simstudy", "simTool",
-               "simulator", "tidymodels")
+               "simFrame", "simglm", "simhelpers", "SimInf", "simode", "simpr",
+               "simsalapar", "simstudy", "simTool", "simtrial", "simulator",
+               "TidyDensity", "tidyMC", "tidymodels")
 
-UvA_stat <- c("basicMCMCplots", "Bernadette", "boot", "CausalImpact",
-              "ciCalibrate", "coda", "confintr", "cxhull",
-              "EBPI-Biostatistics/biostatUZH", "EnvStats", "fitdistrplus",
-              "funStatTest", "Hmisc", "ks", "MASS", "matlib", "MCMCglmm",
-              "NCmisc", "nimble", "predictNMB", "predRupdate", "propagate",
-              "psych", "RUVIIIC", "SHT", "stats", "SurrogateRsq", "trend",
-              "tdsa", "tseriesTARMA")
+UvA_stat <- c("basicMCMCplots", "Bernadette", "CausalImpact", "ciCalibrate",
+              "coda", "confintr", "cxhull", "EBPI-Biostatistics/biostatUZH",
+              "EnvStats", "fitdistrplus", "funStatTest", "Hmisc", "ks",
+              "matlib", "MCMCglmm", "NCmisc", "nimble", "NSM3", "predictNMB",
+              "predRupdate", "propagate", "psych", "RUVIIIC", "SHT",
+              "SurrogateRsq", "tdsa", "trend", "tseriesTARMA", "WRS2")
 
-UvA_misc <- c("admiraldev", "assertthat", "diffr", "fitlandr", "gcplyr",
-              "GPUmatrix", "hadley/strict", "hydroMOPSO", "knitr",
-              "Morphoscape", "PRIMME", "rmarkdown", "stxplore", "tinytest",
-              "tolerance", "xts")
+UvA_misc <- c("admiraldev", "assertthat", "besmarter/BSTApp", "diffr",
+              "fitlandr", "gcplyr", "GPUmatrix",
+              "GRvanderPloeg/parafac4microbiome", "hadley/strict", "hydroMOPSO",
+              "knitr", "LambertW", "Morphoscape", "mstate", "PRIMME",
+              "rmarkdown", "stxplore", "tinytest", "tolerance", "xts")
 
 
 #### coding_data_handling ####
@@ -429,6 +429,7 @@ math_stats_regression <- c(
   "broom",       # Convert Statistical Objects into Tidy Tibbles
   "car",         # Companion to Applied Regression
   "caret",       # Classification and Regression Training
+  "cv",          # Cross-Validating Regression Models
   "dunn.test",   # Dunn's Test of Multiple Comparisons Using Rank Sums
   "gglm",        # Grammar of Graphics for Linear Model Diagnostic Plots
   "lme4",        # Linear Mixed-Effects Models using 'Eigen' and S4
@@ -442,6 +443,7 @@ math_stats_regression <- c(
   "ordinal",     # Regression Models for Ordinal Data
   "performance", # Assessment of Regression Models Performance
   "ranger",      # A Fast Implementation of Random Forests
+  "repeated",    # Non-Normal Repeated Measurements Models
   "standardize", # Tools for Standardizing Variables for Regression in R
   "visreg"       # Visualization of Regression Models
 )
@@ -598,6 +600,9 @@ microbio_eco <- c(
                  #   for Microbiome Data
   "ecolMod",     # A practical guide to ecological modelling - using R as a
                  #   simulation platform (K. Soetaert)
+  "covid-19-Re/estimateR", # R package for estimation and monitoring of the
+                           # effective reproduction number in a pathogen
+                           # outbreak/epidemic
   "genefilter",  # Methods for filtering genes from high-throughput experiments
   "HMP",         # Hypothesis Testing and Power Calculations for Comparing
                  #   Metagenomic Samples from HMP
@@ -699,6 +704,7 @@ ODE_PBPK <- c(
 #### taxonomy_phylogeny ####
 taxonomy_phylogeny <- c(
   # See also the sets 'graphics_multidimensional_networks' and 'microbio_eco'
+  # See also https://bsse.ethz.ch/cevo/cevo-software.html
   "ape",         # Analyses of Phylogenetics and Evolution
   "BAMMtools",   # Analysis and Visualization of Macroevolutionary Dynamics on
                  #   Phylogenetic Trees
