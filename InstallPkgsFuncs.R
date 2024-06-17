@@ -252,6 +252,12 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
             is_logical(neglect_repos), is_logical(quietly))
   if(is.null(names(pkgs_lists))) {
     names(pkgs_lists) <- paste0("unnamed_list_entry_", seq_along(pkgs_lists))
+  } else {
+    bool_ind_empty_names <- nchar(names(pkgs_lists), type = "width") == 0
+    if(any(bool_ind_empty_names)) {
+      names(pkgs_lists)[bool_ind_empty_names] <- paste0(
+        "unnamed_list_entry_", which(bool_ind_empty_names))
+    }
   }
   
   githuburls <- grep("github", unlist(pkgs_lists, use.names = FALSE),
