@@ -4,10 +4,11 @@
 # Jesse Alderliesten, see https://github.com/JesseAlderliesten.
 
 # It is assumed R has been installed (see the file 'InstallR.txt' for
-# instructions) and that that the scripts "InstallPkgsFuncs.R" and
+# instructions) and that the scripts "InstallPkgsFuncs.R" and
 # "InstallPkgsLists.R" are in the same folder as the current R-script. Some
-# annotations presume RStudio is used as integrated development environment.
-# Further details are available in the file 'InstructionsPkgs.txt'.
+# annotations presume RStudio is used as integrated development environment (see
+# the file 'InstallR.txt'). Further details are available in the file
+# 'InstructionsPkgs.txt'.
 
 
 #### To do ####
@@ -35,8 +36,8 @@ source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
 # Get the path where R-packages are (or will be) installed from the first
-# non-empty element of .libPaths() (if present one that contains the current R
-# version number), see annotation of the function 'get_paths()' for details.
+# non-empty element of .libPaths(), preferably one that contains the current R
+# version number (see annotation of the function 'get_paths()' for details).
 lib_path <- get_paths(path = character(0), quietly = FALSE)$first_path
 
 # Perform various checks to ensure the rest of the script can run.
@@ -114,16 +115,16 @@ details_report <- save_details(PC_name = "desktop")
 # Note:
 # - Input for argument 'pkgs' can be a character vector or a list of character
 #   vectors.
-deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = TRUE,
-                  name_per_pkg = FALSE, number_per_pkg = TRUE,
-                  name_total = TRUE, add_pkgs_to_total = FALSE,
-                  exclude_high_prio = FALSE, exclude_pkgs = NULL,
-                  sort_ndeps_by = "ndeps")
+deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong",
+                          recursive = TRUE, name_per_pkg = FALSE,
+                          number_per_pkg = TRUE, name_total = TRUE,
+                          add_pkgs_to_total = FALSE, exclude_high_prio = FALSE,
+                          exclude_pkgs = NULL, sort_ndeps_by = "ndeps")
 
 
 #### Install new packages #### 
 # Notes:
-# - Run RStudio as administrator to install or update packages! If the warning
+# - Run RStudio as administrator to install or update packages. If the warning
 #   'lib = ... is not writeable' was issued, you most likely forgot to run R (or
 #   RStudio) as administrator. Close R (RStudio) and restart it with
 #   administrator rights (e.g., right-click on the R or RStudio icon and select
@@ -132,8 +133,8 @@ deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong", recursive = T
 # - Argument 'update' is set to FALSE to prevent inadvertently changing the
 #   version of already-installed packages when installing new packages. However,
 #   updating out-of-date packages might be preferable to prevent compatibility
-#   issues between already-installed packages and newly-installed packages.
-#   To update packages in base-R (i.e., not using BioConductor), use 
+#   issues between already-installed packages and newly-installed packages. To
+#   update packages in base-R (i.e., not using BioConductor), use
 #   update.packages(instlib = lib, ask = FALSE, checkBuilt = TRUE).
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
