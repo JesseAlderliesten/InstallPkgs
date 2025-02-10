@@ -17,13 +17,10 @@ is_logical <- function(x) {
   is.logical(x) && length(x) == 1L
 }
 
-all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
-                           allow_NA_char = FALSE) {
-  # is.character(x) is TRUE for NA_character_, but FALSE for NULL, NA and NaN.
+all_characters <- function(x, allow_zero_char = FALSE) {
   is.character(x) &&
     (allow_zero_char == TRUE || length(x) > 0) &&
-    (allow_empty_char == TRUE || !any(x == "", na.rm = TRUE)) &&
-    (allow_NA_char == TRUE || !anyNA(x))
+    all(nzchar(x, keepNA = FALSE)) && !anyNA(x)
 }
 
 
@@ -34,7 +31,8 @@ all_characters <- function(x, allow_empty_char = FALSE, allow_zero_char = FALSE,
 # - quietly: logical of length 1 (default FALSE) indicating if messages should
 #   be suppressed.
 # Notes:
-# - It is NOT checked if paths supplied in argument 'path' are valid file paths.
+# - It is NOT checked if paths supplied in argument 'path' are valid file paths,
+#   see the Programming notes on how to address that.
 # - A warning is issued if the working directory is returned as element
 #   'first_path', because that implies that no path was provided in argument
 #   'path' and no paths are present in '.libPath'.
@@ -67,12 +65,11 @@ get_paths <- function(path = character(0), quietly = FALSE) {
                          wd_path = getwd())
   
   # With these settings all_characters() only returns 'TRUE' for non-empty,
-  # non-NA_character_ character strings containing more than one character. The
+  # non-NA_character_ character strings containing at least one character. The
   # first such element in paths_possible is selected, and the first element of
   # that string is included as element 'first_path' in the returned list.
   path_first_OK <- which(vapply(X = paths_possible, FUN = all_characters,
-                                FUN.VALUE = logical(1), allow_empty_char = FALSE,
-                                allow_zero_char = FALSE, allow_NA_char = FALSE,
+                                FUN.VALUE = logical(1), allow_zero_char = FALSE,
                                 USE.NAMES = FALSE))[1]
   path_first_name <- names(paths_possible[path_first_OK])
   path_first <- paths_possible[path_first_OK][[1]][1]
@@ -95,9 +92,8 @@ get_paths <- function(path = character(0), quietly = FALSE) {
 #### check_OS_is_Windows ####
 # Check if the operating system is windows.
 # Input:
-# - on_error: character string containing 'warn', 'message' or 'quiet' that
-#   determines how the message if the operating system is not Windows is
-#   displayed.
+# - on_error: character string indicating the action if the operating system is
+#   not Windows. Options are 'warn' (default), 'message' or 'quiet'.
 # Return:
 # - A logical value indicating if the operating system is Windows, returned
 #   invisibly.
@@ -158,19 +154,19 @@ prepare_install <- function() {
         write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
               append = TRUE)
       }
-      stop("Utilities for RTools (the toolchain bundle used for building R",
-           " packages\nthat need compilation of C/C++ or Fortran code from",
+      stop("Utilities for RTools (the toolchain bundle used to build R",
+           " packages that\nneed compilation of C/C++ or Fortran code from",
            " source) were not yet on the\nsearch path. If you have not yet",
            " done so, download the version of Rtools that\ncorresponds to the",
            " R version you are using (", R.version.string, ") from",
            "\nhttps://cran.r-project.org/bin/windows/Rtools/ and install it.",
            " If you are using\nR versions 4.0.0 - 4.1.3, you have to restart R",
-           " afterwards and run this\nfunction 'prepare_install()' again to",
-           " put the location of Rtools utilities\n(bash, make, etc) on the",
-           " search path. For instructions see the link given above,\nor",
-           " install package 'pkgbuild' and run",
-           " pkgbuild::check_build_tools(debug = TRUE)\nto check if Rtools is",
-           " set up correctly and get instructions how to fix it if\nnot.")
+           " afterwards and run this function\n'prepare_install()' again to",
+           " put the location of Rtools utilities (bash, make,\netc) on the",
+           " search path. For instructions see the link given above, or",
+           "\ninstall package 'pkgbuild' and run",
+           " pkgbuild::check_build_tools(debug = TRUE) to check if\nRtools is",
+           " set up correctly and get instructions how to fix it if not.")
     }
   }
   
@@ -181,10 +177,10 @@ prepare_install <- function() {
   msg_lib <- paste0(" global variable 'lib_path' containing character strings",
                     " with the paths\nwhere packages are (or should be)",
                     " installed by running the following line:",
-                    "\nlib_path <- get_paths()$first_path\nAlternatively, run",
-                    " the following line to use all paths returned by",
-                    " get_paths():\nlib_path <- unique(unlist(get_paths(quietly",
-                    " = TRUE), use.names = FALSE))")
+                    "\nlib_path <- get_paths(quietly = TRUE)$first_path",
+                    "\nAlternatively, run the following line to use all paths",
+                    " returned by get_paths():\nlib_path <-",
+                    " unique(unlist(get_paths(quietly = TRUE), use.names = FALSE))")
   if(!exists("lib_path")) {
     stop(paste0("Specify", msg_lib))
   }
@@ -194,8 +190,8 @@ prepare_install <- function() {
                                      lib_path, ignore.case = TRUE, fixed = FALSE))
   rversion <- paste0("R-", as.character(getRversion()))
   if(length(rversionpath) == 0) {
-    warning("None of the specified path(s) (", paste0(lib_path, collapse = ",\n"),
-            ")\ncontains an R version number. You might want to\nspecify",
+    warning("None of the specified paths (", paste0(lib_path, collapse = ",\n"),
+            ")\ncontain an R version number. You might want to\nspecify",
             msg_lib)
   }
   if(!any(rversionpath == rversion)) {
@@ -587,7 +583,8 @@ check_status <- function(lib, checkBuilt = TRUE,
 #     utils::packageDescription() or utils::installed.packages()?
 #   See also https://pak.r-lib.org/reference/pkg_deps_explain.html which gives
 #     details about which function creates the dependency and
-#     https://github.com/yihui/xfun/blob/main/R/revcheck.R
+#     https://github.com/yihui/xfun/blob/main/R/revcheck.R and
+#     https://github.com/jokergoo/pkgndep for other implementations.
 list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
                               name_per_pkg = FALSE, number_per_pkg = TRUE,
                               name_total = TRUE, add_pkgs_to_total = FALSE,
@@ -681,7 +678,7 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 #   invisible.
 # Side effects:
 # - A .csv-file giving details of installed packages is saved inside the
-#     subfolder 'output'.
+#   subfolder 'output'.
 save_details <- function(PC_name = "desktop") {
   stopifnot(is.null(PC_name) ||
               (length(PC_name) == 1L && is.character(PC_name)))
