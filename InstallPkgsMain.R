@@ -1,7 +1,8 @@
 #### Introduction #####
 # This script can be used to check if R-packages are installed, get information
-# about installed R-packages, and to install new R-packages. It was created by
-# Jesse Alderliesten, see https://github.com/JesseAlderliesten.
+# about installed R-packages, and install new R-packages. The script was created
+# by Jesse Alderliesten and the source code is available at
+# https://github.com/JesseAlderliesten/InstallPkgs.
 
 # It is assumed R has been installed (see the file 'InstallR.txt' for
 # instructions) and that the scripts "InstallPkgsFuncs.R" and
@@ -40,7 +41,9 @@ source(file.path(".", "InstallPkgsLists.R"))
 # version number (see annotation of the function 'get_paths()' for details).
 lib_path <- get_paths(path = character(0), quietly = FALSE)$first_path
 
-# Perform various checks to ensure the rest of the script can run.
+# Perform various checks to ensure the rest of the script can run. If Rtools is
+# not installed or not set up, or the BiocManager package is not installed, the
+# script will try to do so.
 prepare_install()
 
 # Define package lists
