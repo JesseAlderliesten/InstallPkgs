@@ -23,7 +23,7 @@ git config --global user.email 'jane@example.com'
 git config --global --list
 The last line should return the username and email address you just entered.
 
-Also see https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+Also see https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 and https://happygitwithr.com/https-pat.html on the use of personal access
 tokens (PATs) instead of a username and password.
 
@@ -32,19 +32,19 @@ tokens (PATs) instead of a username and password.
 - Git documentation: https://git-scm.com/doc
 - GitHub help page: https://docs.github.com/en
 - GitHub help page on setting up GitHub:
-  https://docs.github.com/en/get-started/quickstart/set-up-git
+  https://docs.github.com/en/get-started/git-basics/set-up-git
 - Happy Git and GitHub for the useR, by Jennifer Bryan:
   https://happygitwithr.com/index.html
 - RStudio help page about version control:
-  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN
+  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN-in-the-RStudio-IDE
 - RStudio User Guide: https://docs.posit.co/ide/user/
 - Pro Git Book, by Scott Chacon and Ben Straub: https://git-scm.com/book/en/v2
 
 
 #### Using Git and GitHub ####
-To work with GitHub in RStudio, you should NOT open the plain R script directly,
-but instead open the R Project file (i.e., with extension .Rproj). Then the Git
-menu will be visible.
+To work with GitHub in RStudio, you should NOT open an R script, but instead
+open the R Project file (i.e., with extension .Rproj). Then the Git menu will be
+visible.
 
 Pull to get changes from the remote directory (i.e., GitHub) incorporated in the
 local directory (i.e., your computer), and handle any conflicts to get the local
@@ -53,8 +53,8 @@ directory up-to-date with the remote directory:
 - in the shell: git pull https://github.com/UserName/RepositoryName
   (UserName/RepositoryName has to be replaced with the relevant names)
 
-Save the modified file after you have made some changes to it, only then will
-the name of the file appear in the Git menu of RStudio to review changes:
+Save the modified file after you have made some changes, only then will the name
+of the file appear in the Git menu of RStudio to review changes:
 - in RStudio: check the checkbox in front of the relevant filename, use the Diff
   button in the Git menu to get an overview of the changes to the file, describe
   the changes in the box 'Commit message', and use the Commit button. Pull again
@@ -67,9 +67,9 @@ the name of the file appear in the Git menu of RStudio to review changes:
   git push https://github.com/UserName/RepositoryName
   (UserName/RepositoryName has to be replaced with the relevant names)
 
-If push leads to an error because of an invalid username/password, push again,
-then you will be asked for a personal access token (PAT). After you have entered
-the PAT once, RStudio will remember this token for next times.
+If pushing leads to an error because of an invalid username/password, push
+again, then you will be asked for a personal access token (PAT). After you have
+entered the PAT once, RStudio will remember this token for next times.
 
 
 #### Comparing files ####
@@ -92,7 +92,7 @@ Notes:
 
 
 #### Adding a new file ####
-To add a file to GitHub which was not there yet, first 'add' it to the local
+To add a file to GitHub that was not there yet, first 'add' it to the local
 folder (i.e., on the computer), then let git know it is there by typing (it is
 convenient to use tab-completion to select files):
 git add filename.extension
@@ -100,6 +100,10 @@ git add filename.extension
 If the working directory is NOT the folder where the to-be-added file is in,
 the working directory has to be set to that folder first (in the shell: use
 cd file/path/to/folder), or the path has to be added in front of the filename.
+
+
+#### Renaming a file ####
+See https://docs.github.com/en/repositories/working-with-files/managing-files/renaming-a-file
 
 
 #### Deleting a file ####
@@ -130,25 +134,26 @@ git clone --depth=1 https://github.com/username/reposname
 
 
 #### Common shell commands ####
-For an overview of some shell commands see https://git-scm.com/docs,
-or use the the BASH shell and type any of the next two lines:
-git config
-git help command (replace 'command' by the command you want help about)
+For an overview of some shell commands see https://git-scm.com/docs or in the
+BASH shell type git config or git help command (replace 'command' by the command
+you want help about).
 
-directory, change working directory: cd 'D:/Userdata/computerName/Documents/GIT/SomeFolder'
-directory, indicate current: .
-directory, indicate parent: ..
-directory, navigate to working directory: cd ~
-directory, print working directory: pwd
-files, list -: ls (use ls -a to also show hidden files)
-repositories, status of: git status
-repositories, list remotes: git remote -v
-user details, show: git config --global --list
+The working directory can be printed using pwd and changed using
+cd 'D:/Userdata/PcName/Documents/GIT/SomeFolder'
+One and two dots can be used in file paths to indicate the current and parent
+directory, respectively.
+
+list files: ls (use ls -a to also show hidden files)
+list remote repositories: git remote -v
+status of repositories: git status
+show user details: git config --global --list
+working directory, navigate to: cd ~
 
 
 #### Note on paths ####
 When entering paths in the shell, use forwardslash (/) instead of the Windows-
 default backslash (\). If the path you want to specify contains spaces (e.g.,
-D:/Userdata/My Account/), use quotes around the path ("..."). Tab-completion can
-be used when entering paths: single-tab to select an option, double-tab to see
-multiple options.
+D:/Userdata/My Account/), use quotes around the path (e.g.,
+"D:/Userdata/My Account/"). Tab-completion can be used when entering paths:
+single-tab to select an option, double-tab to see multiple options. Dragging a
+file into the shell gives the absolute path to that file.
