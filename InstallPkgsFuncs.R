@@ -19,7 +19,7 @@ is_logical <- function(x) {
 
 all_characters <- function(x, allow_zero_char = FALSE) {
   is.character(x) &&
-    (allow_zero_char == TRUE || length(x) > 0) &&
+    (allow_zero_char || length(x) > 0L) &&
     all(nzchar(x, keepNA = FALSE)) && !anyNA(x)
 }
 
@@ -141,10 +141,8 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
 # - For R versions 4.0.0 - 4.1.3, the location of Rtools utilities is put on the
 #   search path if it is not there yet.
 # - The BiocManager package is installed if it is not installed and functional.
-# Wishlist:
-# - Check https://stackoverflow.com/questions/26244530
 prepare_install <- function() {
-  if(check_OS_is_Windows(on_error = "warn") == TRUE) {
+  if(check_OS_is_Windows(on_error = "warn")) {
     if(nchar(Sys.which("make")) == 0) {
       # Put the location of Rtools (the C++ Toolchain) utilities (e.g., bash,
       # make) on the search path if it is not there yet for R versions 4.0.0 to
@@ -189,7 +187,7 @@ prepare_install <- function() {
                              regexpr("R-[[:digit:]].[[:digit:]].[[:digit:]]",
                                      lib_path, ignore.case = TRUE, fixed = FALSE))
   rversion <- paste0("R-", as.character(getRversion()))
-  if(length(rversionpath) == 0) {
+  if(length(rversionpath) == 0L) {
     warning("None of the specified paths (", paste0(lib_path, collapse = ",\n"),
             ")\ncontain an R version number. You might want to\nspecify",
             msg_lib)
@@ -249,7 +247,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   if(is.null(names(pkgs_lists))) {
     names(pkgs_lists) <- paste0("unnamed_list_entry_", seq_along(pkgs_lists))
   } else {
-    bool_ind_empty_names <- nchar(names(pkgs_lists), type = "width") == 0
+    bool_ind_empty_names <- nchar(names(pkgs_lists), type = "width") == 0L
     if(any(bool_ind_empty_names)) {
       names(pkgs_lists)[bool_ind_empty_names] <- paste0(
         "unnamed_list_entry_", which(bool_ind_empty_names))
@@ -258,7 +256,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   
   githuburls <- grep("github", unlist(pkgs_lists, use.names = FALSE),
                      ignore.case = TRUE, value = TRUE)
-  if(length(githuburls) > 0) {
+  if(length(githuburls) > 0L) {
     warning("Package name(s) '", paste(githuburls, collapse = "', '"),
             "'\nshould have the format username/repository instead of being",
             " full URLs pointing to GitHub")
@@ -267,7 +265,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   checklist <- NULL
   for(index_first_element in seq_along(pkgs_lists)) {
     unlisted1 <- unlist(pkgs_lists[index_first_element], use.names = FALSE)
-    if(neglect_repos == TRUE) {
+    if(neglect_repos) {
       unlisted1 <- sub(".*/", "", unlisted1)
     }
     
@@ -275,7 +273,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
     # counting while including checks for duplicates within lists.
     for(index_second_element in (index_first_element:length(pkgs_lists))) {
       unlisted2 <- unlist(pkgs_lists[index_second_element], use.names = FALSE)
-      if(neglect_repos == TRUE) {
+      if(neglect_repos) {
         unlisted2 <- sub(".*/", "", unlisted2)
       }
       
@@ -294,18 +292,18 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
         )
       }
       
-      if(length(unlist(add_to_checklist, use.names = FALSE)) > 0) {
+      if(length(unlist(add_to_checklist, use.names = FALSE)) > 0L) {
         checklist <- c(checklist, add_to_checklist)
       }
     }
   }
   
-  if(length(checklist) > 0) {
+  if(length(checklist) > 0L) {
     warning("Package lists contain duplicate package names, see the printed",
             " output.", call. = FALSE)
     print(checklist)
   } else {
-    if(quietly == FALSE) {
+    if(!quietly) {
       message("No duplicates were found in package lists.")
     }
   }
@@ -364,7 +362,7 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
   # name is the part after the last forward slash in GitHub repository names.
   pkgs <- sub(pattern = ".*/", replacement = "", x = pkgs)
   
-  if(verbose == FALSE) {
+  if(!verbose) {
     index_nonfunctional <- suppressWarnings(suppressPackageStartupMessages(
       which(!sapply(X = pkgs, FUN = requireNamespace, lib.loc = lib,
                     quietly = quietly, simplify = TRUE))
@@ -378,15 +376,15 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
   
   nonfunctional_pkgs <- pkgs_input[index_nonfunctional]
   
-  if(sort == TRUE) {
+  if(sort) {
     nonfunctional_pkgs <- sort(nonfunctional_pkgs)
   }
   
-  if(length(nonfunctional_pkgs) > 0) {
+  if(length(nonfunctional_pkgs) > 0L) {
     message("Names of non-functional packages:")
     dput(nonfunctional_pkgs)
     
-    if(save_file == TRUE) {
+    if(save_file) {
       file_name <- paste0("nonfunc_pkgs_",
                           format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"),
                           "_", paste0("R", as.character(getRversion())), ".txt")
@@ -460,7 +458,7 @@ check_status <- function(lib, checkBuilt = TRUE,
   print_output <- match.arg(print_output, several.ok = TRUE)
   
   stopifnot(is_logical(checkBuilt), is_logical(save_file))
-  if(length(print_output) > 1) {
+  if(length(print_output) > 1L) {
     print_output <- print_output[1]
     warning("Only the first element (\'", print_output, "\') of the argument ",
             "'print_output' will be used.")
@@ -472,8 +470,8 @@ check_status <- function(lib, checkBuilt = TRUE,
   too_new_names <- NULL
   invalid_details <- NULL
   # valid() returns TRUE if all packages are valid, not an empty list
-  if(length(valid_out) > 1) {
-    if(length(valid_out$out_of_date) > 0) {
+  if(length(valid_out) > 1L) {
+    if(length(valid_out$out_of_date) > 0L) {
       out_of_date_names <- dimnames(valid_out$out_of_date)[[1]]
       cols_specs <- c("Package", "Installed", "ReposVer", "Built")
       invalid_details <- valid_out$out_of_date[, cols_specs, drop = FALSE]
@@ -482,7 +480,7 @@ check_status <- function(lib, checkBuilt = TRUE,
         print(invalid_details)
       }
     }
-    if(length(valid_out$too_new) > 0) {
+    if(length(valid_out$too_new) > 0L) {
       too_new_names <- dimnames(valid_out$too_new)[[1]]
       too_new_specs <- data.frame(Package = rownames(valid_out$too_new),
                                   Installed = valid_out$too_new[, "Version"],
@@ -496,7 +494,7 @@ check_status <- function(lib, checkBuilt = TRUE,
     
     invalid_names <- c(out_of_date_names, too_new_names)
     
-    if(save_file == TRUE) {
+    if(save_file) {
       rownames(invalid_details) <- NULL
       file_name <- paste0("invalid_pkgs_",
                           format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"),
@@ -537,6 +535,8 @@ check_status <- function(lib, checkBuilt = TRUE,
 
 #### list_dependencies ####
 # Function to list package dependencies and the number of dependencies.
+# Information about dependencies for non-CRAN packages is currently NOT
+# correctly handled.
 # Input:
 #   pkgs: character vector of package names. Names of packages from GitHub can
 #     be in the format username/repository or only the repository name.
@@ -611,7 +611,7 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
     pkgs <- sort(pkgs)
   }
   
-  if(exclude_high_prio == TRUE) {
+  if(exclude_high_prio) {
     if(!exists("high_prio_pkgs")) {
       message("Collecting names of installed high priority packages because ",
               "the set 'high_prio_pkgs' was not loaded.\nNames of high ",
@@ -633,24 +633,24 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
     # information about dependencies is obtained, whereas integer(0) indicates
     # the package does not have any dependencies.
     pkg_deps <- unlist(deps_per_pkgs[index_pkgs], use.names = FALSE)
-    if(length(pkg_deps) > 0) {
+    if(length(pkg_deps) > 0L) {
       deps_per_pkgs[index_pkgs][[1]] <- sort(pkg_deps[!(pkg_deps %in% exclude_pkgs)])
     }
   }
   
   deps_total <- unlist(deps_per_pkgs, use.names = FALSE)
-  if(add_pkgs_to_total == TRUE) {
+  if(add_pkgs_to_total) {
     deps_total <- c(deps_total, pkgs)
   }
   deps_total <- unique(deps_total)
   deps_total <- sort(deps_total[!(deps_total %in% exclude_pkgs)])
   
   out <- NULL
-  if(name_per_pkg == TRUE) {
+  if(name_per_pkg) {
     out <- c(out, deps_per_pkgs)
   }
   
-  if(number_per_pkg == TRUE) {
+  if(number_per_pkg) {
     ndeps_per_pkgs <- lengths(deps_per_pkgs)
     if(sort_ndeps_by == "ndeps") {
       ndeps_per_pkgs <- sort(ndeps_per_pkgs)
@@ -658,7 +658,7 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
     out <- c(out, list(ndeps_per_pkgs = ndeps_per_pkgs))
   }
   
-  if(name_total == TRUE) {
+  if(name_total) {
     out <- c(out, list(deps_total = sort(deps_total)))
   }
   
@@ -682,7 +682,7 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 save_details <- function(PC_name = "desktop") {
   stopifnot(is.null(PC_name) ||
               (length(PC_name) == 1L && is.character(PC_name)))
-  PC_name <- gsub("[^[:alnum:]_]", "_", PC_name)
+  PC_name <- gsub(pattern = "[^[:alnum:]_]", replacement = "_", x = PC_name)
   
   installed_pkgs <- installed.packages()[, c("Package", "Version", "Built",
                                              "NeedsCompilation", "Priority")]
@@ -694,6 +694,13 @@ save_details <- function(PC_name = "desktop") {
   if(!dir.exists(dir_path)) {
     dir.create(dir_path, recursive = TRUE)
   }
+  
+  # Notes:
+  # - The path is normalised such that the printed path also works to read the
+  #   data back into R after the working directory has changed, for example
+  #   because R is not opened through the InstallPkgs project.
+  # - Using "/" instead of "\\" as winslash so the printed path can be directly
+  #   used in dget().
   read_back_path <- normalizePath(file.path(dir_path, file_name),
                                   winslash = "/", mustWork = FALSE)
   message_read_back <- paste0("\nTo read the information back into R use:",
