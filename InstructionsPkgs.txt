@@ -1,166 +1,177 @@
 #### Introduction ####
-File with information on installing and getting information about R packages.
+This file contains information on installing and getting information about R
+packages. It also details methods to obtain the source code of R functions. A
+package is a standardized collection of material extending R, e.g. providing
+code, data, or documentation (R FAQ 7.29). After a package is installed, you
+need to run library(packagename). This loads the package (i.e., makes it
+available in the memory) and adds it to the search path such that the computer
+knows where to look for the functions contained in the package.
 
 
-#### See also ####
-https://thomasadventure.blog/posts/install-r-packages/
+#### Information about not-yet-installed R packages ####
+A PDF with all help files of the standard and recommended R packages is
+available at https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf.
+The manuals and help pages of all CRAN packages can be searched from
+https://search.r-project.org/, which can also be accessed from within R using
+utils::RSiteSearch().
+
+The source code of base R packages can be obtained from GitHub (see the section
+'Getting the source code' below), and the installation pages of add-on packages
+on CRAN frequently contain links to the GitHub pages of packages where the
+source code can be viewed.
 
 
-#### Installing alternative versions of a package ####
-To get the version number of an installed package, use
-utils::packageVersion("pkgname") (note the package name has to be quoted).
-
-Installing an old version of a package usually requires installation of RTools
-to build the packages from source, see the section 'Rtools' in the file
-'InstallR.txt'.
-
-The function 'install_version' from the 'remotes' package can be used to
-install an old version of a package:
-remotes::install_version("ggplot2", version = "3.3.4", upgrade = "ask").
-
-Alternatively, for CRAN packages obtain the URL pointing to the desired version
-at its CRAN page at 'Downloads > Old sources > pkgs archive' and use this URL:
-install.packages("https://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.3.4.tar.gz",
-lib = lib, repos = NULL, type = "source").
-
-Older versions of Bioconductor packages can be found by visiting the appropriate
-version of bioconductor, e.g., https://bioconductor.org/packages/3.16/BiocViews.html
-(see https://bioconductor.org/about/release-announcements/ for a list of versions
-with the corresponding R version).
-
-Versions of CRAN R packages can be compared with diffify (https://diffify.com/)
-and an overview of changes in CRAN packages is available at CRANBERRIES:
-https://dirk.eddelbuettel.com/cranberries/.
-
-
-#### Installing task views ####
-To install or update all core packages from a CRAN taskview
-(https://cran.r-project.org/web/views/) install the package 'ctv' and run
-install.views("taskviewname", coreOnly = TRUE) or update.views("taskviewname").
-
-
-#### Package repositories ####
+#### Obtaining packages from repositories ####
 R packages can be obtained from various repositories, which commonly have
 thematic selections of packages as well:
 - Bioconductor: https://bioconductor.org/
-  (thematic: https://bioconductor.org/packages/release/BiocViews.html#___Software
-  also see the biocManager package: https://cran.r-project.org/web/packages/BiocManager/)
+  (thematic: https://bioconductor.org/packages/release/BiocViews.html#___Software)
 - CRAN: https://cran.r-project.org/web/packages/index.html
-  (thematic: https://cran.r-project.org/web/views/, includes overviews of
-  related links and resources; see also the sections 'CRAN mirrors' and
-  'Installing task views' below)
+  (thematic: https://cran.r-project.org/web/views/; to install or update all
+  core packages from a CRAN taskview, install package 'ctv' and run
+  ctv::install.views("taskviewname", coreOnly = TRUE) or
+  ctv::update.views("taskviewname", coreOnly = TRUE), respectively; see also the
+  section 'CRAN mirrors' below)
 - Neuroconductor: https://neuroconductor.org/list-packages/all
 - R-Forge: https://r-forge.r-project.org/
   (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
 - rOpenSci: https://ropensci.org/packages/all/
   (thematic: https://ropensci.org/packages/)
-- R universe: https://r-universe.dev/search/
+- R universe: https://r-universe.dev/search
+
+In addition, many R packages are available from GitHub (https://github.com/).
 
 
 #### CRAN mirrors ####
 A list of CRAN mirrors (i.e., websites hosted in various parts of the world with
 the same content as the main CRAN website) is available at
-https://cran.r-project.org/mirrors.html, and information about their status is
-available at https://cran.r-project.org/mirmon_report.html and in the function
-getCRANmirrors() from the R-package 'utils'. 
+https://cran.r-project.org/mirrors.html. Information about the status of the
+mirrors is available at https://cran.r-project.org/mirmon_report.html and in the
+function getCRANmirrors() from the R-package 'utils'.
 
 
-#### Information about not-yet-installed R packages ####
-A PDF with all help files of the R standard and recommended packages is
-available at https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf.
+#### Installing older versions of a package ####
+To get the version number of an installed package, use
+utils::packageVersion("packagename").
 
-The following websites are useful to obtain information on R packages:
-- https://search.r-project.org/ (access from within R using utils::RSiteSearch())
-- https://rseek.org/
-- METACRAN: https://www.r-pkg.org/ to search in CRAN packages
-- R universe: https://r-universe.dev/search/
-- R source code: https://github.com/wch/r-source. If a function is internal or
-  primitive (i.e., when printing the method shows '.Internal' or '.Primitive'),
-  first look for the function in the file src/main/names.c to find the
-  appropriate c-entry, then look for that c-file in src/main.
+Installing an old version of a package usually requires installation of RTools
+to build the packages from source, see the section 'Installing and configuring
+Rtools' in the file 'InstallR.txt'.
+
+The function 'install_version()' from the 'remotes' package can be used to
+install an old version of a package:
+remotes::install_version("ggplot2", version = "3.4.4", upgrade = "ask").
+
+Alternatively, for CRAN packages, obtain the URL pointing to the desired version
+at its CRAN page at 'Downloads > Old sources > pkg archive' and use that URL:
+install.packages("https://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.4.4.tar.gz",
+lib = lib, repos = NULL, type = "source").
+
+Older versions of Bioconductor packages can be found by visiting the appropriate
+version of bioconductor, e.g., https://bioconductor.org/packages/3.19/BiocViews.html
+(see https://bioconductor.org/about/release-announcements/ for a list of
+Bioconductor versions with the corresponding R version).
+
+Versions of CRAN R packages can be compared with diffify (https://diffify.com/R)
+and a chronological overview of changes in CRAN packages is available at
+CRANberries: https://dirk.eddelbuettel.com/cranberries/.
 
 
 #### Information about already-installed R packages ####
-Partly based on 'Ligges U. 2006. Accessing the sources. RNews 6(4):43-45.
-
-The code of functions from installed packages can usually be obtained
-through getAnywhere("functionname"). If you know which package the
-function is in, another option is packagename::functionname (without
-adding the brackets that would be added when using a function). For internal
-functions three instead of two colons should be used, and one should realise
-that the interfaces to internal functions are not guaranteed to stay the same.
-The sources given above in the section 'Information about not-yet-installed R
-packages' can also be used to obtain information on already-installed R
-packages, in particular the source code at https://github.com/wch/r-source (see
-the note on accessing source code of internal and primitive functions above).
-
-After a package has been loaded (i.e., library(packagename) has been run),
-various kinds of information on the package and its functions is available from
-within R:
-- Display package functions: getNamespaceExports("packagename"),
-  ls("package:packagename", all.names = TRUE),
-  ls(getNamespace("packagename"))
-- Display main help page: help(packagename)
-- List methods that have been defined for a generic function:
-  methods(generic.function)
-- List methods that have been defined for a generic class:
-  methods(class = classname) # For S3
-  attr(methods(class = "classname"), "info") # For S3
-  showMethods(classes = "classname", where = getNamespace("packagename")) # For S4
-- Display function help pages: help(functionname)
-  An operator (e.g., ||) has to be quoted to get its help page: help('||')
-- Display function arguments: args(functionname)
+Information on a package and its functions is available from within R after the
+package has been installed and loaded (i.e., library(packagename) has been run):
+- Help page of a package: help("packagename")
+- List package functions: ls(getNamespace("packagename"))
 - Display installed package version: utils::packageVersion("packagename")
 
+Information about functions, methods, and classes can also be obtained (see also
+the section 'Getting the source code' below):
+- Help page of a function: help("functionname")
+  To distinguish between functions from different packages:
+  help("||", package = "lme4").
+- List of function arguments: args("functionname")
+- List of methods that have been defined for a generic class:
+  methods(class = "classname")
+  attr(methods(class = "classname"), "info") for S3-methods and
+  showMethods(classes = "classname", where = getNamespace("packagename")) for
+  S4-methods.
+- List of methods that have been defined for a generic function:
+  methods("functionname").
+- List of objects (including functions) whose name contains a certain string:
+  apropos("functionname").
 
-#### Discussion of packages ####
-A short selection of books and websites that discuss various R packages:
-Microbiology and ecology:
-- Bolker BM. 2008. Ecological models and data. Princeton: Princeton University
-  Press. R-package 'emdbook'.
-- Borcard D, Gillet F, Legendre P. 2018. Numerical ecology with R. Springer.
-  R-scripts available at: http://www.numericalecology.com/numecolR/
-- Swenson NG. 2014. Functional and Phylogenetic Ecology in R. Springer.
-  (with a list of discussed packages at p. 7)
-- Van den Boogaart KG, Tolosana-Delgado R. 2013. Analyzing compositional data
-  with R. Heidelberg: Springer.
-- https://microsud.github.io/Tools-Microbiome-Analysis/ (List of R-based tools)
-
-Numerical optimization:
-- Cortez P. 2021. Modern optimization with R (2nd ed). Springer.
-
-ODEs and Epidemiology:
-- https://cran.r-project.org/view=DifferentialEquations
-- https://cran.r-project.org/view=Epidemiology
-- https://cran.r-project.org/view=Pharmacokinetics
-- Batra N, et al. The Epidemiologist R Handbook. 2021.
-  https://epirhandbook.com/en/index.html
-- Bjornstad ON. 2018. Epidemics: models and data using R. Springer.
-- Ellner and Guckenheimer. 2006. Dynamic models in biology. Princeton University
-  Press. Supplementary files and computer lab manual available at
-  https://github.com/ellner/DMB-supplements
-- Reconverse: A coherent ecosystem of R packages for outbreak analytics:
-  https://www.reconverse.org/
-- R Epidemics consortium: https://www.repidemicsconsortium.org/projects/
-
-Statistics:
-- Various CRAN task views (https://cran.r-project.org/web/views/)
-- Holmes S, Huber W. Modern statistics for modern biology.
-  http://web.stanford.edu/class/bios221/book/
-
-Miscellaneous:
-- See the comparison of implementation of functions across packages in the
-  'Data Wrangling Functions' repository of CghLewis at
-  https://github.com/Cghlewis/data-wrangling-functions
-- The function list.functions.in.file() from package 'NCmisc' and the function
-  'files_functions() from package 'lares' show all functions used in an R
-  script, by package.
-- To see which packages are used in a script, look for: library, require,
-  requireNamespace, ::. To see which packages are mentioned in comments, look
-  for: BioConductor, CRAN, package, StackOverflow.
+Information about the citation of packages is available through
+citation("packagename"), with citation() to cite R itself.
 
 
-#### Documentation and help ####
+#### Getting the source code ####
+Partly based on Ligges U. 2006. Accessing the sources. RNews 6(4):43-45 and
+https://stackoverflow.com/a/19226817
+
+The source code of the base R packages is available at
+https://svn.r-project.org/R/trunk/, but searching the code is easier using the
+GitHub mirror https://github.com/r-devel/r-svn/. The source code of BioConductor
+packages is available at https://code.bioconductor.org/.
+
+The simplest way to obtain the source code of a function is typing the name of
+the function, without the brackets. E.g., sd returns function (x, na.rm = FALSE) 
+sqrt(var(if (is.vector(x) || is.factor(x)) x else as.double(x), na.rm = na.rm)).
+A more robust alternative is using getAnywhere("functionname"): that function
+looks in more places. Although the quotes around the function name are not
+necessary when looking for normal functions, they are required when looking for
+the source code of operators such as ||, such that it is most robust to use them
+throughout.
+
+If getAnywhere("functionname") returns UseMethod("functionname") instead of the
+source code, the function is generic and has different methods for different
+object classes. Use methods("functionname") to get an overview of the available
+methods and then obtain the source code of a particular method using
+getAnywhere("function.class"), where function.class is an item from the overview
+returned by methods("functionname"). For example, getAnywhere("mean") returns
+function (x, ...) UseMethod("mean") and methods("mean") returns mean.Date,
+mean.default, and several other methods. Then getAnywhere("mean.default") and
+getAnywhere("mean.Date") return the source code for the default method and the
+method used with objects of class 'Date', respectively.
+
+If getAnywhere("functionname") returns standardGeneric("functionname") instead
+of the source code, the function is S4-function and has different methods for
+different object classes. Use showMethods(functionname) to get an overview of
+the available methods (or pkgname:::functionname to get an overview of the
+available methods from package pkg) and the obtain the source code of a
+particular method using getMethod("pkgname", "functionname"). For example, if
+the Matrix package is installed and loaded (i.e., library(Matrix) has been
+used), getAnywhere("all.equal") returns matches for package Matrix and for
+package base. Selecting the match from package Matrix (i.e.,
+getAnywhere("all.equal")[1]) returns, among others, standardGeneric("all.equal")
+indicating that 'all.equal' is an S4 function. Using showMethods("all.equal")
+gives an overview of the different methods. Then provide the function name as
+argument 'f' and the entire line of the selected method as argument 'signature'
+to function getMethod() to get the source code:
+getMethod(f = "all.equal", signature = c(target = "vector", current = "Matrix")).
+
+If getAnywhere("functionname") returns '.Internal' or '.Primitive', the function
+is internal or primitive. Look for the function name in the first column (which
+gives the name of the R function) of the file src/main/names.c to find the
+appropriate c-entry which is given in the second column of that file. Then
+search for that c-file in src/main to locate the file with the source code. For
+example, getAnywhere("matrix") shows, among others, the line
+'.Internal(matrix(data, nrow, ncol, byrow, dimnames, missing(nrow), missing(ncol)))'.
+The file src/main/names.c has as entry with 'matrix' in the first column:
+{"matrix",	do_matrix,	0,	11,	7,	{PP_FUNCALL, PREC_FN,	0}}
+Searching src/main for do_matrix gives file 'array.c' as one of its results.
+That file contains the source code of 'matrix'. Similarly, getAnywhere("log10")
+shows 'function (x)  .Primitive("log10")'. The file src/main/names.c has as
+entry with 'log10' in the first column:
+{"log10",	do_log1arg,	10,	1,	1,	{PP_FUNCALL, PREC_FN,	0}}
+Searching src/main for do_log1arg gives file 'arithmetic.c' as one of its
+results. That file contains the source code of 'log10'.
+
+
+#### Troubleshooting ####
+Note that package names are case-sensitive.
+
 If errors occur when loading packages that require Java, make sure the 64-bit
-version of Java is installed on 64-bit PCs. The different versions are
+version of Java is installed on 64-bit PCs. The different Java versions are
 available at https://www.java.com/download/manual.jsp.
+
+
