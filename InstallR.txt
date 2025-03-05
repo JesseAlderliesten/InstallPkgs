@@ -1,7 +1,8 @@
 #### Introduction ####
 This file contains instructions on installing and configuring R, RStudio, and
-RTools on Windows, as well as links to documentation and help on R and RStudio.
-It was created by Jesse Alderliesten, see https://github.com/JesseAlderliesten.
+RTools on Windows. It also provides an overview of functions to get information
+about the used R installation and links to documentation and help on R and
+RStudio.
 
 
 #### Installing and configuring R ####
@@ -13,9 +14,8 @@ install it.
 
 R can be configured by changing general options, options for startup, and
 options for installing packages, which are documentated at help("options"),
-help("Startup"), and help("install.packages"), respectively. 'Startup' and
-'install.packages' are also discussed in the section 'Add-on packages' of the 'R
-Installation and Administration manual' available at
+help("Startup"), and help("install.packages"), respectively. For more details,
+see the 'R Installation and Administration manual' available at
 https://cran.r-project.org/manuals.html.
 
 
@@ -31,17 +31,16 @@ e.g., to change the shortcut 'Run current line or selection' from 'Ctrl+Enter'
 to 'Ctrl+R' so it can be used with one hand.
 
 The appearance of code can be changed at 'Tools' > 'Global options' >
-'Appearance'. I use Editor fonts 'Consolas', 'Cacadia Mono Light', or
-'Lucida Console' with dark Editor theme 'Tomorrow Night Bright' (the default
-light theme is 'textmate', another nice light theme is Xcode).
+'Appearance'. I use Editor fonts 'Consolas', 'Cacadia Mono Light', or 'Lucida
+Console' with dark Editor theme 'Tomorrow Night Bright' (the default light theme
+is 'textmate', another nice light theme is Xcode).
 
-The following string groups together characters that are similar in appearance
-and can be used to check if characters can be properly distinguished from each
-other, for example at https://fonts.google.com/ or https://fonts.adobe.com/:
+To check if characters can be properly distinguished from each other, for
+example at https://fonts.google.com/ or https://fonts.adobe.com/, the pangrams
+'a quick brown fox jumps over the lazy dog' and 'THE QUICK BROWN FOX JUMPS OVER
+THE LAZY DOG' can be used for letters. The following string groups together
+characters that are similar in appearance and includes numbers and symbols:
 71lI|i/ oO0D S5 Z2 B8 ijy4 gq __ UVVW uvvw cldcIdc|dc1d rnm " '' ``
-
-The pangrams 'a quick brown fox jumps over the lazy dog' and, in capital
-letters, 'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG' can also be used.
 
 The string consists of the following numeric (num), lower case (lower), and
 upper case (upper) characters:
@@ -64,23 +63,40 @@ execution.
 
 Before installing or updating R packages that require Rtools, download the
 version of Rtools appropriate for the installed R-version from a CRAN website
-(see section 'Installing R' above) via 'Download R for Windows' > 'Rtools' > 
-'RTools X.X' and set it up using the instructions given there.
+(see the section 'Installing and configuring R' above) via
+'Download R for Windows' > 'Rtools' > 'RTools X.X' and set it up using the
+instructions given there.
+
+
+#### Information about R ####
+Information about R and the current R session is provided by various functions:
+- .Machine and Sys.info() provide information about the machine and platform R
+  is running on.
+- .Platform and R.Version() (with the same information in variable R.version)
+  provide information about the platform R was built on.
+- sessionInfo() provides information about the operating system and R, and gives
+  lists of attached and loaded packages. Its printing method provides additional
+  information: print(sessionInfo(), locale = TRUE, RNG = TRUE).
+- capabilities() and extSoftVersion() provide some details about external
+  software that are used or have been installed with R.
+
+How operating systems identify themselves and their versions can be arcane, and
+specifically Windows versions might report older versions than the versions that
+are actually installed (see the note 'osVersion' in help(sessionInfo) and the
+note in help(win.version)).
 
 
 #### Documentation and help ####
-- CRAN main website: https://cran.r-project.org/
+- CRAN homepage: https://cran.r-project.org/
 - CRAN R FAQs: https://cran.r-project.org/faqs.html
 - CRAN R Manuals: https://cran.r-project.org/manuals.html
 - CRAN R News: https://cran.r-project.org/doc/manuals/r-release/NEWS.html
-- RStudio user guide: https://docs.posit.co/ide/user/
-- R homepage: https://www.r-project.org/
-- General help from inside R: help.start()
-
-
-#### Developer documentation ####
-- CRAN R devel News: https://cran.r-project.org/doc/manuals/r-devel/NEWS.html
-- R bug checking and reporting: https://www.r-project.org/bugs.html, with link
-  to https://bugs.r-project.org/
+- CRAN R News (devel): https://cran.r-project.org/doc/manuals/r-devel/NEWS.html
+- R bug checking and reporting: https://www.r-project.org/bugs.html, linking to
+  https://bugs.r-project.org/
 - R developer page: https://developer.r-project.org/
-- R upcoming changes: https://svn.r-project.org/R/trunk/doc/NEWS.Rd
+- R general help from inside R: help.start()
+- R homepage: https://www.r-project.org/
+- R on StackOverflow: https://stackoverflow.com/tags/r/info
+- RStudio user guide: https://docs.posit.co/ide/user/
+- Rseek search engine: https://rseek.org/
