@@ -449,6 +449,8 @@ math_stats_regression <- c(
 
 
 #### math_stats ####
+# See also various CRAN task views (https://cran.r-project.org/web/views/)
+
 math_stats <- c(
   "alpha.correction.bh", # Benjamini-Hochberg Alpha Correction
   "binom",       # Binomial Confidence Intervals For Several Parameterizations
@@ -487,6 +489,9 @@ math_stats <- c(
 
 
 #### math_MSMB ####
+# Holmes S, Huber W. Modern statistics for modern biology.
+#   http://web.stanford.edu/class/bios221/book/
+
 math_MSMB <- c(
   "MSMB",       # Data sets for the book 'Modern Statistics for Biology'
   "airway",     # RangedSummarizedExperiment for RNA-Seq in airway smooth muscle cells
@@ -580,6 +585,9 @@ math_MSMB <- c(
 
 
 #### microbio_eco ####
+##### See also #####
+# The list of R-based tools at https://microsud.github.io/Tools-Microbiome-Analysis/
+
 microbio_eco <- c(
   # See also the sets 'graphics_multidimensional_networks' and
   #   'taxonomy_phylogeny'
@@ -622,6 +630,14 @@ microbio_eco <- c(
 
 
 #### ODE_epi_growth ####
+##### See also ####
+# - Batra N, et al. 2024. The epidemiologist R handbook: https://epirhandbook.com/
+# - CRAN task views https://CRAN.R-project.org/view=DifferentialEquations and
+#   https://CRAN.R-project.org/view=Epidemiology
+# - Reconverse: A coherent ecosystem of R packages for outbreak analytics:
+#   https://www.reconverse.org/
+# - R Epidemics consortium: https://www.repidemicsconsortium.org/projects/
+
 ODE_epi_growth <- c(
   "binGroup2",   # Identification and Estimation using Group Testing
   "biogrowth",   # Modelling of Population Growth
@@ -689,6 +705,8 @@ ODE_handling <- c(
 
 
 #### ODE_PBPK ####
+# See also the CRAN task view https://CRAN.R-project.org/view=Pharmacokinetics
+
 ODE_PBPK <- c(
   "ecotox",      # Analysis of Ecotoxicology
   "nlmixr2",     # Nonlinear Mixed Effects Models in Population PK/PD 
