@@ -48,7 +48,8 @@ all_characters <- function(x, allow_zero_char = FALSE) {
 # - To implement a check if paths supplied in argument 'path' are valid file
 #   paths, see normalizePath(), path.expand(), checkmate::testPathForOutput(),
 #   fs::path_sanitize(), https://en.wikipedia.org/wiki/Filename#In_Windows,
-#   and https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats.
+#   https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats,
+#   and https://www.fileside.app/blog/2023-03-17_windows-file-paths/.
 get_paths <- function(path = character(0), quietly = FALSE) {
   stopifnot(all_characters(path, allow_zero_char = TRUE), is_logical(quietly))
   
