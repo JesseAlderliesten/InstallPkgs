@@ -86,9 +86,14 @@ Notes:
   spaces.
 - The flag --no-index makes it possible to compare files that are not under
   version control in Git.
-- Although the scroll bar in Git Bash indicates it is at the end of the file
-  (and scrolling with the mouse does not work), using the down arrow key allows
-  you to see the whole document.
+- Although the scroll bar in Git Bash seems to indicate the end of the file is
+  reached (and scrolling with the mouse does not work) after opening a file,
+  usually a colon (:) will be displayed left to the cursor to indicate that only
+  part of the file is shown. Use the down arrow key to see the whole file until
+  the end of the file is reached, which is indicated by '(END)'.
+- The location of changes is indicated at the top of changed chuncks, as in
+  -13,5 +14,9 indicating the line numbers and the character number on that line
+  at which the deletion and insertion were made, respectively.
 
 
 #### Adding a new file ####
@@ -157,3 +162,10 @@ D:/Userdata/My Account/), use quotes around the path (e.g.,
 "D:/Userdata/My Account/"). Tab-completion can be used when entering paths:
 single-tab to select an option, double-tab to see multiple options. Dragging a
 file into the shell gives the absolute path to that file.
+
+
+#### See also ####
+On git tags and releases:
+- https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases
+- https://www.toolsqa.com/git/git-tags/
+- https://www.jetbrains.com/help/dataspell/use-tags-to-mark-specific-commits.html
