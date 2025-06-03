@@ -31,7 +31,8 @@ thematic selections of packages as well:
   core packages from a CRAN taskview, install package 'ctv' and run
   ctv::install.views("taskviewname", coreOnly = TRUE) or
   ctv::update.views("taskviewname", coreOnly = TRUE), respectively; see also the
-  section 'CRAN mirrors' below)
+  section 'CRAN mirrors' below). CRAN packages that have been recently archived
+  are available at https://www.cranhaven.org/.
 - Neuroconductor: https://neuroconductor.org/list-packages/all
 - R-Forge: https://r-forge.r-project.org/
   (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
@@ -111,7 +112,8 @@ https://stackoverflow.com/a/19226817
 The source code of the base R packages is available at
 https://svn.r-project.org/R/trunk/, but searching the code is easier using the
 GitHub mirror https://github.com/r-devel/r-svn/. The source code of BioConductor
-packages is available at https://code.bioconductor.org/.
+packages is available at https://code.bioconductor.org/. The source of the other
+R-packages is available from an unofficial CRAN mirror at https://github.com/cran.
 
 The simplest way to obtain the source code of a function is typing the name of
 the function, without the brackets. E.g., sd returns function (x, na.rm = FALSE) 
@@ -123,7 +125,7 @@ the source code of operators such as ||, such that it is most robust to use them
 throughout.
 
 If getAnywhere("functionname") returns UseMethod("functionname") instead of the
-source code, the function is generic and has different methods for different
+source code, the function is S3-generic and has different methods for different
 object classes. Use methods("functionname") to get an overview of the available
 methods and then obtain the source code of a particular method using
 getAnywhere("function.class"), where function.class is an item from the overview
@@ -134,7 +136,7 @@ getAnywhere("mean.Date") return the source code for the default method and the
 method used with objects of class 'Date', respectively.
 
 If getAnywhere("functionname") returns standardGeneric("functionname") instead
-of the source code, the function is S4-function and has different methods for
+of the source code, the function is an S4-function and has different methods for
 different object classes. Use showMethods(functionname) to get an overview of
 the available methods (or pkgname:::functionname to get an overview of the
 available methods from package pkg) and the obtain the source code of a
@@ -173,5 +175,3 @@ Note that package names are case-sensitive.
 If errors occur when loading packages that require Java, make sure the 64-bit
 version of Java is installed on 64-bit PCs. The different Java versions are
 available at https://www.java.com/download/manual.jsp.
-
-
