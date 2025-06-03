@@ -42,15 +42,16 @@ THE LAZY DOG' can be used for letters. The following string groups together
 characters that are similar in appearance and includes numbers and symbols:
 71lI|i/ oO0D S5 Z2 B8 ijy4 gq __ UVVW uvvw cldcIdc|dc1d rnm " '' ``
 
-The string consists of the following numeric (num), lower case (lower), and
-upper case (upper) characters:
-num 7, num 1, lower L, upper I, vertical bar, lower I, slash /
-lower O, upper O, num 0, upper D / upper S, num 5 / upper Z, num 2 /
-upper B, num 8 / lower I, lower J, lower Y, num 4 / lower G, lower Q /
+The string consists of the following characters (using upper case letter
+because they are better distinguishable, with 'lower' and 'upper' indicating
+the case):
+seven, one, lower L, upper eye, vertical bar, lower eye, slash /
+lower oh, upper oh, zero, upper dee / upper es, five / upper Z, two /
+upper bee, eight / lower eye, lower J, lower Y, four / lower G, lower Q /
 underscore, underscore / upper U, upper V, upper V, upper double-U /
 lower U, lower V, lower V, lower double-U /
-lower C, lower L, lower D, lower C, upper I, lower D, lower C, vertical bar,
-lower D, lower C, num 1, lower D / lower R, lower N, lower M /
+lower C, lower L, lower D, lower C, upper eye, lower D, lower C, vertical bar,
+lower D, lower C, one, lower D / lower R, lower N, lower M /
 double quotes, single quotes, single quotes, backtick, backtick
 
 
