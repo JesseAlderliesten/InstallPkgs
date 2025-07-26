@@ -4,7 +4,7 @@ This file provides information on setting up and using Git and GitHub on Windows
 
 #### Setting up Git and GitHub ####
 Create a GitHub account at https://github.com/, download a GitHub client from
-https://git-scm.com/download or from https://gitforwindows.org/ and install it.
+https://git-scm.com/downloads or from https://gitforwindows.org/ and install it.
 To update the Git for Windows GitHub client if you already have it, type
 'git\update-git-for-windows' in the shell.
 
@@ -36,7 +36,7 @@ tokens (PATs) instead of a username and password.
 - Happy Git and GitHub for the useR, by Jennifer Bryan:
   https://happygitwithr.com/index.html
 - RStudio help page about version control:
-  https://support.posit.co/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN-in-the-RStudio-IDE
+  https://docs.posit.co/ide/user/ide/guide/tools/version-control.html
 - RStudio User Guide: https://docs.posit.co/ide/user/
 - Pro Git Book, by Scott Chacon and Ben Straub: https://git-scm.com/book/en/v2
 
@@ -62,7 +62,7 @@ of the file appear in the Git menu of RStudio to review changes:
   conflicts. Then push (upward arrow) to incorporate the changes in the remote
   directory.
 - in the shell: to compare the content of two files, see the instructions in
-  section 'Comparing files using the shell' below. Next, to commit changes, use:
+  section 'Comparing files' below. Next, to commit changes, use:
   git commit -m 'your commit message goes here' path/and/filename.R
   git push https://github.com/UserName/RepositoryName
   (UserName/RepositoryName has to be replaced with the relevant names)
@@ -119,23 +119,36 @@ describe why the file was deleted. After that, find the file on the local
 repository (i.e., the PC) and delete the file. Then pull.
 
 
-#### Downloading or cloning a GitHub repository ####
-To use code from a repository without pushing changes back to GitHub, download
-the repository by using the green 'Code' button, choosing 'Download ZIP', unzip
-the downloaded files, and open the '.Rproj' file with the same name as the
-repository.
+#### Downloading, forking, or cloning a GitHub repository ####
+For details, see:
+- https://happygitwithr.com/fork-and-clone
+- https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+- https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/
+    proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
 
-To adjust code from a repository and push changes back to that repository (e.g.,
-to work on your project from another machine), clone the GitHub repository: by
-using the green button 'Code' in the repository, copy the URL to the clipboard
-(i.e., do NOT use 'download ZIP'), create a new R project in RStudio (File > New
-Project > Version control > Git), paste the repository URL (something like
-https://github.com/username/reposname) in the designated field, select the
-desired location, and create the project. The same URL can be used using shell
-commands to clone a repository, either with its complete history using
-git clone https://github.com/username/reposname
-or with only the last commit using
-git clone --depth=1 https://github.com/username/reposname
+There are several ways to get code from a GitHub repository to your computer:
+- To be able to push your changes back to a GitHub repository to which you do
+  not have writing access, you need to fork the repository (i.e., the 'fork'
+  button > create a new fork). This creates a copy of the repository on your own
+  GitHub repository. Next, you have to clone your copy to your local computer,
+  see the next point.
+- To be able to push your changes back to a GitHub repository to which you do
+  have writing access (e.g., to work on your project from another machine; or to
+  work on a fork you created in the step above), you have to clone a copy of the
+  GitHub repository to your local computer by using the green button 'Code' in
+  the repository, copying the URL to the clipboard (i.e., do NOT use 'download
+  ZIP'), create a new R project in RStudio (File > New Project > Version control
+  > Git), paste the repository URL (something like
+  https://github.com/username/reposname) in the designated field, select the
+  desired location on your computer, and create the project. The same repository
+  URL can be used when using shell commands to clone a repository, either with
+  its complete history using git clone https://github.com/username/reposname or
+  with only the last commit using
+  git clone --depth=1 https://github.com/username/reposname.
+- To download code without being able to push your changes back to a GitHub
+  repository, you can download the repository by using the green 'Code' button,
+  choosing 'Download ZIP', unzip the downloaded files, and open the '.Rproj'
+  file with the same name as the repository.
 
 
 #### Common shell commands ####
