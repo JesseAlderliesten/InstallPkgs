@@ -111,9 +111,10 @@ https://stackoverflow.com/a/19226817
 
 The source code of the base R packages is available at
 https://svn.r-project.org/R/trunk/, but searching the code is easier using the
-GitHub mirror https://github.com/r-devel/r-svn/. The source code of BioConductor
-packages is available at https://code.bioconductor.org/. The source of the other
-R-packages is available from an unofficial CRAN mirror at https://github.com/cran.
+GitHub mirror https://github.com/r-devel/r-svn/. The source of the other
+CRAN-packages is available from an unofficial CRAN mirror at
+https://github.com/cran. The source code of BioConductor
+packages is available at https://code.bioconductor.org/search/.
 
 The simplest way to obtain the source code of a function is typing the name of
 the function, without the brackets. E.g., sd returns function (x, na.rm = FALSE) 
