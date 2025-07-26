@@ -1,6 +1,8 @@
 #### introduction #####
-# This script contains thematic collections of packages I use, find useful, or
-#   want to store for potential later use.
+# This script contains thematic collections of packages I use or want to store
+#   for potential later use. See the section 'Obtaining packages from
+#   repositories' in the file InstructionsPkgs.txt for thematic selections of
+#   packages.
 # The set 'high_prio_pkgs' contains the high-priority packages, consisting of
 #   the 'base' R-packages that are installed if R is installed and the
 #   'recommended' packages that are usually installed with R as well
@@ -12,7 +14,7 @@
 #   dput(unname(installed.packages(priority = "high")[, "Package"]))
 # The sets 'used_pkgs_UU' and 'used_pkgs_UvA' contain packages I explicitly load
 #   in my scripts.
-# The remaining sets are thematic collections of packages
+# The remaining sets are thematic collections of packages.
 
 
 #### high_prio_pkgs ####
@@ -54,6 +56,7 @@ used_pkgs_UU <- c(
   "gridExtra",   # Miscellaneous Functions for "Grid" Graphics
   "plot3D",      # Plotting Multi-Dimensional Data
   "RColorBrewer",# ColorBrewer Palettes (I prefer 'viridis' for continuous scales)
+  "scales",      # Scale Functions for Visualization
   "viridis",     # Colorblind-Friendly Color Maps for R
   
   ## Math
@@ -726,7 +729,8 @@ taxonomy_phylogeny <- c(
   "BAMMtools",   # Analysis and Visualization of Macroevolutionary Dynamics on
                  #   Phylogenetic Trees
   "beastier",    # Call 'BEAST2'. NOTE: BEAST2 needs to be installed, see
-                 #   https://www.beast2.org/.
+                 #   https://www.beast2.org/. Needs Java (called through
+                 #   package rJava).
   "ggdendro",    # Create Dendrograms and Tree Diagrams Using 'ggplot2'
   "ggtree",      # An R package for visualization of tree and annotation data
   "ggtreeExtra", # An R Package To Add Geometric Layers On Circular Or Other
@@ -737,7 +741,8 @@ taxonomy_phylogeny <- c(
   "donkeyshot/phybreak", # Outbreak reconstruction with sequence data
   "phylobase",   # Base Package for Phylogenetic Structures and Comparative Data
   "picante",     # Integrating Phylogenies and Ecology
-  "rRDP",        # Interface to the RDP Classifier
+  "rRDP",        # Interface to the RDP Classifier. Needs Java (called through
+                 #   package rJava).
   "taxize",      # Taxonomic Information from Around the Web
   "TDbook",      # Companion Package for the Book "Data Integration,
                  #   Manipulation and Visualization of Phylogenetic Trees"
