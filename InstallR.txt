@@ -38,8 +38,8 @@ is 'textmate', another nice light theme is Xcode).
 To check if characters can be properly distinguished from each other, for
 example at https://fonts.google.com/ or https://fonts.adobe.com/, the pangrams
 'a quick brown fox jumps over the lazy dog' and 'THE QUICK BROWN FOX JUMPS OVER
-THE LAZY DOG' can be used for letters. The following string groups together
-characters that are similar in appearance and includes numbers and symbols:
+THE LAZY DOG' can be used. The following string groups characters that are
+similar in appearance together, covering letters, numbers, and symbols:
 71lI|i/ oO0D S5 Z2 B8 ijy4 gq __ UVVW uvvw cldcIdc|dc1d rnm " '' ``
 
 The string consists of the following characters (using upper case letter
@@ -56,11 +56,10 @@ double quotes, single quotes, single quotes, backtick, backtick
 
 
 #### Installing and configuring Rtools ####
-Rtools (the toolchain bundle used for building R packages from source) is needed
-to install old package versions from CRAN, to install packages from GitHub that
-are distributed as source files, and to execute R-scripts that contain calls to
-scripts written in compiled code such as C or Fortran to speed up code
-execution.
+Rtools (the toolchain bundle used to build R packages from source) is needed to
+install old package versions from CRAN, to install packages from GitHub that are
+distributed as source files, and to execute R-scripts that call scripts written
+in compiled code such as C or Fortran to speed up code execution.
 
 Before installing or updating R packages that require Rtools, download the
 version of Rtools appropriate for the installed R-version from a CRAN website
@@ -69,15 +68,16 @@ version of Rtools appropriate for the installed R-version from a CRAN website
 instructions given there.
 
 
-#### Information about R ####
-Information about R and the current R session is provided by various functions:
+#### Information about R and the current R session ####
+Information about R and the current R session is provided by various variables
+and functions:
 - .Machine and Sys.info() provide information about the machine and platform R
   is running on.
 - .Platform and R.Version() (with the same information in variable R.version)
   provide information about the platform R was built on.
 - sessionInfo() provides information about the operating system and R, and gives
-  lists of attached and loaded packages. Its printing method provides additional
-  information: print(sessionInfo(), locale = TRUE, RNG = TRUE).
+  lists of attached and loaded packages. Its printing method can be used to
+  print additional information: print(sessionInfo(), locale = TRUE, RNG = TRUE).
 - capabilities() and extSoftVersion() provide some details about external
   software that are used or have been installed with R.
 
@@ -90,14 +90,16 @@ note in help(win.version)).
 #### Documentation and help ####
 - CRAN homepage: https://cran.r-project.org/
 - CRAN R FAQs: https://cran.r-project.org/faqs.html
-- CRAN R Manuals: https://cran.r-project.org/manuals.html
+- CRAN R Manuals: https://cran.r-project.org/manuals.html, with an interface
+  better suited for searching at https://rstudio.github.io/r-manuals/
 - CRAN R News: https://cran.r-project.org/doc/manuals/r-release/NEWS.html
 - CRAN R News (devel): https://cran.r-project.org/doc/manuals/r-devel/NEWS.html
 - R bug checking and reporting: https://www.r-project.org/bugs.html, linking to
   https://bugs.r-project.org/
 - R developer page: https://developer.r-project.org/
+  and the development guide at https://contributor.r-project.org/rdevguide/
 - R general help from inside R: help.start()
 - R homepage: https://www.r-project.org/
 - R on StackOverflow: https://stackoverflow.com/tags/r/info
 - RStudio user guide: https://docs.posit.co/ide/user/
-- Rseek search engine: https://rseek.org/
+- Search pages specific for R: https://cran.r-project.org/search.html.
