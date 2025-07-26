@@ -12,41 +12,24 @@
 # 'InstructionsPkgs.txt'.
 
 
-#### To do ####
-# - Add remark about question 'update packages' that will probably arise during
-#   installation.
-# - Add remark about question 'Do you want to install from sources the package
-#   which needs compilation'? that will probably arise during installation.
-#   > You should choose 'no' if you have not installed RTools, because RTools is
-#   required to build packages from source. If you have installed RTools, you
-#   could choose 'yes' to get a later version than the binary file.
-# - Add remark about warning 'package 'x' was built under R version 'y'':
-#   If this occurs you have installed a binary package (i.e., installed a
-#   package not from source) that was compiled for a different version of R than
-#   the version you are using.
-
-
-#### Wishlist ####
-# - Various functions (e.g., list_dependencies()), fail if no internet
-#   connection is present. How do other packages handle this?
-
-
 #### Preparations to use this script ####
 # Load required functions and package lists
 source(file.path(".", "InstallPkgsFuncs.R"))
 source(file.path(".", "InstallPkgsLists.R"))
 
 # Get the path where R-packages are (or will be) installed from the first
-# non-empty element of .libPaths(), preferably one that contains the current R
-# version number (see annotation of the function 'get_paths()' for details).
+# non-empty element of .libPaths(), preferably one that contains the same R
+# version number as the currently running R session (see the annotation of the
+# function 'get_paths()' for details).
 lib_path <- get_paths(path = character(0), quietly = FALSE)$first_path
 
 # Perform various checks to ensure the rest of the script can run. If Rtools is
 # not installed or not set up, or the BiocManager package is not installed, the
-# script will try to do so.
+# function prepare_install() will try to do so.
 prepare_install()
 
-# Define package lists
+# Define package lists based on variables defined in the R-script
+# 'InstallPkgsLists.R'.
 pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
                    used_pkgs_UU = used_pkgs_UU,
                    used_pkgs_UvA = used_pkgs_UvA)
@@ -144,6 +127,17 @@ deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong",
 # - For an overview which Bioconductor release corresponds to which R version,
 #   see http://bioconductor.org/about/release-announcements/#release-versions
 # - See help(install.packages) for additional information.
+# - The questions 'Do you want to install from sources the package which needs
+#   compilation?' (possibly accompanied by the remark 'There are binary versions
+#   available but the source versions are later'): you can choose 'Yes' to get a
+#   later version than the binary file if you have installed RTools, otherwise
+#   choose 'No', because RTools is required to build packages from source.
+# - The warning 'package 'x' was built under R version 'y'' occurs if you have
+#   installed a binary package (i.e., installed a package not from source) that
+#   was compiled for a different version of R than the version of R you are
+#   currently using.
+# - The warning 'package 'packagename' is not available (for R version x.y.z)':
+#   see https://stackoverflow.com/questions/25721884
 BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
                      lib.loc = lib_path, lib = lib_path, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
