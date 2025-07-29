@@ -1,6 +1,7 @@
 #### Introduction #####
 # Functions to install R-packages and obtain information about installed
-# packages. Also includes some functions to check the installation of R.
+# packages. Also includes some functions to check the installation of R. The
+# functions are sorted according to their order in the script InstallPkgsMain.R.
 
 
 #### Wishlist ####
@@ -9,6 +10,8 @@
 #   how to read data back in R. That is now coded repeatedly. See my function
 #   create_directory() in utils.R from the UvA.
 # - Write tests for the functions.
+# - As mentioned in the introduction, functions are not placed in alphabetical
+#   order. Change that?
 
 
 #### Utility functions ####
@@ -31,19 +34,21 @@ all_characters <- function(x, allow_zero_char = FALSE) {
 # - quietly: logical of length 1 (default FALSE) indicating if messages should
 #   be suppressed.
 # Notes:
+# - A warning is issued if the working directory is returned as element
+#   'first_path', because that implies that no paths are present in '.libPath'
+#   and no path was provided in argument 'path'.
 # - It is NOT checked if paths supplied in argument 'path' are valid file paths,
 #   see the Programming notes on how to address that.
-# - A warning is issued if the working directory is returned as element
-#   'first_path', because that implies that no path was provided in argument
-#   'path' and no paths are present in '.libPath'.
 # Return:
-# - A list with five elements, all containing characters (possibly character(0)):
-#   'first_path' with the first non-empty path, 'argument_paths' with the value
-#   of argument 'path', 'Rversion_paths' with the paths from .libPath that
-#   contain the current R version number, 'other_paths' with the paths from
-#   .libPath that do not contain the current R version number, and 'wd_path'
-#   with the working directory. Elements for which no path is found are set to
-#   character(0).
+# - A list with five character elements, with elements for which no path is
+#   found set to character(0):
+#   - 'first_path': the first non-empty path;
+#   - 'argument_paths': the value of argument 'path';
+#   - 'Rversion_paths': paths from .libPath that contain the same R version
+#     number as the currently running R session;
+#   - 'other_paths': paths from .libPath that do not contain the same R version
+#     number as the currently running R session;
+#   - 'wd_path': the working directory.
 # Programming notes:
 # - To implement a check if paths supplied in argument 'path' are valid file
 #   paths, see normalizePath(), path.expand(), checkmate::testPathForOutput(),
@@ -128,20 +133,19 @@ check_OS_is_Windows <- function(on_error = c("warn", "message", "quiet")) {
 
 
 #### prepare_install ####
-# Perform checks to ensure the rest of the script can run. Checks (1) if Rtools
-# utilities have been put on the search path (an error occurs with a message
-# proposing steps to fix it if they are not yet on the path); (2) if the global
-# variable 'lib_path' is specified (otherwise an error occurs) and that it
-# matches the used version of R (otherwise a warning is issued); and (3) if the
-# BiocManager package is installed and functional.
+# Check (1) if Rtools utilities have been put on the search path (an error
+# occurs with a message proposing steps to fix it if they are not yet on the
+# path); (2) if a global variable 'lib_path' is specified (otherwise an error
+# occurs) that matches the used version of R (otherwise a warning is issued);
+# and (3) if the BiocManager package is installed and functional.
 # Input:
 # - None.
 # Return:
-# - invisible NULL
+# - invisible NULL.
 # Side-effects:
 # - For R versions 4.0.0 - 4.1.3, the location of Rtools utilities is put on the
 #   search path if it is not there yet.
-# - The BiocManager package is installed if it is not installed and functional.
+# - The BiocManager package is installed if it is not installed or not functional.
 prepare_install <- function() {
   if(check_OS_is_Windows(on_error = "warn")) {
     if(nchar(Sys.which("make")) == 0) {
@@ -176,21 +180,21 @@ prepare_install <- function() {
   msg_lib <- paste0(" global variable 'lib_path' containing character strings",
                     " with the paths\nwhere packages are (or should be)",
                     " installed by running the following line:",
-                    "\nlib_path <- get_paths(quietly = TRUE)$first_path",
+                    "\nlib_path <- get_paths()$first_path",
                     "\nAlternatively, run the following line to use all paths",
                     " returned by get_paths():\nlib_path <-",
-                    " unique(unlist(get_paths(quietly = TRUE), use.names = FALSE))")
+                    " unique(unlist(get_paths(), use.names = FALSE))")
   if(!exists("lib_path")) {
     stop(paste0("Specify", msg_lib))
   }
   lib_path <- unlist(lib_path, use.names = FALSE)
   rversionpath <- regmatches(lib_path,
-                             regexpr("R-[[:digit:]].[[:digit:]].[[:digit:]]",
+                             regexpr("R-[[:digit:]]\\.[[:digit:]]\\.[[:digit:]]",
                                      lib_path, ignore.case = TRUE, fixed = FALSE))
   rversion <- paste0("R-", as.character(getRversion()))
   if(length(rversionpath) == 0L) {
     warning("None of the specified paths (", paste0(lib_path, collapse = ",\n"),
-            ")\ncontain an R version number. You might want to\nspecify",
+            ")\ncontains an R version number. You might want to\nspecify",
             msg_lib)
   }
   if(!any(rversionpath == rversion)) {
@@ -208,15 +212,15 @@ prepare_install <- function() {
                      type = "binary")
     if(requireNamespace("BiocManager", lib.loc = lib_path, quietly = TRUE)) {
       stop("If no error message is printed below, the BiocManager package",
-           "  was\nsuccesfully installed. Restart R session before proceeding.")
+           " was\nsuccesfully installed. Restart R before proceeding.")
     } else {
       stop("Installation of the BiocManager package failed.\nIf a warning like",
            " 'lib = \"", lib_path[[1]][1], "\" is not writeable'\nwas issued,",
-           " you most likely forgot to run R as administrator, or used a wrong",
-           " path (the warnings printed below might point to that).\nClose R",
-           " and\nrestart R as administrator (e.g., right-click on the R or",
-           " RStudio icon, select\n'Run as administrator', open the",
-           " 'InstallPkgs' R-project file, and try again.")
+           " you most likely forgot to run R as administrator, or used an",
+           " incorrect path (the warnings printed below might point to that).",
+           "\nRestart R as administrator (e.g., right-click on the R or RStudio",
+           " icon, select\n'Run as administrator', open the 'InstallPkgs'",
+           " R-project file, and try again.")
     }
   }
   
@@ -230,10 +234,12 @@ prepare_install <- function() {
 # Input:
 #   pkgs_lists: a list containing (possibly named) character vectors of package
 #     names to be checked for duplicates.
-#   neglect_repos: logical indicating if the repository name should be excluded
-#     when checking for duplicates, such that packages with the same name from
-#     different repositories (e.g., 'pkgname' and 'repositoryname/pkgname') are
-#     considered duplicates.
+#   distinguish_repos: logical (default FALSE) indicating if the repository name
+#     should be included when checking for duplicates. Packages with the same
+#     name from different repositories (e.g., 'somerepositoryname/pkgname' with
+#     'otherrepositoryname/pkgname' or 'pkgname' without repository indicator)
+#     are considered duplicates if 'distinguish_repos' is FALSE but unique if
+#     TRUE.
 #   quietly: a logical (default FALSE) indicating if the message that is printed
 #     if no duplicates are found should be suppressed.
 # Return:
@@ -242,9 +248,22 @@ prepare_install <- function() {
 # Side-effects:
 #   Names of duplicate package are printed to the console if they are found,
 #     with a warning.
-check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) {
-  stopifnot(is.list(pkgs_lists), all_characters(unlist(pkgs_lists)),
-            is_logical(neglect_repos), is_logical(quietly))
+# Wishlist:
+# - Make code to find packages that occur more than once more succinct, e.g.,
+#   adding handling of argument 'distinguish_repos' and collecting the names of
+#   the lists in which each duplicated element occurs (while allowing for
+#   unnamed list elements) to the following code:
+#   vals <- unlist(pkgs_lists, use.names = FALSE)
+#   if(!distinguish_repos) {
+#     vals <- sub(".*/", "", vals)
+#   }
+#   names(vals) <- rep(names(pkgs_lists), times = lengths(pkgs_lists))
+#   sort(vals[vals %in% names(table(vals)[table(vals) > 1L])])
+check_duplicates <- function(pkgs_lists, distinguish_repos = FALSE,
+                             quietly = FALSE) {
+  stopifnot(is.list(pkgs_lists),
+            all(unlist(lapply(X = pkgs_lists, FUN = all_characters))),
+            is_logical(distinguish_repos), is_logical(quietly))
   if(is.null(names(pkgs_lists))) {
     names(pkgs_lists) <- paste0("unnamed_list_entry_", seq_along(pkgs_lists))
   } else {
@@ -266,7 +285,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
   checklist <- NULL
   for(index_first_element in seq_along(pkgs_lists)) {
     unlisted1 <- unlist(pkgs_lists[index_first_element], use.names = FALSE)
-    if(neglect_repos) {
+    if(!distinguish_repos) {
       unlisted1 <- sub(".*/", "", unlisted1)
     }
     
@@ -274,7 +293,7 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
     # counting while including checks for duplicates within lists.
     for(index_second_element in (index_first_element:length(pkgs_lists))) {
       unlisted2 <- unlist(pkgs_lists[index_second_element], use.names = FALSE)
-      if(neglect_repos) {
+      if(!distinguish_repos) {
         unlisted2 <- sub(".*/", "", unlisted2)
       }
       
@@ -320,15 +339,15 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     be checked. Names of packages from GitHub can be in the format
 #     username/repository or only the repository name.
 #   lib: character vector giving the paths where packages are installed.
-#   save_file: a logical indicating if the names of non-functional packages
-#     should be saved as a .txt-file, such that they can be obtained easily
-#     after restarting the R-session.
-#   sort: a logical indicating if the names of non-functional packages should be
-#     sorted.
-#   quietly: a logical indicating if printing the reason why packages are not
-#     functioning should be suppressed.
-#   verbose: a logical indicating if other warnings issued when packages are
-#     loaded should be printed.
+#   save_file: a logical (default TRUE) indicating if the names of non-functional
+#     packages should be saved as a .txt-file, such that they can be obtained
+#     easily after restarting R.
+#   sort: a logical  (default TRUE) indicating if the names of non-functional
+#     packages should be sorted.
+#   quietly: a logical (default FALSE) indicating if printing the reason why
+#     packages are not functioning should be suppressed.
+#   verbose: a logical (default FALSE) indicating if other warnings issued when
+#     packages are loaded should be printed.
 # Return:
 #   a character vector containing the names of non-functional packages, sorted
 #     if argument sort is TRUE, returned invisibly.
@@ -337,17 +356,19 @@ check_duplicates <- function(pkgs_lists, neglect_repos = TRUE, quietly = FALSE) 
 #     they are not unloaded first. A message is printed urging to restart R
 #     before continuing to prevent this.
 #   The names of non-functional packages are printed to the console, and, if
-#     save_file = TRUE, saved as a text-file inside the subfolder 'output' of
+#     save_file is TRUE, saved as a text-file inside the subfolder 'output' of
 #     the working directory.
 # Notes:
 #   This function uses requireNamespace() instead of installed.packages(),
-#     because installed.packages() does not check if packages are functional
+#     because installed.packages() does not check if packages are functional,
 #     nor if all needed dependencies are installed and functional. In addition,
 #     installed.packages() can be slow such that its help page states that
 #     requireNamespace() or require() should be used instead.
 # Wishlist:
 #   When testing if packages are functioning correctly, differentiate between
-#     missing and non-functioning packages.
+#     missing and non-functioning packages. The error ‘there is no package
+#     called ‘pkg_name’' is thrown if package 'pkg_name' does not exist and
+#     'quietly' is FALSE (the default), but not if 'quietly' is TRUE.
 find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
                                     quietly = FALSE, verbose = FALSE) {
   if(is.list(pkgs)) {
@@ -430,16 +451,16 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
 # Function to check the status of installed packages
 # Input:
 #   lib: character vector giving the paths where packages are installed.
-#   checkBuilt: a logical of length one. If TRUE, a package built under an
+#   checkBuilt: a logical, default TRUE. If TRUE, a package built under an
 #     earlier major.minor version of R (e.g., 3.4) is considered to be old.
 #   type: a character vector indicating the type of available package (e.g.,
 #     binary, source) to check validity against.
-#   save_file: a logical indicating if the details of invalid packages (i.e.,
-#     packages that are outdated or too new) should be saved in a .csv-file,
-#     such that they can be obtained easily after restarting the R-session.
-#   print_output: a character vector indicating what information on invalid
-#     packages should be printed to the console: their details, a character
-#     vector with their names, both of these, or none.
+#   save_file: a logical (default TRUE) indicating if the details of invalid
+#     packages (i.e., packages that are outdated or too new) should be saved as
+#     a .csv-file, such that they can be obtained easily after restarting the
+#     R-session.
+#   quietly: a logical (default FALSE) indicating if printing to the console of
+#     the saved information on invalid packages should be suppressed.
 # Return:
 #   A list (returned invisibly) containing a character vector with the names of
 #     packages that are outdated or too new, and a matrix containing their
@@ -452,18 +473,9 @@ find_nonfunctional_pkgs <- function(pkgs, lib, save_file = TRUE, sort = TRUE,
 #     subfolder 'output' if the argument 'save_file' is TRUE.
 check_status <- function(lib, checkBuilt = TRUE,
                          type = c("binary", "both", "source", "win.binary"),
-                         save_file = TRUE,
-                         print_output = c("both", "pkgs_details", "pkgs_names",
-                                          "none")) {
+                         save_file = TRUE, quietly = FALSE) {
   type <- match.arg(type, several.ok = FALSE)
-  print_output <- match.arg(print_output, several.ok = TRUE)
-  
-  stopifnot(is_logical(checkBuilt), is_logical(save_file))
-  if(length(print_output) > 1L) {
-    print_output <- print_output[1]
-    warning("Only the first element (\'", print_output, "\') of the argument ",
-            "'print_output' will be used.")
-  }
+  stopifnot(is_logical(checkBuilt), is_logical(save_file), is_logical(quietly))
   
   valid_out <- BiocManager::valid(lib.loc = lib, checkBuilt = checkBuilt,
                                   type = type)
@@ -476,7 +488,7 @@ check_status <- function(lib, checkBuilt = TRUE,
       out_of_date_names <- dimnames(valid_out$out_of_date)[[1]]
       cols_specs <- c("Package", "Installed", "ReposVer", "Built")
       invalid_details <- valid_out$out_of_date[, cols_specs, drop = FALSE]
-      if(any(print_output %in% c("both", "pkgs_details"))) {
+      if(!quietly) {
         message("Some packages are out-of-date:")
         print(invalid_details)
       }
@@ -487,7 +499,7 @@ check_status <- function(lib, checkBuilt = TRUE,
                                   Installed = valid_out$too_new[, "Version"],
                                   ReposVer = NA, Built = NA)
       invalid_details <- rbind(invalid_details, too_new_specs)
-      if(any(print_output %in% c("both", "pkgs_details"))) {
+      if(!quietly) {
         message("Some packages are too new:")
         print(valid_out$too_new[, c("Version"), drop = FALSE])
       }
@@ -519,7 +531,7 @@ check_status <- function(lib, checkBuilt = TRUE,
       }
     }
     
-    if(any(print_output %in% c("both", "pkgs_names"))) {
+    if(!quietly) {
       message("Package names of invalid packages:")
       dput(invalid_names)
     }
@@ -541,28 +553,30 @@ check_status <- function(lib, checkBuilt = TRUE,
 # Input:
 #   pkgs: character vector of package names. Names of packages from GitHub can
 #     be in the format username/repository or only the repository name.
-#   deps_type: character vector indicating the type of dependencies. See the
-#     description of the argument 'which' at help(tools::package_dependencies)
-#     for details.
-#   recursive: logical indicating if recursive dependencies should be included
-#   name_per_pkg: logical indicating if the names of dependencies should be
-#     given separately for each package in pkgs.
-#   number_per_pkg: logical indicating if the number of dependencies should
-#     be given separately for each package in pkgs.
-#   name_total: logical indicating if the names of the total set of dependencies
-#     should be given.
-#   add_pkgs_to_total: logical indicating if the package names for which the
-#     dependencies are requested should be added themselves to the list and
-#     number of total dependencies.
-#   exclude_high_prio: logical indicating if the high priority packages
-#     should be omitted from the total counts and names of dependencies
-#   exclude_pkgs: NULL, a character vector (or a list containing character
-#     vectors) with package names to be omitted from the listed dependencies.
-#     Note that dependencies of those packages will not be excluded.
+#   deps_type: character vector indicating the type of dependencies (default
+#     "strong") . See the description of the argument 'which' at
+#     help(tools::package_dependencies) for details.
+#   recursive: logical (default TRUE) indicating if recursive dependencies
+#     should be included
+#   name_per_pkg: logical (default FALSE) indicating if the names of
+#     dependencies should be given separately for each package in pkgs.
+#   number_per_pkg: logical (default TRUE) indicating if the number of
+#     dependencies should be given separately for each package in pkgs.
+#   name_total: logical (default TRUE) indicating if the names of the total set
+#     of dependencies should be given.
+#   add_pkgs_to_total: logical (default FALSE) indicating if the package names
+#     for which the dependencies are requested should be added themselves to the
+#     list and number of total dependencies.
+#   exclude_high_prio: logical (default FALSE) indicating if the high priority
+#     packages should be omitted from the total counts and names of dependencies
+#   exclude_pkgs: NULL (default), or a character vector, or a list containing
+#     character vectors, with package names to be omitted from the listed
+#     dependencies. Note that dependencies of those packages will not be excluded.
 #   sort_ndeps_by: character vector indicating if the number of dependencies per
 #     per package should be sorted on package names ("names") or on their number 
-#     of dependencies ("ndeps"). The other elements of the returned list are 
-#     are sorted on package names irrespective of the value of this argument.
+#     of dependencies ("ndeps", default). The other elements of the returned
+#     list are are sorted on package names irrespective of the value of this
+#     argument.
 # Return
 #   A list with for each package in 'pkgs' the names and number of dependencies,
 #     the names and number of all dependencies, and the number of unique
@@ -570,19 +584,28 @@ check_status <- function(lib, checkBuilt = TRUE,
 #     Note that the latter does NOT indicate the number of packages that were
 #     actually excluded.
 # WARNING:
-#   Information about dependencies for non-CRAN packages is currently NOT
-#     correctly handled. In those cases 'NULL' is given as dependency, whereas
-#     integer(0) indicates the package does not have any dependencies. As a
-#     consequence, this function returns too few dependencies for non-CRAN
-#     packages.
+#   Information about dependencies for non-CRAN (e.g., Bioconductor, GitHub)
+#     packages is currently NOT correctly handled. According to
+#     tools::package_dependencies(), 'NULL' is given as dependency if a package
+#     is not found in the database, whereas character(0) indicates the package
+#     does not have any dependencies. However, this seems not to be retained by
+#     list_dependencies(). A warning is issued if the number of dependencies has
+#     zero length to indicate this.
+# Programming notes:
+#   To see which packages are used in a script, look for: library, require,
+#     requireNamespace, ::, :::.
+#   To see which packages are mentioned in comments, look for: BioConductor,
+#     CRAN, GitHub, Neuroconductor, package, R-Forge, rOpenSci, StackOverflow.
 # To do:
 #   tools::package_dependencies() requires internet access? Rewrite to use
-#     info from local package versions instead?
-#   Separately handle packages with no dependencies (returning integer(0)) from
-#     packages that were not found in the database such that no information on
-#     dependencies could be obtained (returning NULL). Alternatively, use
-#     utils::packageDescription() or utils::installed.packages()?
-#   See also https://pak.r-lib.org/reference/pkg_deps_explain.html which gives
+#     info from local package versions instead? See the 'Wishlist' section in
+#     script 'InstallPkgsMain.R' on checks for internet access.
+#   Separately handle packages with no dependencies (returning character(0))
+#     from packages that were not found in the database such that no information
+#     on dependencies could be obtained (returning NULL), see the Warning above.
+#     Alternatively, use utils::packageDescription() or
+#     utils::installed.packages()?
+#   See https://pak.r-lib.org/reference/pkg_deps_explain.html which gives
 #     details about which function creates the dependency and
 #     https://github.com/yihui/xfun/blob/main/R/revcheck.R and
 #     https://github.com/jokergoo/pkgndep for other implementations.
@@ -628,10 +651,19 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
   
   deps_per_pkgs <- tools::package_dependencies(pkgs, which = deps_type,
                                                recursive = recursive)
+  bool_zero_deps <- lengths(deps_per_pkgs) == 0L
+  if(any(bool_zero_deps)) {
+    warning("Package(s) ",
+            paste0(names(deps_per_pkgs[bool_zero_deps]), collapse = ", "),
+            " apparently have zero dependencies. However, for non-CRAN",
+            " packages this migth mean that these packages were not found in",
+            " the package database.")
+  }
+  
   pkgs_not_found <- NULL
   for(index_pkgs in seq_along(deps_per_pkgs)) {
     # NULL indicates the package was not found in the database such that no
-    # information about dependencies is obtained, whereas integer(0) indicates
+    # information about dependencies is obtained, whereas character(0) indicates
     # the package does not have any dependencies.
     pkg_deps <- unlist(deps_per_pkgs[index_pkgs], use.names = FALSE)
     if(length(pkg_deps) > 0L) {
@@ -672,23 +704,22 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 # Function to save details of installed packages as a .csv file, for example to
 #   compare installed sets of packages across multiple machines or over time.
 # Input:
-#  - PC_name: NULL or character vector of length 1 giving the name of the PC to
-#    be added to the name of the .csv-file.
+#  - ID: NULL or a character vector of length 1 (default 'desktop') giving an ID
+#    of the machine, to be added to the name of the .csv-file.
 # Return:
 # - A matrix containing the details of the installed packages is returned
 #   invisible.
 # Side effects:
 # - A .csv-file giving details of installed packages is saved inside the
 #   subfolder 'output'.
-save_details <- function(PC_name = "desktop") {
-  stopifnot(is.null(PC_name) ||
-              (length(PC_name) == 1L && is.character(PC_name)))
-  PC_name <- gsub(pattern = "[^[:alnum:]_]", replacement = "_", x = PC_name)
+save_details <- function(ID = "desktop") {
+  stopifnot(is.null(ID) || (length(ID) == 1L && is.character(ID)))
+  ID <- gsub(pattern = "[^[:alnum:]_]", replacement = "_", x = ID)
   
   installed_pkgs <- installed.packages()[, c("Package", "Version", "Built",
                                              "NeedsCompilation", "Priority")]
   rownames(installed_pkgs) <- NULL
-  file_name <- paste0("pkgs_installed_", PC_name, "_",
+  file_name <- paste0("pkgs_installed_", ID, "_",
                       format(Sys.time(), format = "%Y_%m_%d_%H_%M_%S"), "_",
                       paste0("R", as.character(getRversion())), ".csv")
   dir_path <- file.path(".", "output")
