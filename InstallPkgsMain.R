@@ -75,7 +75,7 @@ pkgs_lists <- list(high_prio_pkgs = high_prio_pkgs,
 
 
 #### Check if package lists contain duplicates #### 
-dupl_pkgs <- check_duplicates(pkgs_lists = pkgs_lists, neglect_repos = TRUE,
+dupl_pkgs <- check_duplicates(pkgs_lists = pkgs_lists, distinguish_repos = FALSE,
                               quietly = FALSE)
 
 
@@ -90,11 +90,11 @@ nonfunc_pkgs <- find_nonfunctional_pkgs(pkgs = pkgs_lists, lib = lib_path,
 
 #### Check if all installed packages are up-to-date ####
 status_report <- check_status(lib = lib_path, checkBuilt = TRUE, type = "both",
-                              save_file = TRUE, print_output = "both")
+                              save_file = TRUE, quietly = FALSE)
 
 
 #### Save details of installed packages to a CSV file ####
-details_report <- save_details(PC_name = "desktop")
+details_report <- save_details(ID = "desktop")
 
 
 #### List dependencies of specific packages ####
