@@ -7,8 +7,13 @@
 # - Write a utility function to check if an 'output' folder exists and to create
 #   one if it does not yet exist, write results to file, and print message on
 #   how to read data back in R. That is now coded repeatedly. See my function
-#   create_directory() in utils.R from the UvA.
+#   create_directory() in funcs.R from the UvA.
 # - Write tests for the functions.
+# - Make installing RTools optional.
+# - In get_paths(), for each element of the returned list use paths with
+#   'Program Files' first if multiple paths are present?
+# - Address the various 'To do' points mentioned in the annotation of the various
+#   functions.
 
 
 #### all_characters ####
@@ -647,12 +652,17 @@ list_dependencies <- function(pkgs, deps_type = "strong", recursive = TRUE,
 # - For R versions 4.0.0 - 4.1.3, the location of Rtools utilities is put on the
 #   search path if it is not there yet.
 # - The BiocManager package is installed if it is not installed or not functional.
+# To do:
+# - Is it not easier to use pkgbuild::check_build_tools(debug = TRUE) instead of
+#   using prepare_install() that I wrote myself? For further inspiration see
+#   cmdstanr::check_cmdstan_toolchain(fix = TRUE) with source code at
+#   https://github.com/stan-dev/cmdstanr/blob/master/R/install.R#L356.
 prepare_install <- function() {
   if(check_OS_is_Windows(on_error = "warn")) {
     if(nchar(Sys.which("make")) == 0) {
       # Put the location of Rtools (the C++ Toolchain) utilities (e.g., bash,
       # make) on the search path if it is not there yet for R versions 4.0.0 to
-      # 4.1.3.
+      # 4.1.3 (see https://cran.r-project.org/bin/windows/Rtools/rtools40.html).
       if(as.integer(R.version$major) == 4L &&
          as.integer(substr(R.version$minor, start = 1, stop = 1)) < 2L) {
         write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron",
@@ -717,10 +727,10 @@ prepare_install <- function() {
     } else {
       stop("Installation of the BiocManager package failed.\nIf a warning like",
            " 'lib = \"", lib_path[[1]][1], "\" is not writeable'\nwas issued,",
-           " you most likely forgot to run R as administrator, or used an",
+           " you most likely forgot to run R as administrator,\nor used an",
            " incorrect path (the warnings printed below might point to that).",
            "\nRestart R as administrator (e.g., right-click on the R or RStudio",
-           " icon, select\n'Run as administrator', open the 'InstallPkgs'",
+           " icon, select\n'Run as administrator'), open the 'InstallPkgs'",
            " R-project file, and try again.")
     }
   }
