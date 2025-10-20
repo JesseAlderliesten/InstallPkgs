@@ -113,7 +113,11 @@ See https://docs.github.com/en/repositories/working-with-files/managing-files/re
 
 #### Deleting a file ####
 You might want to move files to a folder 'Archive' instead of deleting them.
-To delete a file, find the file on the remote repository (i.e., on the GitHub
+To delete a file, delete the file from the local repository (i.e., your PC),
+then commit the change (i.e., deletion of a file), using the commit message to
+describe why the file was deleted. Then push the change to the remote repository.
+
+Alternatively, find the file on the remote repository (i.e., on the GitHub
 website), click the three dots > delete > commit. Use the commit message to
 describe why the file was deleted. After that, find the file on the local
 repository (i.e., the PC) and delete the file. Then pull.
