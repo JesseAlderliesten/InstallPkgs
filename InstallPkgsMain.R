@@ -122,6 +122,8 @@ deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong",
 #   issues between already-installed packages and newly-installed packages. To
 #   update packages in base-R (i.e., not using BioConductor), use
 #   update.packages(instlib = lib, ask = FALSE, checkBuilt = TRUE).
+# - Packages that are already installed are not re-installed if they are up to
+#   date, unless 'force = TRUE'.
 # - If packages are not functional after updating, re-install them using the
 #   argument force = TRUE.
 # - For an overview which Bioconductor release corresponds to which R version,
@@ -132,13 +134,27 @@ deps <- list_dependencies(pkgs = pkgs_lists, deps_type = "strong",
 #   available but the source versions are later'): you can choose 'Yes' to get a
 #   later version than the binary file if you have installed RTools, otherwise
 #   choose 'No', because RTools is required to build packages from source.
-# - The warning 'package 'x' was built under R version 'y'' occurs if you have
+# - The warning 'package <name> was built under R version 'x.y.z'' occurs if you
 #   installed a binary package (i.e., installed a package not from source) that
-#   was compiled for a different version of R than the version of R you are
-#   currently using.
+#   was compiled for an earlier version of R than the version of R you are
+#   currently using. The warning is issued because packages are not tested on
+#   versions of R that are older than the version they were built on. Therefore
+#   it is best to update R when installing packages.
 # - The warning 'package 'packagename' is not available (for R version x.y.z)':
 #   see https://stackoverflow.com/questions/25721884
+# - The base-R function utils::install.packages() does not skip installation of
+#   packages that are already installed (in contrast to BiocManager::install()).
+#   The following base-R code can be used to install only those packages that
+#   are not yet installed ('simplify = TRUE' ensures this also works if
+#   'new_pkgs' is a list instead of a vector):
+#   missing_pkgs <- new_pkgs[suppressWarnings(suppressPackageStartupMessages(
+#     which(!sapply(X = new_pkgs, FUN = requireNamespace, lib.loc = lib_path,
+#                   quietly = TRUE, simplify = TRUE))))]
+#   if(length(missing_pkgs) > 0L) {
+#     install.packages(pkgs = missing_pkgs, lib = lib_path, type = "both",
+#                      verbose = FALSE)
+#   }
 BiocManager::install(pkgs = unlist(new_pkgs, use.names = FALSE),
-                     lib.loc = lib_path, lib = lib_path, verbose = FALSE,
+                     lib = lib_path, verbose = FALSE,
                      type = "both", update = FALSE, ask = FALSE,
                      checkBuilt = TRUE, force = FALSE, version = "3.19")
