@@ -34,8 +34,11 @@ thematic selections of packages as well:
   section 'CRAN mirrors' below). CRAN packages that have been recently archived
   are available at https://www.cranhaven.org/.
 - Neuroconductor: https://neuroconductor.org/list-packages/all
-- R-Forge: https://r-forge.r-project.org/
-  (thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
+- R-Forge: https://r-forge.r-project.org/ 
+  (GitHub mirror: https://github.com/r-forge;
+  thematic: https://r-forge.r-project.org/softwaremap/trove_list.php)
+- R-multiverse: https://r-multiverse.org/overview.html
+  (thematic: https://r-multiverse.org/topics/)
 - rOpenSci: https://ropensci.org/packages/all/
   (thematic: https://ropensci.org/packages/)
 - R universe: https://r-universe.dev/search
@@ -153,9 +156,9 @@ to function getMethod() to get the source code:
 getMethod(f = "all.equal", signature = c(target = "vector", current = "Matrix")).
 
 If getAnywhere("functionname") returns '.Internal' or '.Primitive', the function
-is internal or primitive. Look for the function name in the first column (which
-gives the name of the R function) of the file src/main/names.c to find the
-appropriate c-entry which is given in the second column of that file. Then
+is internal or primitive. Locate the file src/main/names.c and look in the first
+column (which gives the name of the R function) for the function name to find
+the appropriate c-entry which is given in the second column of that file. Then
 search for that c-file in src/main to locate the file with the source code. For
 example, getAnywhere("matrix") shows, among others, the line
 '.Internal(matrix(data, nrow, ncol, byrow, dimnames, missing(nrow), missing(ncol)))'.
