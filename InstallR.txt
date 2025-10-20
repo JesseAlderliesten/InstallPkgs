@@ -9,7 +9,7 @@ RStudio.
 Select a nearby CRAN mirror website at https://cran.r-project.org/mirrors.html
 (see the section 'CRAN mirrors' in the file InstructionsPkgs.txt for some
 details) or use the main CRAN page (https://cran.r-project.org/) and download R
-via 'Download R for Windows' > 'base' > 'Download R-X.X.X for Windows' and
+via 'Download R for Windows' > 'base' > 'Download R-X.Y.Z for Windows' and
 install it.
 
 R can be configured by changing general options, options for startup, and
@@ -17,6 +17,40 @@ options for installing packages, which are documentated at help("options"),
 help("Startup"), and help("install.packages"), respectively. For more details,
 see the 'R Installation and Administration manual' available at
 https://cran.r-project.org/manuals.html.
+
+R can be made a bit stricter by setting various options. Probably it is possible
+to put settings to use such more-strict behaviour in an .Rprofile file to do
+this every time R is started but that might be non-portable! See help(Startup)
+and https://docs.posit.co/ide/user/ide/guide/environments/r/managing-r.html).
+Various packages contain ways to make R more strict, such as package 'strict
+(https://github.com/hadley/strict/) to get warned about 'unexpected' behaviour
+of sample() and diag() if called with an argument of length 1 and type-unsafe
+sapply(). See also further ideas mentioned in the issues for that repository.
+Package 'conflicted' avoids silent conflict resolution (i.e., choosing the
+latest attached package out of multiple packages to use a function from), and
+provides conflicts_prefer(pkg::fun) to declare preferences once. Various other
+packages that have 'check' or 'assert' in their name or description might
+contain functions that are useful for this purpose.
+
+Below are various options, with the version of R in which they were introduced
+and the version in which they no longer have an effect:
+- Warn in case of partial matching (frequently gives false-positive warnings
+  because partial matching is also used by functions in other packages, e.g.,
+  'rep' in base-R):
+  options(warnPartialMatchArgs = TRUE, warnPartialMatchDollar = TRUE,
+  warnPartialMatchAttr = TRUE).
+- Throw an error instead of issuing a warning when calling a:b when numeric a or
+  b is longer than one (introduced in R 4.3.0):
+  Sys.setenv("_R_CHECK_LENGTH_COLON_" = "TRUE")
+- Throw an error when calling as.data.frame.<class>() directly (for 12 atomic
+  classes) (introduced in R 4.3.0, no longer used in R 4.4.0 and higher):
+  Sys.setenv("_R_CHECK_AS_DATA_FRAME_EXPLICIT_METHOD_" = "TRUE")
+- Throw an error instead of silently using only the first element in comparisons
+  (introduced in R 3.6.0, no longer used in R 4.3.0 and higher):
+  Sys.setenv("_R_CHECK_LENGTH_1_LOGIC2_" = "TRUE")
+- Throw an error instead of issuing a warning if a condition has length > 1
+  (introduced in R x.y.z, no longer used in R 4.2.0 and higher):
+  Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "TRUE")
 
 
 #### Installing and configuring RStudio ####
